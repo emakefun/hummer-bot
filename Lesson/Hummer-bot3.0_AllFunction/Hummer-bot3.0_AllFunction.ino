@@ -98,6 +98,7 @@ void HandleUltrasonicAvoidance(void)
 {
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
+   delay(20);
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((UlFrontDistance < UL_LIMIT_MIN))
   {

@@ -1,0 +1,766 @@
+﻿{
+  "extensionName":"Hummerbot",
+   "description":"An Extension Of Hummerbot3.0",  
+  "homepage":"https://github.com/keywish/keywish-hummer-bot",
+  "version":"1.0",
+  "author":"Twisted ",
+  "sort":"0",
+  "javascriptURL":"js/Hummerbot.js",
+  "firmware":"1.0",
+  "extensionport":"0",
+  "blockSpecs":[
+     [ "h",
+	   "Hummerbot Program",
+	   "runArduino",    	   
+        {
+	   	  "src":"Hummerbot Program",
+   		  "setup":"hbot.init();\nhbot.SetSpeed(0);\nhbot.SetControlMode(E_BLUETOOTH_CONTROL);\nPs2xType = hbot.mPs2x->readType();\n",
+		  "inc":"#include \"Hummerbot.h\"\n#include \"ProtocolParser.h\"\n#include \"KeyMap.h\"\n#include \"debug.h\"\n",
+		  "def":"ProtocolParser *mProtocol = new ProtocolParser();\n\Hummerbot hbot(mProtocol,EM_IN1_PIN, EM_IN2_PIN, EM_IN3_PIN,EM_IN4_PIN);\nbyte Ps2xStatus, Ps2xType;\n",                                                                                                                                                                                                                                                                                                                                                
+		  "work":"",
+		  "loop":""		 		  		
+		}
+     ],	
+	 [
+	  "w",
+	  "Set Baud Rate %d.BaudRate",
+	  "Set Baud Rate",
+	  "9600",
+	    {
+		  "setup":"Serial.begin({0});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],	
+	 [
+		  "w",
+		  "Set Control Mode %d.controlmode",
+		  "Set Control Mode",
+		  "E_BLUETOOTH_CONTROL",
+		     {
+			    "setup":"hbot.SetControlMode((E_SMARTCAR_CONTROL_MODE){0});\n",
+				"inc":"",
+				"def":"",
+				"work":"",
+				"loop":""
+			 }
+		],
+[
+	  "w",
+	  "Set Servo Pin %n Set Servo Calibration Degree %n",
+	  "Set Servo Pin",	
+	  "13",
+	  "90",
+	    {
+		  "setup":"hbot.SetServoPin({0});\nhbot.mRgbUltrasonic->SetServoBaseDegree({1});\nhbot.mRgbUltrasonic->SetServoDegree(90);\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+[
+	  "w",
+	  "Set Motor Pin Left- %n Left+ %n Right - %n Right + %n",
+	  "SetMotor",    
+       "6",	
+       "10",
+       "5",
+       "9",	   
+	     {
+		  "setup":"hbot.SetMotorPin({0},{1},{2},{3});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	 ],	   
+	[
+	  "w",
+	  "Set Turning Angle %n Speed %d.speed",
+	  "DriveDegreeAndSetSpeed",
+	  "0",
+	  "0",
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SetSpeed({1});\nhbot.Drive({0});\n",
+		  "loop":""		 		  
+		}
+	],	
+	[
+	  "w",
+	  "Set Direction %d.direction Speed %d.speed",
+	  "SetDirectionAndSetSpeed",
+	  "goforward",
+      "0",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SetSpeed({1});\nhbot.Drive({0});\n",
+		  "loop":""		 		  
+		}
+	],		 
+	[
+	  "w",
+	  "Speed Up",
+	  "Speed Up",	 
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SpeedUp(5);\nhbot.Drive();\n",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "w",
+	  "Speed Down",
+	  "Speed Down",	 
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SpeedDown(5);\nhbot.Drive();\n",
+		  "loop":""		 		  
+		}
+	],	
+	[
+	  "w",
+	  "InfraredRemoteInit",
+	  "InfraredRemoteInit",
+	    {
+		  "setup":"hbot.IrInit();\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "B",
+	  "IR Control %m.key Is Pressed",
+	  "IR Control",
+      "+",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"(E_IR_KEYCODE)hbot.mIrRecv->getIrKey(hbot.mIrRecv->getCode()) == {0}",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "w",
+	  "Set UltrasonicAndRgb Pin Ultrasonic Pin %n Rgb Pin %n",
+	  "Set UltrasonicAndRgb Pin",
+	  "3",
+	  "2",	 
+	    {
+		  "setup":"hbot.SetRgbUltrasonicPin({0},{1});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "r",
+	  "Get Ultrasonic %d.aspect Distance",
+	  "Get Ultrasonic",
+      "front",	  
+	     {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.GetUltrasonicValue({0})",
+		  "loop":""		 		  
+		}
+	 ],	
+	[
+	  "w",
+	  "Set RgbColor %d.positions %d.color",
+	  "Set RgbColor",
+	  "RGB_ALL",
+      "Red",	  
+	     {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SetRgbColor((E_RGB_INDEX){0},{1});\n",
+		  "loop":""		 		  
+		}
+	 ],	
+		[
+	  "w",
+	  "Set SetPhotosensitivePin LeftPin(A) %n RightPin(A) %n",
+	  "Set SetPhotosensitivePin",
+      "2",	
+	  "4",
+	     {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.SetPhotosensitivePin(A0+{0},A0+{1});\n",
+		  "loop":""		 		  
+		}
+	 ],
+		[
+	  "r",
+	  "Get LightWeaknessValue %d.position",
+	  "Get LightWeaknessValue",
+      "LEFT",	  
+	     {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.GetPhotosensitive({0})",
+		  "loop":""		 		  
+		}
+	 ],	
+	[
+	  "w",
+	  "Set Infrared Avoidance Pin Left Pin(A) %n Right Pin(A) %n",
+	  "SetInfraredAvoidancePin",
+	  "3",
+	  "5",
+	    {
+		  "setup":"hbot.SetInfraredAvoidancePin(A0+{0},A0+{1});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+	 [
+	  "r",
+	  "Get Infrared Avoidance %d.location Value",
+	  "Get Infrared Avoidance",
+      "leftside",
+	     {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.GetInfraredAvoidanceValue({0})",
+		  "loop":""		 		  
+		}
+	 ],
+	[
+	  "w",
+	  "Set Infrared Tracing Pin  Left Pin(A) %n Centre Pin(A) %n  Right Pin(A) %n",
+	  "Set Infrared Tracing Pin",
+	  "0",
+	  "1",
+	  "2",
+	    {
+		  "setup":"hbot.SetInfraredTracingPin(A0+{0},A0+{1},A0+{2});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "B",
+	  "Get Infrared Avoidance Value %d.tracing",
+	  "Get Infrared Avoidance Value",
+	  "IT_ALL_BLACK",
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.mInfraredTracing->GetValue()=={0}",
+		  "loop":""		 		  
+		}
+	],
+    [
+	  "w",
+	  "Defines A Variable Save Old Trace Value",
+	  "SetByte",	   
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"static byte old;\n",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "B",
+	  "Current Trace Value Is %d.tracing",
+	  "Current Trace Value Is",
+      "IT_RIGHT1",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"old=={0}",
+		  "loop":""		 		  
+		}
+	],
+	 [
+	  "w",
+	  "Clean Old Trace Value",
+	  "ResetByte",	   
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"old=0;\n",
+		  "loop":""		 		  
+		}
+	],
+    [
+	  "B",
+	  "Current Trace Value Is not All White",
+	  "Current Trace Value Is not All White",	
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"(hbot.mInfraredTracing->GetValue()==IT_ALL_BLACK)||(hbot.mInfraredTracing->GetValue()==IT_RIGHT1)||(hbot.mInfraredTracing->GetValue()==IT_RIGHT2)||(hbot.mInfraredTracing->GetValue()==IT_LEFT1)||(hbot.mInfraredTracing->GetValue()==IT_LEFT2)||(hbot.mInfraredTracing->GetValue()==IT_CENTER)",
+		  "loop":""		 		  
+		}
+	],	
+    [
+	  "w",
+	  "Reset Old Trace Value %d.tracing",
+	  "ResetByteSecondtime",
+      "IT_RIGHT1",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"old={0};\n",
+		  "loop":""		 		  
+		}
+	],		
+	[
+	  "w",
+	  "Set PS2 Clock Pin %n Cmd Pin %n Att Pin %n Data Pin %n",
+	  "SetPs2xPin",
+	  "11",
+	  "7",
+	  "8",
+	  "4",
+	    {
+		  "setup":"hbot.SetPs2xPin({0},{1},{2},{3});\n",
+		  "inc":"",
+		  "def":"",
+		  "work":"",
+		  "loop":""		 		  
+		}
+	],
+[
+	  "w",
+	  "Dedine PS2 Vibration Value Of Rocker Rod",
+	  "Dedine PS2 Vibration Value Of Rocker Rod",  	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"static int vibrate = 0;\n byte PSS_X = 0, PSS_Y = 0;\n hbot.mPs2x->read_gamepad(false, vibrate);\n",
+		  "loop":""		 		  
+		}
+	],
+	 [
+	  "w",
+	  "Set PS2 Vibration Value",
+	  "Set PS2 Vibration Value",  	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"vibrate = hbot.mPs2x->Analog(PSAB_CROSS);\n",
+		  "loop":""		 		  
+		}
+	],
+	 [
+	  "B",
+	  "PS2 Key Is Pressed",
+	  "PS2 Key Is Pressed",  	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.mPs2x->ButtonDataByte()",
+		  "loop":""		 		  
+		}
+	],
+	 [
+	  "B",
+	  "PS2  %m.keys Is Pressed",
+	  "Ps2key",
+      "forward",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"hbot.mPs2x->Button({0})",
+		  "loop":""		 		  
+		}
+	],	         		 	 
+    [
+	  "w",
+	  "Receive Bluetoth Data",
+	  "Receive Bluetoth Data",	   
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":" mProtocol->RecevData();\n",
+		  "loop":""		 		  
+		}
+	],
+    [
+	  "B",
+	  "Received Bluetooth Data",
+	  "Received Bluetooth Data",
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"mProtocol->ParserPackage()",
+		  "loop":""		 		  
+		}
+	],		
+	[
+	  "B",
+	  "Bluetooth %m.funs Key Is Pressed",
+	  "GetBluetoothFuns",
+	  "↑",   
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"mProtocol->GetBluetoothButton({0})",
+		  "loop":""		 		  
+		}
+	],
+	
+	[
+	  "w",
+	  "Serial Print String %s",
+	  "PrintString",
+          "hi",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"Serial.println({0});\n",
+		  "loop":""		 		  
+		}
+	],	
+	[
+	  "w",
+	  "Serial Print Number %s",
+	  "PrintInt",
+      "0",	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"Serial.println({0});\n",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "r",
+	  "Read Available Byte",
+	  "Read Available Byte",     	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"Serial.available()\n",
+		  "loop":""		 		  
+		}
+	],
+	[
+	  "r",
+	  "Read A Byte",
+	  "Read A Byte",     	  
+	    {
+		  "setup":"",
+		  "inc":"",
+		  "def":"",
+		  "work":"Serial.read()\n",
+		  "loop":""		 		  
+		}
+	],		
+              ],
+  "menus":{
+          "controlmode":["E_BLUETOOTH_CONTROL","E_INFRARED_REMOTE_CONTROL","E_INFRARED_TRACKING_MODE","E_INFRARED_AVOIDANCE_MODE","E_LIGHT_FINDING_MODE","E_ULTRASONIC_AVOIDANCE","E_PS2_REMOTE_CONTROL","E_NRF24L01_CONTROL","E_ULTRASONIC_INFRARED_AVOIDANCE","E_RGB_MODE"],
+	      "aspect":["front","left","right"],		 
+		  "location":["leftside","rightside"],
+		  "key":["1","2","3","4","5","6","7","8","9","0","A","B","C","D","+","-","Up","Down","ok","Left","Right"],
+		  "keys":["forward","back","turnLeft","turnRight","×","○","△","口"],
+		  "funs":["↑","↓","←","→","speedUp","speedDown"],
+		  "tracing":["IT_ALL_BLACK","IT_ALL_WHITE","IT_CENTER","IT_RIGHT1","IT_RIGHT2","IT_LEFT1","IT_LEFT2"],
+		  "direction":["goforward", "goback","keepstop","turnleft","turnright"],
+		  "BaudRate":["4800","9600","19200","38400"],    
+		  "speed":["0","10","20","30","40","50","60","70","80","90","100"],  
+		  "color":["Red","Green","Blue","Yellow","Purple","White","Off",],
+		  "position":["LEFT","RIGHT"],
+		  "positions":["RGB_LEFT","RGB_RIGHT","RGB_ALL"],
+	},	 
+  "values":{
+			"RGB_LEFT":1,
+			"RGB_RIGHT":2,
+			"RGB_ALL":0,
+
+          "goforward":90,
+    	  "goback":270,
+	      "keepstop":90,
+		  "turnleft":180,
+		  "turnright":0,	
+          "E_BLUETOOTH_CONTROL":0,
+		  "E_INFRARED_REMOTE_CONTROL":1,
+		  "E_INFRARED_TRACKING_MODE":2,
+		  "E_INFRARED_AVOIDANCE_MODE":3,
+		  "E_LIGHT_FINDING_MODE":4,
+		  "E_ULTRASONIC_AVOIDANCE":5,
+		  "E_PS2_REMOTE_CONTROL":6,
+		  "E_NRF24L01_CONTROL":7,
+		  "E_ULTRASONIC_INFRARED_AVOIDANCE":8,	
+		  "E_RGB_MODE":10,	
+		  "front":0,
+		  "left":1,
+		  "right":2,		 
+		  "leftside":0,
+		  "rightside":1,
+		  "1":"12",
+		  "2":"13",
+		  "3":"14",
+		  "4":"15",
+		  "5":"16",
+		  "6":"17",
+		  "7":"18",
+		  "8":"19",
+		  "9":"20",
+		  "0":"9",
+		  "A":0,
+		  "B":1,
+		  "C":2,
+		  "D":3,
+		  "+":5,
+		  "-":11,
+		  "Up":4,
+		  "Down":10,
+		  "ok":7,
+		  "Left":6,
+		  "Right":8,
+		  "forward":"0x0010",
+		  "back":"0x0040",
+		  "turnLeft":"0x0080",
+		  "turnRight":"0x0020",
+		  "×":"0x4000",
+		  "○":"0x2000",
+		  "△":"0x1000",
+		  "口":"0x8000",
+		  "↑":0,
+		  "↓":1,
+		  "←":2,
+		  "→":3,
+		  "speedUp":4,
+		  "speedDown":5,
+		  "IT_ALL_BLACK":0,
+		  "IT_ALL_WHITE":7,
+		  "IT_CENTER":5,
+		  "IT_RIGHT1":6,
+		  "IT_RIGHT2":4,      
+		  "IT_LEFT1":3,
+		  "IT_LEFT2":1,	
+			"Red":"0xFF0000",
+			"Green":"0x00FF00",
+			"Blue":"0x0000FF",
+			"Yellow":"0xFFFF00",
+			"Purple":"0xFF00FF",
+			"White":"0xFFFFFF",
+			"Off":"0x000000",
+			"LEFT":0,
+			"RIGHT":1,
+      },
+  "translators":{
+               "zh_CN":{	
+			       "Hummerbot Program":"Hummerbot 主程序",
+				   "Set Baud Rate %d.BaudRate":"设置串口波特率 %d.BaudRate",				
+			       "InfraredRemoteInit":"红外遥控初始化",				   
+                   "Set UltrasonicAndRgb Pin Ultrasonic Pin %n Rgb Pin %n":"设置Rgb超声波模块 超声波引脚 %n Rgb引脚 %n ",
+				   "Set RgbColor %d.positions %d.color":"设置Rgb灯颜色 %d.positions %d.color",
+				   "Set SetPhotosensitivePin LeftPin(A) %n RightPin(A) %n":"设置追光模块引脚 左(A) %n 右(A) %n",
+				   "Get LightWeaknessValue %d.position":"读取光线弱度值 %d.position",
+			       "Set Infrared Avoidance Pin Left Pin(A) %n Right Pin(A) %n":"设置红外避障模块引脚 左(A) %n 右(A) %n",
+				   "Set Infrared Tracing Pin  Left Pin(A) %n Centre Pin(A) %n  Right Pin(A) %n":"设置红外循迹模块引脚  左(A) %n  中(A) %n  右(A) %n",
+				   "Set PS2 Clock Pin %n Cmd Pin %n Att Pin %n Data Pin %n":"设置Ps2x感应器 时钟引脚 %n 接收引脚 %n 触发引脚 %n 数据引脚 %n",			      
+				   "Set Control Mode %d.controlmode":"设置操控模式 %d.controlmode",				  				   
+                   "Set Motor Pin Left- %n Left+ %n Right - %n Right + %n":"设置电机引脚  左负极 %n 左正极 %n 右负极 %n 右正极 %n",
+				   "Set Servo Pin %n Set Servo Calibration Degree %n":"设置舵机引脚 %n 校准角度 %n",                  			   
+				   "Set Turning Angle %n Speed %d.speed":"设置转弯角度 %n 速度 %d.speed",  				   
+                   "Set Direction %d.direction Speed %d.speed":"设置方向 %d.direction 速度 %d.speed",				   
+                   "Speed Up":"加速",
+                   "Speed Down":"减速",				   			                                          		   				  		  				   
+ 			       "Get Ultrasonic %d.aspect Distance":"读取超声波 %d.aspect 距离",
+				   "Serial Print String %s":"串口打印字符串 %s",
+				   "Serial Print Number %s":"串口打印数字 %n",
+				   "Get Infrared Avoidance %d.location Value":"读取红外避障 %d.location 距离",
+				   "IR Control %m.key Is Pressed":"红外遥控器 %m.key 键按下",
+				   "Dedine PS2 Vibration Value Of Rocker Rod":"定义PS2摇杆震动值",
+				   "Set PS2 Vibration Value":"设置PS2摇杆震动值",
+				   "PS2 Key Is Pressed":"ps2键被按下",
+				   "PS2  %m.keys Is Pressed":"ps2遥控 %m.keys 键按下",
+                   "Receive Bluetoth Data":"接收蓝牙数据",
+                   "Received Bluetooth Data":"接收到了蓝牙数据",				   
+				   "Bluetooth %m.funs Key Is Pressed":"蓝牙操作 %m.funs 键被按下",
+				   "goforward":"前进",
+				   "goback":"后退",
+				   "keepstop":"停止",
+				   "turnleft":"左转",
+				   "turnright":"右转",	
+				   "Get Infrared Avoidance Value %d.tracing":"读取循迹值 %d.tracing",		
+                   "Defines A Variable Save Old Trace Value":"定义一个保存上一次循迹状态的变量",		
+                   "Current Trace Value Is %d.tracing":"当前循迹值是 %d.tracing",	                  	
+                   "Current Trace Value Is not All White":"当前循迹状态不是全白",	
+				   "Clean Old Trace Value":"清除上一次循迹状态",
+                   "Reset Old Trace Value %d.tracing":"重置上一次循迹状态 %d.tracing",					 
+		           "E_BLUETOOTH_CONTROL":"蓝牙操控",
+		           "E_INFRARED_REMOTE_CONTROL":"红外遥控",
+		           "E_INFRARED_TRACKING_MODE":"红外循迹",
+		           "E_INFRARED_AVOIDANCE_MODE":"红外避障",	
+				   "E_LIGHT_FINDING_MODE":"追光模式",
+		           "E_ULTRASONIC_AVOIDANCE":"超声波避障",
+		           "E_PS2_REMOTE_CONTROL":"PS2操控",	
+		           "E_NRF24L01_CONTROL":"NRF24L01操控",	
+		           "E_ULTRASONIC_INFRARED_AVOIDANCE":"超声波红外避障",
+				   "E_RGB_MODE":"RGB模式",
+				   "front":"前",
+		           "left":"左",
+		           "right":"右",
+                   "leftside":"左",
+		           "rightside":"右",
+                   "forward":"前",
+		           "back":"后",
+		           "turnLeft":"左",
+		           "turnRight":"右",	
+                   "IT_ALL_BLACK":"全黑",
+		           "IT_ALL_WHITE":"全白",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		           "IT_CENTER":"中心",
+		           "IT_RIGHT1":"右1",
+		           "IT_RIGHT2":"右2",
+		           "IT_LEFT1":"左1",
+		           "IT_LEFT2":"左2",
+                   "speedUp":"加速",
+		           "speedDown":"减速",	
+                   "Up":"前",
+		           "Down":"后",		          
+		           "Left":"左",
+		           "Right":"右",                   		   
+                   "Read Available Byte":"串口可读取字节数",
+                   "Read A Byte":"串口读取一个字节",  
+					"Red":"红色",
+			"Green":"绿色",
+			"Blue":"蓝色",
+			"Yellow":"黄色",
+			"Purple":"紫色",
+			"White":"白色",
+			"Off":"熄灭",
+			"RGB_LEFT":"左",
+			"RGB_RIGHT":"右",
+			"RGB_ALL":"全部",
+			"LEFT":"左",
+			"RIGHT":"右",
+			      },
+               "zh_TW":{
+			       "Hummerbot Program":"Hummerbot 主程序",
+				   "Set Baud Rate %d.BaudRate":"設定串口串列傳輸速率 %d.BaudRate",				
+			       "InfraredRemoteInit":"紅外遙控初始化",				                     				   				   
+			       "Set UltrasonicAndRgb Pin Ultrasonic Pin %n Rgb Pin %n":"設定Rgb超聲波模塊 超聲波引脚 %n Rgb引脚 %n", 
+				   "Set RgbColor %d.positions %d.color":"設定Rgb燈顏色 %d.positions %d.color",
+				   "Set SetPhotosensitivePin LeftPin(A) %n RightPin(A) %n":"設定追光模塊引脚 左(A) %n 右(A) %n",
+				   "Get LightWeaknessValue %d.position":"讀取光線弱度值 %d.position",
+				   "Set Infrared Avoidance Pin Left Pin(A) %n Right Pin(A) %n":"設定紅外避障模塊引脚 左(A) %n 右(A) %n",
+				   "Set Infrared Tracing Pin  Left Pin(A) %n Centre Pin(A) %n  Right Pin(A) %n":"設定紅外循迹模塊引脚  左(A) %n  中(A) %n  右(A) %n",
+				   "Set PS2 Clock Pin %n Cmd Pin %n Att Pin %n Data Pin %n":"設定Ps2x感應器 時鐘引脚 %n 接收引脚 %n 觸發引脚 %n 數據引脚 %n",			      
+				   "Set Control Mode %d.controlmode":"設定操控模式 %d.controlmode",				  				  
+                   "Set Motor Pin Left- %n Left+ %n Right - %n Right + %n":"設定電機引脚 左負極 %n 左正極 %n 右負極 %n 右正極 %n",
+				   "Set Servo Pin %n Set Servo Calibration Degree %n":"設定舵機引脚 %n 校準角度 %n",                			   
+				   "Set Turning Angle %n Speed %d.speed":"設定轉彎角度 %n 速度 %d.speed",      			       			   
+                   "Speed Up":"加速",
+                   "Speed Down":"减速",				   			                                          		   				  		  				   
+ 			       "Get Ultrasonic %d.aspect Distance":"讀取超聲波 %d.aspect 距離",
+				   "Serial Print String %s":"串口列印字串 %s",
+				   "Serial Print Number %s":"串口列印數位 %n",				 
+                   "Set Direction %d.direction Speed %d.speed":"設定方向 %d.direction 速度 %d.speed",	
+				   "Get Infrared Avoidance %d.location Value":"讀取紅外避障 %d.location 距離",
+				   "IR Control %m.key Is Pressed":"紅外遙控器 %m.key 鍵按下",
+				   "PS2 Key Is Pressed":"ps2鍵被按下",
+				   "PS2  %m.keys Is Pressed":"ps2遙控 %m.keys 鍵按下",	
+                   "Receive Bluetoth Data":"接收藍牙數據",
+                   "Received Bluetooth Data":"接收到了藍牙數據",						   
+				   "Bluetooth %m.funs Key Is Pressed":"藍牙操作 %m.funs 鍵被按下",
+				   "goforward":"前進",
+				   "goback":"後退",
+				   "keepstop":"停止",
+				   "turnleft":"左轉",
+				   "turnright":"右轉",	
+				   "Get Infrared Avoidance Value %d.tracing":"讀取循迹值 %d.tracing",		
+                   "Defines A Variable Save Old Trace Value":"定義一個保存上一次循迹狀態的變數",	
+                   "Current Trace Value Is %d.tracing":"當前循迹值是 %d.tracing",	                  	
+                   "Current Trace Value Is not All White":"當前循迹狀態不是全白",	
+				   "Clean Old Trace Value":"清除上一次循迹狀態",
+                   "Reset Old Trace Value %d.tracing":"重置上一次循迹狀態 %d.tracing",				   
+		           "E_BLUETOOTH_CONTROL":"藍牙操控",
+		           "E_INFRARED_REMOTE_CONTROL":"紅外遙控",
+		           "E_INFRARED_TRACKING_MODE":"紅外循迹",
+		           "E_INFRARED_AVOIDANCE_MODE":"紅外避障",
+                   "E_LIGHT_FINDING_MODE":"追光模式",				   
+		           "E_ULTRASONIC_AVOIDANCE":"超聲波避障",	
+		           "E_PS2_REMOTE_CONTROL":"PS2操控",	
+		           "E_NRF24L01_CONTROL":"NRF24L01操控",	
+		           "E_ULTRASONIC_INFRARED_AVOIDANCE":"超聲波紅外避障", 
+					"E_RGB_MODE":"RGB模式",				   
+				   "front":"前",
+		           "left":"左",
+		           "right":"右",
+                   "leftside":"左",
+		           "rightside":"右",
+                   "forward":"前",
+		           "back":"後",
+		           "turnLeft":"左",
+		           "turnRight":"右",	
+                   "IT_ALL_BLACK":"全黑",
+		           "IT_ALL_WHITE":"全白",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		           "IT_CENTER":"中心",
+		           "IT_RIGHT1":"右1",
+		           "IT_RIGHT2":"右2",
+		           "IT_LEFT1":"左1",
+		           "IT_LEFT2":"左2",
+                   "speedUp":"加速",
+		           "speedDown":"减速",	
+                   "Up":"前",
+		           "Down":"後",		          
+		           "Left":"左",
+		           "Right":"右",
+                   "Dedine PS2 Vibration Value Of Rocker Rod":"定義PS2搖杆震動值",
+				   "Set PS2 Vibration Value":"設定ps2搖杆震動值",	                  				   
+                   "Read Available Byte":"串口可讀取位元組數",
+                   "Read A Byte":"串口讀取一個位元組",  
+		"Red":"紅色",
+			"Green":"綠色",
+			"Blue":"藍色",
+			"Yellow":"黃色",
+			"Purple":"紫色",
+			"White":"白色",
+			"Off":"熄滅",	
+"RGB_LEFT":"左",
+			"RGB_RIGHT":"右",
+			"RGB_ALL":"全部",	
+"LEFT":"左",
+			"RIGHT":"右",			
+				  }				  
+  }
+}
