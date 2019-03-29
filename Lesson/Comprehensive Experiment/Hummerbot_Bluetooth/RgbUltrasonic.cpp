@@ -23,7 +23,7 @@ uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 
 uint16_t RgbUltrasonic::GetUltrasonicLeftDistance()
 {
-    SetServoDegree(175);
+    SetServoDegree(180);
     LeftDistance = GetUltrasonicFrontDistance();
     SetServoDegree(90);
     return LeftDistance;
@@ -31,7 +31,7 @@ uint16_t RgbUltrasonic::GetUltrasonicLeftDistance()
 
 uint16_t RgbUltrasonic::GetUltrasonicRightDistance()
 {
-    SetServoDegree(5);
+    SetServoDegree(20);
     RightDistance = GetUltrasonicFrontDistance();
     SetServoDegree(90);
     return RightDistance;
@@ -54,10 +54,8 @@ void RgbUltrasonic::SetServoDegree(int Angle)
 	} else if (Degree >= 0 && Degree <= 180) {
 		servo_degree = ServoBaseDegree - 90 + Degree;   // 180-degree-diff
 	}
- Serial.print("servo_degree:");
- Serial.println(servo_degree);
 	for (int i = 0; i < 80; i++) {
-		float pulsewidth = (servo_degree * 11) + 500;
+		float pulsewidth = (servo_degree * 11) + 350;
 		digitalWrite(ServoPin, HIGH);   //Set the servo interface level to high
 		delayMicroseconds(pulsewidth);  //The number of microseconds of the delay pulse width value
 		digitalWrite(ServoPin, LOW);    //Set the servo interface level to low

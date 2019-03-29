@@ -354,7 +354,7 @@ void Hummerbot::SendInfraredTracking(void)
 
 void Hummerbot::SendInfraredAvoidanceData(void)
 {
-  byte InfraredAvoidance_value = (((byte)mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue() & 0xFF) << 1) | ((byte)mPhotoIrAvoidance->GetRightPhotoresistorValue() & 0xFF);
+  byte InfraredAvoidance_value = (GetInfraredAvoidanceValue(0) << 1) | GetInfraredAvoidanceValue(1);
   SendData.start_code = PROTOCOL_START_CODE;
   SendData.type = E_HUMMER_BOT;
   SendData.addr = 0x01;

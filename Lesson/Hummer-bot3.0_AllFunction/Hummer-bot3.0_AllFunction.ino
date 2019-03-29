@@ -299,7 +299,7 @@ void HandleInfraredAvoidance()
   }
 }
 
-void HandleLightFinding()
+void HandleLightSeeking()
 {
   float LeftValue, RightValue;
   int Angle;
@@ -417,17 +417,20 @@ void loop()
         mode = E_INFRARED_AVOIDANCE_MODE;
       }
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_AVOIDANCE \n");
+      hbot.SendInfraredAvoidanceData();
       HandleInfraredAvoidance();
       break;
-    case E_LIGHT_FINDING_MODE:
-      if (mode != E_LIGHT_FINDING_MODE) {
+    case E_LIGHT_SEEKING_MODE:
+      if (mode != E_LIGHT_SEEKING_MODE) {
         hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
-        mode = E_LIGHT_FINDING_MODE;
+        mode = E_LIGHT_SEEKING_MODE;
       }
-      HandleLightFinding();
+      HandleLightSeeking();
+      hbot.SendPhotoresistorData();
       break;
     case E_ULTRASONIC_AVOIDANCE:
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_ULTRASONIC_AVOIDANCE \n");
+      hbot.SendUltrasonicData();
       HandleUltrasonicAvoidance();
       break;
     case E_ULTRASONIC_INFRARED_AVOIDANCE:
@@ -439,7 +442,6 @@ void loop()
       HandleUltrasonicInfraredAvoidance();
       hbot.SendInfraredAvoidanceData();
       hbot.SendUltrasonicData();
-      hbot.SendPhotoresistorData();
       break;
     case E_PS2_REMOTE_CONTROL:
       while (Ps2xStatus != 0) { //skip loop if no controller found
