@@ -1,4 +1,4 @@
-#include "Servo_Test.h"
+#include "ServoLib.h"
 
 Servo_Test::Servo_Test(byte servo_pin)
 {
