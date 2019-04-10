@@ -1,6 +1,7 @@
-#ifndef _SERVO_TEST_H_
-#define _SERVO_TEST_H_
+#ifndef _SERVO_LIB_H_
+#define _SERVO_LIB_H_
 
+/* Includes ------------------------------------------------------------------*/
 #include <Arduino.h>
 
 class Servo_Test
