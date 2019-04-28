@@ -46,6 +46,13 @@ typedef enum
     E_RGB_LEFT = 2
 } E_RGB_INDEX;
 
+typedef enum
+{
+    E_EFFECT_BREATHING = 0,
+    E_EFFECT_ROTATE = 1,
+    E_EFFECT_FLASH = 2
+} E_RGB_EFFECT;
+
 class Hummerbot : public SmartCar {
 private :
     uint8_t In1Pin, In2Pin, PwmaPin, In3Pin, In4Pin;
@@ -75,7 +82,8 @@ public :
     void Drive(int degree);
     void IrInit(void);
     void SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE);
-	  void SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
+    void SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect);
+	void SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
     void SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN);
     void SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN,uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN);
     void SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3);

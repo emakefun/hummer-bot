@@ -13,50 +13,42 @@
 #define UL_SING_PIN 3
 #define UL_RGB_PIN 2
 
-#define PHOTOSENSITIVE_LEFT_PIN A2
-#define PHOTOSENSITIVE_RIGHT_PIN A4
-#define IR_AVOIDANCE_LEFT_PIN A3
-#define IR_AVOIDANCE_RIGHT_PIN A5
-
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
+byte Ps2xStatus, Ps2xType;
 
 void setup()
 {
   Serial.begin(9600);
   hbot.init();
-  hbot.SetControlMode(E_LIGHT_FINDING_MODE);
+  hbot.SetControlMode(E_ULTRASONIC_FOLLOW_MODE);
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
-  hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
   hbot.SetSpeed(0);
+  hbot.mRgbUltrasonic->SetServoBaseDegree(90);
+  hbot.mRgbUltrasonic->SetServoDegree(90);
+
 }
 
-void HandleLightFinding()
+void UltrasonicFollow()
 {
-  float LeftValue, RightValue;
-  int Angle;
-  hbot.SetSpeed(80);
-  LeftValue = hbot.GetPhotosensitive(0)/10;
-  RightValue = hbot.GetPhotosensitive(1)/10;
-  if ((LeftValue > 30) && (RightValue > 30))
-  {
+  hbot.SetSpeed(40);
+  uint16_t UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
+  delay(10);
+  if (UlFrontDistance < 13) {
+    hbot.GoBack();
+  } else if (UlFrontDistance > 16) {
+    hbot.GoForward();
+  } else if (13 <= UlFrontDistance <=16) {
     hbot.KeepStop();
-  } else {
-    if (LeftValue >= RightValue) {
-      Angle = ((float)(RightValue/LeftValue) * 90);
-    } else if (LeftValue < RightValue) {
-      Angle = (180 - ((float)(LeftValue / RightValue)) * 90);
     }
-    hbot.Drive(Angle);
-  }
 }
 
 void loop()
 {
-
+ 
   switch (hbot.GetControlMode()) {
-    case E_LIGHT_FINDING_MODE:
-      HandleLightFinding();
+    case E_ULTRASONIC_FOLLOW_MODE:
+      UltrasonicFollow();
       break;
     default:
       break;

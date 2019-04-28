@@ -5,15 +5,15 @@ void setup() {
   pinMode(A2, INPUT);
 }
 void loop() {
-  int left, centre, right;
+  int left, mid, right;
   left = digitalRead(A0);
-  centre = digitalRead(A1);
+  mid = digitalRead(A1);
   right = digitalRead(A2);
   Serial.print("right:");
   Serial.print(right);
   Serial.print("   ");
-  Serial.print("centre:");
-  Serial.print(centre);
+  Serial.print("mid:");
+  Serial.print(mid);
   Serial.print("   ");
   Serial.print("left:");
   Serial.print(left);

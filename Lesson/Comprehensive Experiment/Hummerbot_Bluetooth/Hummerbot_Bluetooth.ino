@@ -64,6 +64,10 @@ void HandleBluetoothRemote(bool recv_flag)
       case E_VERSION:
         hbot.SendVersionPackage();
         break;
+      case E_SERVER_DEGREE:
+        hbot.mRgbUltrasonic->SetServoDegree(mProtocol->GetServoDegree());
+        break;
+
     }
   }
 }

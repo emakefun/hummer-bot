@@ -19,11 +19,14 @@ public:
     E_TYPE GetRobotType(void);
     uint8_t GetRobotAddr(void);
     E_CONTOROL_FUNC GetRobotControlFun(void);
-    int GetBluetoothButton(void);
     int GetRobotSpeed(void);
     int GetRobotDegree(void);
-    bool GetBluetoothButton(byte button);
+    int GetServoDegree(void);
+    uint16_t GetBluetoothButton();
+    bool GetBluetoothButton(uint16_t Button);
     long GetRgbValue(void);
+    byte GetRgbEffect(void);
+    byte GetRgbMode(void);
     byte* GetCmdLine(void);
     bool SendPackage(ST_PROTOCOL *send_dat,int len);
     E_SMARTCAR_CONTROL_MODE GetControlMode(void);

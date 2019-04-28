@@ -47,6 +47,13 @@ Blockly.Arduino.hb_servo = function(){
  var code = '';
  return code;
 };
+Blockly.Arduino.hb_servoangle = function(){
+ 
+ var value_servo_angle = Blockly.Arduino.valueToCode(this, 'ServoAngle', Blockly.Arduino.ORDER_ATOMIC);
+	    
+ var code = '	hbot.mRgbUltrasonic->SetServoDegree('+value_servo_angle+');';
+ return code;
+};
 //将第四个图形块转化为C语言 四个电机引脚（输入，有value）
 Blockly.Arduino.hb_motor = function(){
  var value_LeftNegativeValue = Blockly.Arduino.valueToCode(this,'LeftNegativeValue',Blockly.Arduino.ORDER_ATOMIC);	
@@ -182,7 +189,8 @@ Blockly.Arduino.hb_IrTrackingPin = function(){
  var value_IrTrackingLeftPin = Blockly.Arduino.valueToCode(this,'IrTrackingLeftPin',Blockly.Arduino.ORDER_ATOMIC); 
  var value_IrTrackingMidPin = Blockly.Arduino.valueToCode(this,'IrTrackingMidPin',Blockly.Arduino.ORDER_ATOMIC); 
  var value_IrTrackingRightPin = Blockly.Arduino.valueToCode(this,'IrTrackingRightPin',Blockly.Arduino.ORDER_ATOMIC); 
- var code = 'hbot.SetInfraredTracingPin('+value_IrTrackingLeftPin+','+value_IrTrackingMidPin+','+value_IrTrackingRightPin+');\n';
+  Blockly.Arduino.setups_['setup_hb_SetInfraredTracingPin'] ='\t'+'hbot.SetInfraredTracingPin('+value_IrTrackingLeftPin+','+value_IrTrackingMidPin+','+value_IrTrackingRightPin+');\n';
+ var code = '';
  return code;
 };
 //将第二十个图形块转化为C语言 读取循迹状态（下拉）
@@ -209,7 +217,7 @@ Blockly.Arduino.hb_recentTrackingValue = function(){
 };
 //将第二十三个图形块转化为C语言 清除上一次循迹状态
 Blockly.Arduino.hb_cleanLastTrackingValue = function(){
- var code = 'old=0;';
+ var code = 'old=0;\n'+'break;\n';
  return code;
 };
 //将第二十四个图形块转化为C语言 当前循迹状态不是全白

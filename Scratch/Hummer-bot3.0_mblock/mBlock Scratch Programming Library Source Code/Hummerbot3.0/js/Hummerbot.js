@@ -70,5 +70,5 @@
     }
 
     var descriptor = {};
-	ScratchExtensions.register('Sensor', descriptor, ext, {type: 'serial'});
+	ScratchExtensions.register('Hummerbot', descriptor, ext, {type: 'serial'});
 })({});

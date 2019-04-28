@@ -117,6 +117,7 @@ void Hummerbot::Drive(int degree = 90)
 void Hummerbot::Drive(int degree)
 #endif
 {
+  Degree = degree;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "degree = %d speed = %d\n", degree, Speed);
   int value = (Speed / 10) * 25.5;	 //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
   float f;

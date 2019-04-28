@@ -190,15 +190,6 @@ E_CONTOROL_FUNC ProtocolParser::GetRobotControlFun(void)
     return (E_CONTOROL_FUNC)recv->function;
 }
 
-int ProtocolParser::GetBluetoothButton(void)
-{
-    if (recv->function == E_BUTTON ) {
-        return (int)(*(recv->data));
-    } else {
-        return 0;
-    }
-}
-
 int ProtocolParser::GetRobotSpeed(void)
 {
     if (recv->function == E_ROBOT_CONTROL_SPEED ) {
@@ -217,35 +208,25 @@ int ProtocolParser::GetRobotDegree(void)
     }
 }
 
+int ProtocolParser::GetServoDegree(void)
+{
+    if (recv->function == E_SERVER_DEGREE ) {
+        return (int)(*(recv->data));
+    } else {
+        return 0;
+    }
+}
 
-// up 0 down 1 left 2 right 3 speeddown 4 speedup 5
-bool ProtocolParser::GetBluetoothButton(byte button) {
-    int dat = 0xFF;
-	static int pre_speed = 0;
-    if (button < 4) {
-        if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
-            dat = (int)(*(recv->data)<< 8) | (int)(*(recv->data+1));
-            if ((dat == 0 || dat == 360 ) && button == 3) {
-                return true;
-            } else if (dat == 90 && button == 0) {
-                return true;
-            } else if (dat == 180 && button == 2) {
-                return true;
-            } else if (dat == 270  && button == 1) {
-                return true;
-            }
-        }
-    } else if (button >3 && button <= 5) {
-        if (recv->function == E_ROBOT_CONTROL_SPEED) {
-            dat = (int)(*(recv->data));
-            if ((dat < pre_speed) && button == 4) {
-                    pre_speed = dat;
-                    return true;
-                } else if (dat > pre_speed && button == 5) {
-                    pre_speed = dat;
-                    return true;
-            }
-        }
+uint16_t ProtocolParser::GetBluetoothButton() {
+    if (recv->function == E_BUTTON) {
+        return (uint16_t)(*(recv->data)<< 8) | (uint16_t)(*(recv->data+1));
+    }
+    return 0xFFFF;
+}
+
+bool ProtocolParser::GetBluetoothButton(uint16_t Button) {
+    if (GetBluetoothButton() == Button) {
+        return true;
     }
     return false;
 }
@@ -257,6 +238,26 @@ long ProtocolParser::GetRgbValue(void)
         return value;
     } else {
         return 0;
+    }
+}
+
+byte ProtocolParser::GetRgbEffect(void)
+{
+    if (recv->function == E_LED) {
+        return (byte)(*(recv->data + 3));
+    } else {
+        return 0;
+    }
+}
+
+byte ProtocolParser::GetRgbMode(void)
+{
+    if (recv->function == E_LED) {
+        if (recv->len == 9) {
+           return 1;
+        } else {
+          return 0;
+        }
     }
 }
 

@@ -34,7 +34,7 @@ void setup()
 {
   Serial.begin(9600);
   hbot.init();
-  hbot.SetControlMode(E_INFRARED_TRACKING_MODE);//E_BLUETOOTH_CONTROL/E_INFRARED_TRACKING_MODE
+  hbot.SetControlMode(E_BLUETOOTH_CONTROL);
   hbot.IrInit();
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
   hbot.SetPs2xPin(PS2X_CLK, PS2X_CMD, PS2X_CS, PS2X_DAT);
@@ -98,7 +98,7 @@ void HandleUltrasonicAvoidance(void)
 {
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
-   delay(20);
+  delay(20);
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((UlFrontDistance < UL_LIMIT_MIN))
   {
@@ -238,6 +238,9 @@ void HandleBluetoothRemote(bool recv_flag)
         break;
       case E_VERSION:
         hbot.SendVersionPackage();
+        break;
+      case E_SERVER_DEGREE:
+        hbot.mRgbUltrasonic->SetServoDegree(mProtocol->GetServoDegree());
         break;
     }
   }
@@ -456,10 +459,12 @@ void loop()
       break;
     case E_RGB_MODE:
       if (recv_flag) {
-        switch (mProtocol->GetRobotControlFun()) {
-          case E_LED:
-            hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
-            break;
+        if (mProtocol->GetRobotControlFun() == E_LED) {
+          if (mProtocol->GetRgbMode() == 1) {
+              hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
+          } else {
+              hbot.SetRgbEffect(E_RGB_ALL, mProtocol->GetRgbValue(), mProtocol->GetRgbEffect());
+          }
         }
       }
       return;
@@ -475,7 +480,7 @@ void loop()
       break;
     case E_RIGHT:
       hbot.SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
-      //   Mirage.Sing(S_OhOoh);
+      // Mirage.Sing(S_OhOoh);
       break;
     case E_BACK:
       hbot.SetRgbColor(E_RGB_ALL, RGB_RED);

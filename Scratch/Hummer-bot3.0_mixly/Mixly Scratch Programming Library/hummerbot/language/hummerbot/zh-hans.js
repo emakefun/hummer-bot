@@ -6,6 +6,7 @@ Blockly.HUMMERBOT_MODE = "操控模式";
 Blockly.HUMMERBOT_SERVO = "设置舵机";
 Blockly.HUMMERBOT_SERVOPIN = "舵机引脚";
 Blockly.HUMMERBOT_SERVODEGREE = "校正角度";
+Blockly.HUMMERBOT_SERVOANGLE = "舵机角度";
 Blockly.HUMMERBOT_MOTORPIN = "设置电机引脚";
 Blockly.HUMMERBOT_LEFTNEGATIVEPIN = "左负极";
 Blockly.HUMMERBOT_LEFTPOSITIVEPIN = "左正极";

@@ -83,6 +83,21 @@ Blockly.Blocks.hb_servo = {
     this.setTooltip('');
   }
 };
+Blockly.Blocks.hb_servoangle = {
+  init: function() {
+    this.setColour(Blockly.Blocks.hummerbot.HUE);
+    this.appendDummyInput("")
+        .appendField(Blockly.HUMMERBOT_SERVO)
+		.appendField(new Blockly.FieldImage("../../media/hummerbot/hb_servo.png", 45, 38))
+    this.appendValueInput("ServoAngle", Number)
+        .appendField(Blockly.HUMMERBOT_SERVOANGLE)
+        .setCheck(Number)
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+  }
+};
 //第四个图形块的样式,四个电机引脚（输入，有value）
 Blockly.Blocks.hb_motor = {
   init: function() {

@@ -117,6 +117,7 @@ void Hummerbot::Drive(int degree = 90)
 void Hummerbot::Drive(int degree)
 #endif
 {
+  Degree = degree;	
   DEBUG_LOG(DEBUG_LEVEL_INFO, "degree = %d speed = %d\n", degree, Speed);
   int value = (Speed / 10) * 25.5;	 //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
   float f;
@@ -185,6 +186,54 @@ void Hummerbot::SetRgbColor(E_RGB_INDEX index, long Color)
     }
     mRgbUltrasonic->mRgb->show();
   }
+}
+
+void Hummerbot::SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect)
+{
+    if (mRgbUltrasonic != NULL) {
+        switch((E_RGB_EFFECT)effect) {
+            case E_EFFECT_BREATHING:
+                for (long i = 0; i < 256; i++) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                for (long i = 255; i >= 0; i--) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                break;
+            case E_EFFECT_ROTATE:
+                SetRgbColor(E_RGB_ALL, 0);
+                mRgbUltrasonic->mRgb->setColor(1, Color);
+                mRgbUltrasonic->mRgb->setColor(4, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(1, 0);
+                mRgbUltrasonic->mRgb->setColor(4, 0);
+                mRgbUltrasonic->mRgb->setColor(2, Color);
+                mRgbUltrasonic->mRgb->setColor(5, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(2, 0);
+                mRgbUltrasonic->mRgb->setColor(5, 0);
+                mRgbUltrasonic->mRgb->setColor(3, Color);
+                mRgbUltrasonic->mRgb->setColor(6, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(3, 0);
+                mRgbUltrasonic->mRgb->setColor(6, 0);
+                mRgbUltrasonic->mRgb->show();
+                break;
+            case E_EFFECT_FLASH:
+                for (byte i = 0; i < 6; i++) {
+                   SetRgbColor(E_RGB_ALL, Color);
+                   delay(100);
+                   SetRgbColor(E_RGB_ALL, 0);
+                   delay(100);
+                }
+                break;
+        }
+    }
 }
 
 #if ARDUINO > 10609
@@ -347,7 +396,7 @@ void Hummerbot::SendInfraredTracking(void)
   SendData.addr = 0x01;
   SendData.function = E_INFRARED_TRACKING;
   SendData.data = &InfraredTracking_value;
-  SendData.len = 8;
+  SendData.len = 7;
   SendData.end_code = PROTOCOL_END_CODE;
   mProtocolPackage->SendPackage(&SendData, 1);
 }
@@ -360,7 +409,7 @@ void Hummerbot::SendInfraredAvoidanceData(void)
   SendData.addr = 0x01;
   SendData.function = E_INFRARED_AVOIDANCE;
   SendData.data = &InfraredAvoidance_value;
-  SendData.len = 8;
+  SendData.len = 7;
   SendData.end_code = PROTOCOL_END_CODE;
   mProtocolPackage->SendPackage(&SendData, 1);
 }
