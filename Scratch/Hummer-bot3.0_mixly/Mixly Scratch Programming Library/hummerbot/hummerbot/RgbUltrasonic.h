@@ -22,8 +22,9 @@ class RgbUltrasonic
     uint16_t FrontDistance;
     uint16_t RightDistance;
     uint16_t LeftDistance;
+    RgbUltrasonic(byte trig_pin, byte echo_pin, byte servo_pin);
     RgbUltrasonic(byte sing_pin, byte rgb_pin);
- void  ServoPIN(byte servo_pin);
+    void  ServoPIN(byte servo_pin);   
     uint16_t GetUltrasonicFrontDistance();
     uint16_t GetUltrasonicLeftDistance();
     uint16_t GetUltrasonicRightDistance();

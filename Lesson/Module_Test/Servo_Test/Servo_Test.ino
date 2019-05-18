@@ -1,5 +1,5 @@
 #include"ServoLib.h"
-#define SERVO_PIN 13
+#define SERVO_PIN 7
 
 Servo_Test mServo(SERVO_PIN);  // Create a servo motor object
 

@@ -28,10 +28,10 @@ void loop() {
   if (irKeyCode = irrecv.getCode())
   {
     if (irKeyCode == up) {
-      analogWrite(IN1_PIN, 0);//the speed value of motorA is val
-      analogWrite(IN2_PIN, val);
-      analogWrite(IN3_PIN, val);
-      analogWrite(IN4_PIN, 0); //the speed value of motorA is val
+      analogWrite(IN1_PIN, val);//the speed value of motorA is val
+      analogWrite(IN2_PIN, LOW);
+      analogWrite(IN3_PIN, LOW);
+      analogWrite(IN4_PIN, val); //the speed value of motorA is val
     }
     else if (irKeyCode == expedite1) {
       val += 20;
@@ -48,33 +48,33 @@ void loop() {
       }
     }
     else if (irKeyCode == stop) {
-      analogWrite(IN1_PIN, 0);
-      analogWrite(IN2_PIN, 0);
-      analogWrite(IN3_PIN, 0);
-      analogWrite(IN4_PIN, 0);
+      analogWrite(IN1_PIN, LOW);
+      analogWrite(IN2_PIN, LOW);
+      analogWrite(IN3_PIN, LOW);
+      analogWrite(IN4_PIN, LOW);
     }
     else if (irKeyCode == left) {
       analogWrite(IN1_PIN, val);
-      analogWrite(IN2_PIN, 0); //the speed value of motorA is val
+      analogWrite(IN2_PIN, LOW); //the speed value of motorA is val
       analogWrite(IN3_PIN, val);
-      analogWrite(IN4_PIN, 0); //the speed value of motorA is val
+      analogWrite(IN4_PIN, LOW); //the speed value of motorA is val
     }
     else if (irKeyCode == right) {
-      analogWrite(IN1_PIN, 0);//the speed value of motorA is val
+      analogWrite(IN1_PIN, LOW);//the speed value of motorA is val
       analogWrite(IN2_PIN, val);
-      analogWrite(IN3_PIN, 0);//the speed value of motorA is val
+      analogWrite(IN3_PIN, LOW);//the speed value of motorA is val
       analogWrite(IN4_PIN, val);
     }
     else if (irKeyCode == down) {
-      analogWrite(IN1_PIN, val);
-      analogWrite(IN2_PIN, 0); //the speed value of motorA is val
-      analogWrite(IN3_PIN, 0); //the speed value of motorA is val
-      analogWrite(IN4_PIN, val);
+      analogWrite(IN1_PIN, LOW);
+      analogWrite(IN2_PIN, val); //the speed value of motorA is val
+      analogWrite(IN3_PIN, val); //the speed value of motorA is val
+      analogWrite(IN4_PIN, LOW);
     }
   } else {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 0); //the speed value of motorA is 0
-    analogWrite(IN3_PIN, 0);
-    analogWrite(IN4_PIN, 0); //the speed value of motorB is 0
+    analogWrite(IN1_PIN, LOW);
+    analogWrite(IN2_PIN, LOW); //the speed value of motorA is 0
+    analogWrite(IN3_PIN, LOW);
+    analogWrite(IN4_PIN, LOW); //the speed value of motorB is 0
   }
 }

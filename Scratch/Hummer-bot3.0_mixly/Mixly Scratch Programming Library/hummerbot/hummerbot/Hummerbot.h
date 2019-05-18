@@ -42,9 +42,16 @@
 typedef enum
 {
     E_RGB_ALL = 0,
-    E_RGB_RIGHT = 2,
-    E_RGB_LEFT = 1
+    E_RGB_RIGHT = 1,
+    E_RGB_LEFT = 2
 } E_RGB_INDEX;
+
+typedef enum
+{
+    E_EFFECT_BREATHING = 0,
+    E_EFFECT_ROTATE = 1,
+    E_EFFECT_FLASH = 2
+} E_RGB_EFFECT;
 
 class Hummerbot : public SmartCar {
 private :
@@ -75,16 +82,16 @@ public :
     void Drive(int degree);
     void IrInit(void);
     void SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE);
-	  void SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
-    void SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN);
+    void SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect);
+	void SetRGBUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN);
     void SetServoPin(uint8_t Sevo_Pin = EM_SERVO_PIN);
-    void SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN);
+	void SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN);
     void SetPhotosensitivePin(uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN);
-    void SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3);
-    int SetPs2xPin(uint8_t clk = EM_PS2X_CLK, uint8_t cmd = EM_PS2X_CMD, uint8_t att = EM_PS2X_ATT, uint8_t dat = EM_PS2X_DAT);
-    int ResetPs2xPin(void);
-    
-    uint16_t GetUltrasonicValue(byte);//front 0 left 1 right 2
+	void SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3);
+	int SetPs2xPin(uint8_t clk = EM_PS2X_CLK, uint8_t cmd = EM_PS2X_CMD, uint8_t att = EM_PS2X_ATT, uint8_t dat = EM_PS2X_DAT);
+	int ResetPs2xPin(void);
+	
+	uint16_t GetUltrasonicValue(byte);//front 0 left 1 right 2
     uint8_t GetInfraredAvoidanceValue(byte); //left 0 right 1
     int GetPhotosensitive(byte); //left 0 right 1
     uint8_t GetInfraredTracingValue(byte);
@@ -96,6 +103,14 @@ public :
     void SendPhotoresistorData(void);
     void SendVersionPackage(void);
     void init(void);
+	
+	
+	
+	void SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
+    void SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN);
+    void SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN,uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN);
+   
+    
 };
 
 #endif  /* _HUMMERBOT_H_ */

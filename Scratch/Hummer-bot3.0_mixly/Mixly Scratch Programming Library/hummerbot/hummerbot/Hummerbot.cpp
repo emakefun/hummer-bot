@@ -188,6 +188,54 @@ void Hummerbot::SetRgbColor(E_RGB_INDEX index, long Color)
   }
 }
 
+void Hummerbot::SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect)
+{
+    if (mRgbUltrasonic != NULL) {
+        switch((E_RGB_EFFECT)effect) {
+            case E_EFFECT_BREATHING:
+                for (long i = 0; i < 256; i++) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                for (long i = 255; i >= 0; i--) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                break;
+            case E_EFFECT_ROTATE:
+                SetRgbColor(E_RGB_ALL, 0);
+                mRgbUltrasonic->mRgb->setColor(1, Color);
+                mRgbUltrasonic->mRgb->setColor(4, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(1, 0);
+                mRgbUltrasonic->mRgb->setColor(4, 0);
+                mRgbUltrasonic->mRgb->setColor(2, Color);
+                mRgbUltrasonic->mRgb->setColor(5, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(2, 0);
+                mRgbUltrasonic->mRgb->setColor(5, 0);
+                mRgbUltrasonic->mRgb->setColor(3, Color);
+                mRgbUltrasonic->mRgb->setColor(6, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(3, 0);
+                mRgbUltrasonic->mRgb->setColor(6, 0);
+                mRgbUltrasonic->mRgb->show();
+                break;
+            case E_EFFECT_FLASH:
+                for (byte i = 0; i < 6; i++) {
+                   SetRgbColor(E_RGB_ALL, Color);
+                   delay(100);
+                   SetRgbColor(E_RGB_ALL, 0);
+                   delay(100);
+                }
+                break;
+        }
+    }
+}
+
 #if ARDUINO > 10609
 void Hummerbot::SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3)
 #else
@@ -251,9 +299,24 @@ int Hummerbot::ResetPs2xPin(void)
   return error;
 }
 #if ARDUINO > 10609
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN)
+void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN)
 #else
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin)
+void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t Sevo_Pin)
+#endif
+{
+  static bool UltrasonicInit = false;
+  if (!UltrasonicInit) {
+    SingPin = Sing_Pin;
+    RgbPin = Rgb_Pin;
+    ServoPin = Sevo_Pin;
+    mRgbUltrasonic = new RgbUltrasonic(SingPin, RgbPin, ServoPin);
+    UltrasonicInit = true;
+  }
+}
+#if ARDUINO > 10609
+void Hummerbot::SetRGBUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN)
+#else
+void Hummerbot::SetRGBUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin)
 #endif
 {
   static bool UltrasonicInit = false;
@@ -278,7 +341,6 @@ void Hummerbot::SetServoPin(uint8_t Sevo_Pin)
     ServoInit = true;
   }
 }
-
 //front 0 left 1 right 2
 #if ARDUINO > 10609
 uint16_t Hummerbot::GetUltrasonicValue(byte direction = 0)
@@ -295,6 +357,22 @@ uint16_t Hummerbot::GetUltrasonicValue(byte direction)
   }
 }
 
+#if ARDUINO > 10609
+void Hummerbot::SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN, uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN)
+#else
+void Hummerbot::SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin, uint8_t R_Avoidance_Pin, uint8_t L_Photo_Pin, uint8_t R_Photo_Pin)
+#endif
+{
+  static bool InfraredAvoidanceInit = false;
+  if (!InfraredAvoidanceInit) {
+    LeftIrAvoidance = L_Avoidance_Pin;
+    RightIrAvoidance = R_Avoidance_Pin;
+    LeftPhotosensitive = L_Photo_Pin;
+    RightPhotosensitive = R_Photo_Pin;
+    mPhotoIrAvoidance = new InfraredAvoidance(LeftIrAvoidance, RightIrAvoidance, LeftPhotosensitive, RightPhotosensitive);
+    InfraredAvoidanceInit = true;
+  }
+}
 #if ARDUINO > 10609
 void Hummerbot::SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN)
 #else

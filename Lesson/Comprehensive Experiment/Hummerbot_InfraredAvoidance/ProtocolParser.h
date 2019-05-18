@@ -13,9 +13,9 @@ class ProtocolParser
 public:
     ProtocolParser(byte header = PROTOCOL_START_CODE, byte end = PROTOCOL_END_CODE);
     ~ProtocolParser();
-    bool RecevData(char *data, size_t len);
+    bool RecevData(byte *data, size_t len);
     bool RecevData(void);
-    bool ParserPackage(char *data = NULL);
+    bool ParserPackage(byte *data = NULL);
     E_TYPE GetRobotType(void);
     uint8_t GetRobotAddr(void);
     E_CONTOROL_FUNC GetRobotControlFun(void);

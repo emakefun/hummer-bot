@@ -4,6 +4,7 @@ const int LeftLightPin = A2;
 const int RightLightPin = A4;
 
 int dl, dr, LL, LR;
+//测试时请把红外寻迹模块的连接线给拔了，只需要拔连接扩展板的一头就行了
 void setup() {
   Serial.begin(9600);
   pinMode(LeftAvoidancePin, INPUT);

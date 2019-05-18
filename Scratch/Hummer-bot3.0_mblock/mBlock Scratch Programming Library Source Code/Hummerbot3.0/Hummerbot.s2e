@@ -161,7 +161,7 @@
 	  "3",
 	  "2",	 
 	    {
-		  "setup":"hbot.SetRgbUltrasonicPin({0},{1});\n",
+		  "setup":"hbot.SetRGBUltrasonicPin({0},{1});\n",
 		  "inc":"",
 		  "def":"",
 		  "work":"",

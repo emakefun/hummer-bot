@@ -5,7 +5,7 @@ void setup() {
   pinMode(A2, INPUT);
 }
 void loop() {
-  int left, mid, right;
+  int left, centre, right;
   left = digitalRead(A0);
   mid = digitalRead(A1);
   right = digitalRead(A2);

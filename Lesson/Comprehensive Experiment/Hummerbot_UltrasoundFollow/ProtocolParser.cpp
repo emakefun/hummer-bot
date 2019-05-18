@@ -29,9 +29,9 @@ ProtocolParser::~ProtocolParser(void)
 }
 
 #if ARDUINO > 10609
-bool ProtocolParser::ParserPackage(char *data = NULL)
+bool ProtocolParser::ParserPackage(byte *data = NULL)
 #else
-bool ProtocolParser::ParserPackage(char *data )
+bool ProtocolParser::ParserPackage(byte *data )
 #endif
 {
     if (m_recv_flag) {
@@ -139,7 +139,7 @@ error :
     return false;
 }
 
-bool ProtocolParser::RecevData(char *data, size_t len)
+bool ProtocolParser::RecevData(byte *data, size_t len)
 {
     DEBUG_LOG(DEBUG_LEVEL_INFO, "RecevData start \n");
     bool avilable = false;
@@ -149,28 +149,27 @@ bool ProtocolParser::RecevData(char *data, size_t len)
         return false;
     }
     m_PackageLength = 0;
+    memset(buffer, 0, BUFFER_SIZE);
     m_pHeader = buffer;
-    for (int i = 0; i < BUFFER_SIZE; i++) {
-        buffer[i] = 0;
-    }
+
     while (len--) {
         if(!avilable && *data == m_StartCode)  {
             avilable = true;
         }
+
         if (avilable) {
             if ((*m_pHeader = *data) == m_EndCode) {
+                m_recv_flag = true;
                 m_PackageLength++;
                 DEBUG_LOG(DEBUG_LEVEL_INFO, "%x", *m_pHeader);
                 break;
             }
             DEBUG_LOG(DEBUG_LEVEL_INFO, "%x", *m_pHeader);
             m_pHeader++;
-            m_RecvDataIndex++;
+            m_PackageLength++;
         }
         data++;
     }
-    if (avilable)
-    m_PackageLength =  m_RecvDataIndex + 1;
     DEBUG_LOG(DEBUG_LEVEL_INFO, "\nRecevPackage done\n");
     return true;
 }

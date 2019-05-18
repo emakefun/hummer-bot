@@ -1,5 +1,13 @@
 #include "RgbUltrasonic.h"
 
+RgbUltrasonic::RgbUltrasonic(byte sing_pin, byte rgb_pin, byte servo_pin)
+{
+    SingPin = sing_pin;
+    RgbPin = rgb_pin;
+    ServoPin = servo_pin;
+    pinMode(ServoPin,OUTPUT);
+    mRgb = new RGBLed(RgbPin,6);
+}
 RgbUltrasonic::RgbUltrasonic(byte sing_pin, byte rgb_pin)
 {
     SingPin = sing_pin;
@@ -12,7 +20,6 @@ void RgbUltrasonic::ServoPIN(byte servo_pin)
   ServoPin = servo_pin;
   pinMode(ServoPin,OUTPUT);
 }
-
 uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 {
     digitalWrite(SingPin, LOW);
@@ -58,7 +65,6 @@ void RgbUltrasonic::SetServoDegree(int Angle)
 	} else if (Degree >= 0 && Degree <= 180) {
 		servo_degree = ServoBaseDegree - 90 + Degree;   // 180-degree-diff
 	}
-
 	for (int i = 0; i < 80; i++) {
 		float pulsewidth = (servo_degree * 11) + 350;
 		digitalWrite(ServoPin, HIGH);   //Set the servo interface level to high

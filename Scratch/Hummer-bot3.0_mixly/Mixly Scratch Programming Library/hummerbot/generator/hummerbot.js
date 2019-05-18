@@ -104,7 +104,7 @@ Blockly.Arduino.hb_irKeyPress = function(){
 Blockly.Arduino.hb_ultrasonicpin = function(){
  var value_SingPin = Blockly.Arduino.valueToCode(this,'SingPin',Blockly.Arduino.ORDER_ATOMIC);
  var value_RGBPin = Blockly.Arduino.valueToCode(this,'RGBPin',Blockly.Arduino.ORDER_ATOMIC);
- Blockly.Arduino.setups_['setup_hb_ultrasonicpin'] ='\t'+'hbot.SetRgbUltrasonicPin('+value_SingPin+','+value_RGBPin+');\n'
+ Blockly.Arduino.setups_['setup_hb_ultrasonicpin'] ='\t'+'hbot.SetRGBUltrasonicPin('+value_SingPin+','+value_RGBPin+');\n'
  var code = '';
  return code;
 };

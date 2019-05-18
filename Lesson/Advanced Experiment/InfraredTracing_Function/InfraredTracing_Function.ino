@@ -17,28 +17,29 @@ void loop()
   left = digitalRead(A0);
   mid = digitalRead(A1);
   right = digitalRead(A2);
-  if ((right == 1) && (mid == 0) && (left == 1)) //*******Straight*******//
+  if ((right == 1) && (mid == 0) && (left == 1)) //*******直行*******//
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 180);//the speed value of motorA is val
-    analogWrite(IN3_PIN, 180);//the speed value of motorB is val
-    analogWrite(IN4_PIN, 0);
+    analogWrite(IN1_PIN, 180);
+    analogWrite(IN2_PIN, LOW);//the speed value of motorA is val
+    analogWrite(IN3_PIN, LOW);//the speed value of motorB is val
+    analogWrite(IN4_PIN, 180);
   }
-  else  if ((right == 0) && (mid == 1) && (left == 1)) //*** Left, turn right ***//
+  else  if ((right == 0) && (mid == 1) && (left == 1)) //***左偏,右转***//
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 180);//the speed value of motorB is val
-    analogWrite(IN3_PIN, 20);//the speed value of motorB is val
-    analogWrite(IN4_PIN, 0);
+    analogWrite(IN1_PIN, 20);
+    analogWrite(IN2_PIN, LOW);//the speed value of motorB is val
+    analogWrite(IN3_PIN, LOW);//the speed value of motorB is val
+    analogWrite(IN4_PIN, 180);
   }
-  else  if ((right == 1) && (mid == 1) && (left == 0)) //*** Right, turn left ***//
+  else  if ((right == 1) && (mid == 1) && (left == 0)) //***右偏，左转***//
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 20);//the speed value of motorB is val
-    analogWrite(IN3_PIN, 180);//the speed value of motorB is val
-    analogWrite(IN4_PIN, 0);
+    analogWrite(IN1_PIN, 180);
+    analogWrite(IN2_PIN, 0);//the speed value of motorB is val
+    analogWrite(IN3_PIN, 0);//the speed value of motorB is val
+    analogWrite(IN4_PIN, 20);
   }
-  if ((right == 0) && (mid == 0) && (left == 0)){ //*** stop ***//  
+  if ((right == 0) && (mid == 0) && (left == 0)) //*******停止*******//
+  {
     analogWrite(IN1_PIN, 0);
     analogWrite(IN2_PIN, 0);
     analogWrite(IN3_PIN, 0);

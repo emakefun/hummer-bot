@@ -9,7 +9,7 @@ typedef struct
 }ST_KEY_MAP;
 
 typedef enum {
- IR_KEYCODE_A = 0,
+    IR_KEYCODE_A = 0,
     IR_KEYCODE_B,
     IR_KEYCODE_C,
     IR_KEYCODE_D,
