@@ -101,7 +101,7 @@
 		  "setup":"",
 		  "inc":"",
 		  "def":"",
-		  "work":"hbot.SetSpeed({1});\nhbot.Drive({0});\n",
+		  "work":"hbot.SetSpeed({1});\nhbot.Move({0});\n",
 		  "loop":""		 		  
 		}
 	],		 
@@ -513,11 +513,11 @@
 			"RGB_RIGHT":2,
 			"RGB_ALL":0,
 
-          "goforward":90,
-    	  "goback":270,
-	      "keepstop":90,
-		  "turnleft":180,
-		  "turnright":0,	
+          "goforward":1,
+    	  "goback":2,
+	      "keepstop":5,
+		  "turnleft":3,
+		  "turnright":4,	
           "E_BLUETOOTH_CONTROL":0,
 		  "E_INFRARED_REMOTE_CONTROL":1,
 		  "E_INFRARED_TRACKING_MODE":2,

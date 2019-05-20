@@ -80,6 +80,7 @@ public :
     void KeepStop(void);
     void Drive(void);
     void Drive(int degree);
+	void Move(int direction);
     void IrInit(void);
     void SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE);
     void SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect);

@@ -27,7 +27,7 @@ Blockly.Arduino.hb_move = function() {
  var dropdown_Direction = this.getFieldValue('Direction');
  var value_Speed = Blockly.Arduino.valueToCode(this,'Speed',Blockly.Arduino.ORDER_ATOMIC);
  var code = 'hbot.SetSpeed('+value_Speed+');\n'
- 			+'hbot.Drive('+dropdown_Direction+');\n';
+ 			+'hbot.Move('+dropdown_Direction+');\n';
 return code;
 };
 //将第二个图形块转化为C语言 小车操控模式下拉（下拉没有value）

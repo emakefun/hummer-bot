@@ -59,10 +59,10 @@ void Hummerbot::GoForward(void)
   int value = (Speed / 10) * 25;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "GoForward\n");
   SetStatus(E_FORWARD);
-  analogWrite(In1Pin, LOW);
-  analogWrite(In2Pin, value);
-  analogWrite(In3Pin, value);
-  analogWrite(In4Pin, LOW);
+  analogWrite(In1Pin, value);
+  analogWrite(In2Pin, LOW);
+  analogWrite(In3Pin, LOW);
+  analogWrite(In4Pin, value);
 }
 
 void Hummerbot::GoBack(void)
@@ -70,10 +70,10 @@ void Hummerbot::GoBack(void)
   int value = (Speed / 10) * 25;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "GoBack\n");
   SetStatus(E_BACK);
-  analogWrite(In1Pin, value);
-  analogWrite(In2Pin, LOW);
-  analogWrite(In3Pin, LOW);
-  analogWrite(In4Pin, value);
+  analogWrite(In1Pin, LOW);
+  analogWrite(In2Pin, value);
+  analogWrite(In3Pin, value);
+  analogWrite(In4Pin, LOW);
 }
 
 void Hummerbot::KeepStop(void)
@@ -123,33 +123,33 @@ void Hummerbot::Drive(int degree)
   float f;
   if (degree >= 0 && degree <= 90) {
     f = (float)(degree) / 90;
-    analogWrite(In1Pin, LOW);
-    analogWrite(In2Pin, value);
-    analogWrite(In3Pin, (float)(value * f));
-    analogWrite(In4Pin, LOW);
+    analogWrite(In1Pin, (float)(value * f));
+    analogWrite(In2Pin, LOW);
+    analogWrite(In3Pin, LOW);
+    analogWrite(In4Pin, value);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
     SetStatus(E_RIGHT);
   } else if (degree > 90 && degree <= 180) {
     f = (float)(180 - degree) / 90;
-    analogWrite (In1Pin, LOW);
-    analogWrite(In2Pin, (float)(value * f));
-    analogWrite(In3Pin, value);
-    analogWrite(In4Pin, LOW);
+    analogWrite (In1Pin, value);
+    analogWrite(In2Pin, LOW);
+    analogWrite(In3Pin, LOW);
+    analogWrite(In4Pin, (float)(value * f));
     SetStatus(E_LEFT);
   } else if (degree > 180 && degree <= 270) {
     f = (float)(degree - 180) / 90;
-    analogWrite(In1Pin, (float)(value * f));
-    analogWrite(In2Pin, 0);
-    analogWrite(In3Pin, 0);
-    analogWrite(In4Pin, value);
+    analogWrite(In1Pin, LOW);
+    analogWrite(In2Pin, value);
+    analogWrite(In3Pin, (float)(value * f));
+    analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft\n");
     SetStatus(E_LEFT);
   } else if (degree >= 270 && degree <= 360) {
     f = (float)(360 - degree) / 90;
-    analogWrite(In1Pin, value);
-    analogWrite(In2Pin, 0);
-    analogWrite(In3Pin, 0);
-    analogWrite(In4Pin, (float)(value * f));
+    analogWrite(In1Pin, LOW);
+    analogWrite(In2Pin, (float)(value * f));
+    analogWrite(In3Pin, value);
+    analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
     SetStatus(E_RIGHT);
   }
@@ -158,6 +158,24 @@ void Hummerbot::Drive(int degree)
   }
 }
 
+#if ARDUINO > 10609
+void Hummerbot::Move(int direction = 1)
+#else
+void Hummerbot::Move(int direction)
+#endif
+{
+	if(direction == 1){
+		GoForward();
+	}else if(direction == 2){
+		GoBack();
+	}else if(direction == 3){
+		TurnLeft();
+	}else if(direction == 4){
+		TurnRight();
+	}else{
+		KeepStop();
+	}
+}
 
 void Hummerbot::IrInit(void )
 {
@@ -411,8 +429,10 @@ uint8_t Hummerbot::GetInfraredAvoidanceValue(byte direction)
 #endif
 {
   if (direction == 0 ) {
-    return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
+    return mPhotoIrAvoidance->GetInfraredAvoidanceValue();
   } else if (direction == 1 ) {
+    return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
+  } else if (direction == 2 ) {
     return mPhotoIrAvoidance->GetRightInfraredAvoidanceValue();
   } 
 }

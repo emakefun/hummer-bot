@@ -59,6 +59,7 @@ public :
     void TurnRight(void);
     void KeepStop(void);
     void Drive(int degree);
+	void Move(int direction);
     void SetSpeed(int8_t s);
     void SpeedUp(int8_t Duration = 5);
     void SpeedDown(int8_t Duration = 5);
