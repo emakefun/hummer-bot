@@ -48,8 +48,8 @@ void HandleUltrasonicInfraredAvoidance(void)
 {
   uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(0);
-  RightValue = hbot.GetInfraredAvoidanceValue(1);
+  LeftValue = hbot.GetInfraredAvoidanceValue(1);
+  RightValue = hbot.GetInfraredAvoidanceValue(2);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   delay(20);
@@ -135,6 +135,21 @@ void HandleUltrasonicAvoidance(void)
     hbot.GoForward();
   }
 }
+
+void UltrasonicFollow()
+{
+  hbot.SetSpeed(40);
+  uint16_t UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
+  delay(10);
+  if (UlFrontDistance < 10) {
+    hbot.GoBack();
+  } else if (UlFrontDistance > 14) {
+    hbot.GoForward();
+  } else if (10 <= UlFrontDistance <=4) {
+    hbot.KeepStop();
+    }
+}
+
 //=============================Infrared tracking
 void HandleInfraredTracing(void)
 {
@@ -435,6 +450,9 @@ void loop()
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_ULTRASONIC_AVOIDANCE \n");
       hbot.SendUltrasonicData();
       HandleUltrasonicAvoidance();
+      break;
+    case E_ULTRASONIC_FOLLOW_MODE:
+      UltrasonicFollow();
       break;
     case E_ULTRASONIC_INFRARED_AVOIDANCE:
       if ((mode != E_ULTRASONIC_AVOIDANCE) || (mode != E_ULTRASONIC_INFRARED_AVOIDANCE)) {

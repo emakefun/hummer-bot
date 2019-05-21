@@ -8,7 +8,18 @@ RgbUltrasonic::RgbUltrasonic(byte sing_pin, byte rgb_pin, byte servo_pin)
     pinMode(ServoPin,OUTPUT);
     mRgb = new RGBLed(RgbPin,6);
 }
+RgbUltrasonic::RgbUltrasonic(byte sing_pin, byte rgb_pin)
+{
+    SingPin = sing_pin;
+    RgbPin = rgb_pin;
+    mRgb = new RGBLed(RgbPin,6);
+}
 
+void RgbUltrasonic::ServoPIN(byte servo_pin)
+{
+  ServoPin = servo_pin;
+  pinMode(ServoPin,OUTPUT);
+}
 uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 {
     digitalWrite(SingPin, LOW);

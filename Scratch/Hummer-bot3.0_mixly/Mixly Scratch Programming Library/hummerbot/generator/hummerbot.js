@@ -27,7 +27,7 @@ Blockly.Arduino.hb_move = function() {
  var dropdown_Direction = this.getFieldValue('Direction');
  var value_Speed = Blockly.Arduino.valueToCode(this,'Speed',Blockly.Arduino.ORDER_ATOMIC);
  var code = 'hbot.SetSpeed('+value_Speed+');\n'
- 			+'hbot.Drive('+dropdown_Direction+');\n';
+ 			+'hbot.Move('+dropdown_Direction+');\n';
 return code;
 };
 //将第二个图形块转化为C语言 小车操控模式下拉（下拉没有value）
@@ -104,7 +104,7 @@ Blockly.Arduino.hb_irKeyPress = function(){
 Blockly.Arduino.hb_ultrasonicpin = function(){
  var value_SingPin = Blockly.Arduino.valueToCode(this,'SingPin',Blockly.Arduino.ORDER_ATOMIC);
  var value_RGBPin = Blockly.Arduino.valueToCode(this,'RGBPin',Blockly.Arduino.ORDER_ATOMIC);
- Blockly.Arduino.setups_['setup_hb_ultrasonicpin'] ='\t'+'hbot.SetRgbUltrasonicPin('+value_SingPin+','+value_RGBPin+');\n'
+ Blockly.Arduino.setups_['setup_hb_ultrasonicpin'] ='\t'+'hbot.SetRGBUltrasonicPin('+value_SingPin+','+value_RGBPin+');\n'
  var code = '';
  return code;
 };

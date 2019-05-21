@@ -1,7 +1,7 @@
 #include "Keymap.h"
 
 ST_KEY_MAP irkeymap[KEY_MAX] = {
-     {"A", 0x45},
+    {"A", 0x45},
     {"B", 0x46},
     {"C", 0x47},
     {"D", 0x44},

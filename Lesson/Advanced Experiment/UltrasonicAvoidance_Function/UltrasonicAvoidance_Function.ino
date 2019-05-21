@@ -30,10 +30,10 @@ void loop()
   /*According to the data collected by the ultrasonic module and the infrared obstacle avoidance module,
     it is judged whether there is an obstacle in front, and if there is no obstacle, go straight.*/
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 200);
-    analogWrite(IN3_PIN, 200);
-    analogWrite(IN4_PIN, 0);
+    analogWrite(IN1_PIN, 200);
+    analogWrite(IN2_PIN, LOW);
+    analogWrite(IN3_PIN, LOW);
+    analogWrite(IN4_PIN, 200);
   } 
   else if ((FrontDistance < UL_LIMIT_MID) || (FrontDistance > UL_LIMIT_MAX))
   /*According to the data collected by the ultrasonic module and the infrared obstacle avoidance module, it is determined whether there is an obstacle in front. For example, 

@@ -18,6 +18,8 @@
 #define IR_AVOIDANCE_LEFT_PIN A3
 #define IR_AVOIDANCE_RIGHT_PIN A5
 
+//使用此功能时请把红外寻迹模块的连接线给拔了，只需要拔连接扩展板的一头就行了
+
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
 

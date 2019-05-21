@@ -11,6 +11,21 @@ InfraredAvoidance::InfraredAvoidance(byte pin1, byte pin2, byte pin3, byte pin4)
   pinMode(LeftPhotoresistorPin, INPUT);
   pinMode(RightPhotoresistorPin, INPUT);
 }
+InfraredAvoidance::InfraredAvoidance(byte pin1, byte pin2)
+{
+  LeftInfraredAvoidancePin = pin1;
+  RightInfraredAvoidancePin = pin2;
+  pinMode(LeftInfraredAvoidancePin, INPUT);
+  pinMode(RightInfraredAvoidancePin, INPUT);
+}
+
+void InfraredAvoidance::PhotosensitivePin(byte pin1, byte pin2)
+{
+  LeftPhotoresistorPin = pin1;
+  RightPhotoresistorPin = pin2;
+  pinMode(LeftPhotoresistorPin, INPUT);
+  pinMode(RightPhotoresistorPin, INPUT);
+}
 uint8_t InfraredAvoidance ::GetLeftInfraredAvoidanceValue(void)
 {
   return digitalRead(LeftInfraredAvoidancePin);

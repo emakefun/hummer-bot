@@ -59,10 +59,10 @@ void Hummerbot::GoForward(void)
   int value = (Speed / 10) * 25;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "GoForward\n");
   SetStatus(E_FORWARD);
-  analogWrite(In1Pin, LOW);
-  analogWrite(In2Pin, value);
-  analogWrite(In3Pin, value);
-  analogWrite(In4Pin, LOW);
+  analogWrite(In1Pin, value);
+  analogWrite(In2Pin, LOW);
+  analogWrite(In3Pin, LOW);
+  analogWrite(In4Pin, value);
 }
 
 void Hummerbot::GoBack(void)
@@ -70,10 +70,10 @@ void Hummerbot::GoBack(void)
   int value = (Speed / 10) * 25;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "GoBack\n");
   SetStatus(E_BACK);
-  analogWrite(In1Pin, value);
-  analogWrite(In2Pin, LOW);
-  analogWrite(In3Pin, LOW);
-  analogWrite(In4Pin, value);
+  analogWrite(In1Pin, LOW);
+  analogWrite(In2Pin, value);
+  analogWrite(In3Pin, value);
+  analogWrite(In4Pin, LOW);
 }
 
 void Hummerbot::KeepStop(void)
@@ -123,33 +123,33 @@ void Hummerbot::Drive(int degree)
   float f;
   if (degree >= 0 && degree <= 90) {
     f = (float)(degree) / 90;
-    analogWrite(In1Pin, LOW);
-    analogWrite(In2Pin, value);
-    analogWrite(In3Pin, (float)(value * f));
-    analogWrite(In4Pin, LOW);
+    analogWrite(In1Pin, (float)(value * f));
+    analogWrite(In2Pin, LOW);
+    analogWrite(In3Pin, LOW);
+    analogWrite(In4Pin, value);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
     SetStatus(E_RIGHT);
   } else if (degree > 90 && degree <= 180) {
     f = (float)(180 - degree) / 90;
-    analogWrite (In1Pin, LOW);
-    analogWrite(In2Pin, (float)(value * f));
-    analogWrite(In3Pin, value);
-    analogWrite(In4Pin, LOW);
+    analogWrite (In1Pin, value);
+    analogWrite(In2Pin, LOW);
+    analogWrite(In3Pin, LOW);
+    analogWrite(In4Pin, (float)(value * f));
     SetStatus(E_LEFT);
   } else if (degree > 180 && degree <= 270) {
     f = (float)(degree - 180) / 90;
-    analogWrite(In1Pin, (float)(value * f));
-    analogWrite(In2Pin, 0);
-    analogWrite(In3Pin, 0);
-    analogWrite(In4Pin, value);
+    analogWrite(In1Pin, LOW);
+    analogWrite(In2Pin, value);
+    analogWrite(In3Pin, (float)(value * f));
+    analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft\n");
     SetStatus(E_LEFT);
   } else if (degree >= 270 && degree <= 360) {
     f = (float)(360 - degree) / 90;
-    analogWrite(In1Pin, value);
-    analogWrite(In2Pin, 0);
-    analogWrite(In3Pin, 0);
-    analogWrite(In4Pin, (float)(value * f));
+    analogWrite(In1Pin, LOW);
+    analogWrite(In2Pin, (float)(value * f));
+    analogWrite(In3Pin, value);
+    analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
     SetStatus(E_RIGHT);
   }
@@ -158,6 +158,24 @@ void Hummerbot::Drive(int degree)
   }
 }
 
+#if ARDUINO > 10609
+void Hummerbot::Move(int direction = 1)
+#else
+void Hummerbot::Move(int direction)
+#endif
+{
+	if(direction == 1){
+		GoForward();
+	}else if(direction == 2){
+		GoBack();
+	}else if(direction == 3){
+		TurnLeft();
+	}else if(direction == 4){
+		TurnRight();
+	}else{
+		KeepStop();
+	}
+}
 
 void Hummerbot::IrInit(void )
 {
@@ -186,6 +204,54 @@ void Hummerbot::SetRgbColor(E_RGB_INDEX index, long Color)
     }
     mRgbUltrasonic->mRgb->show();
   }
+}
+
+void Hummerbot::SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect)
+{
+    if (mRgbUltrasonic != NULL) {
+        switch((E_RGB_EFFECT)effect) {
+            case E_EFFECT_BREATHING:
+                for (long i = 0; i < 256; i++) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                for (long i = 255; i >= 0; i--) {
+                    SetRgbColor(index, (i<<16)|(i<<8)|i);
+                    delay((i < 18) ? 18: (256/i));
+                }
+                break;
+            case E_EFFECT_ROTATE:
+                SetRgbColor(E_RGB_ALL, 0);
+                mRgbUltrasonic->mRgb->setColor(1, Color);
+                mRgbUltrasonic->mRgb->setColor(4, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(1, 0);
+                mRgbUltrasonic->mRgb->setColor(4, 0);
+                mRgbUltrasonic->mRgb->setColor(2, Color);
+                mRgbUltrasonic->mRgb->setColor(5, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(2, 0);
+                mRgbUltrasonic->mRgb->setColor(5, 0);
+                mRgbUltrasonic->mRgb->setColor(3, Color);
+                mRgbUltrasonic->mRgb->setColor(6, Color);
+                mRgbUltrasonic->mRgb->show();
+                delay(200);
+                mRgbUltrasonic->mRgb->setColor(3, 0);
+                mRgbUltrasonic->mRgb->setColor(6, 0);
+                mRgbUltrasonic->mRgb->show();
+                break;
+            case E_EFFECT_FLASH:
+                for (byte i = 0; i < 6; i++) {
+                   SetRgbColor(E_RGB_ALL, Color);
+                   delay(100);
+                   SetRgbColor(E_RGB_ALL, 0);
+                   delay(100);
+                }
+                break;
+        }
+    }
 }
 
 #if ARDUINO > 10609
@@ -251,9 +317,24 @@ int Hummerbot::ResetPs2xPin(void)
   return error;
 }
 #if ARDUINO > 10609
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN)
+void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN)
 #else
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin)
+void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t Sevo_Pin)
+#endif
+{
+  static bool UltrasonicInit = false;
+  if (!UltrasonicInit) {
+    SingPin = Sing_Pin;
+    RgbPin = Rgb_Pin;
+    ServoPin = Sevo_Pin;
+    mRgbUltrasonic = new RgbUltrasonic(SingPin, RgbPin, ServoPin);
+    UltrasonicInit = true;
+  }
+}
+#if ARDUINO > 10609
+void Hummerbot::SetRGBUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN)
+#else
+void Hummerbot::SetRGBUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin)
 #endif
 {
   static bool UltrasonicInit = false;
@@ -278,7 +359,6 @@ void Hummerbot::SetServoPin(uint8_t Sevo_Pin)
     ServoInit = true;
   }
 }
-
 //front 0 left 1 right 2
 #if ARDUINO > 10609
 uint16_t Hummerbot::GetUltrasonicValue(byte direction = 0)
@@ -295,6 +375,22 @@ uint16_t Hummerbot::GetUltrasonicValue(byte direction)
   }
 }
 
+#if ARDUINO > 10609
+void Hummerbot::SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN, uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN)
+#else
+void Hummerbot::SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin, uint8_t R_Avoidance_Pin, uint8_t L_Photo_Pin, uint8_t R_Photo_Pin)
+#endif
+{
+  static bool InfraredAvoidanceInit = false;
+  if (!InfraredAvoidanceInit) {
+    LeftIrAvoidance = L_Avoidance_Pin;
+    RightIrAvoidance = R_Avoidance_Pin;
+    LeftPhotosensitive = L_Photo_Pin;
+    RightPhotosensitive = R_Photo_Pin;
+    mPhotoIrAvoidance = new InfraredAvoidance(LeftIrAvoidance, RightIrAvoidance, LeftPhotosensitive, RightPhotosensitive);
+    InfraredAvoidanceInit = true;
+  }
+}
 #if ARDUINO > 10609
 void Hummerbot::SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN)
 #else
@@ -333,8 +429,10 @@ uint8_t Hummerbot::GetInfraredAvoidanceValue(byte direction)
 #endif
 {
   if (direction == 0 ) {
-    return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
+    return mPhotoIrAvoidance->GetInfraredAvoidanceValue();
   } else if (direction == 1 ) {
+    return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
+  } else if (direction == 2 ) {
     return mPhotoIrAvoidance->GetRightInfraredAvoidanceValue();
   } 
 }

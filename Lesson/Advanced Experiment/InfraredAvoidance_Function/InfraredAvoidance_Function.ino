@@ -19,20 +19,20 @@ void loop()
   RightValue = digitalRead(rightPin);
   if (LeftValue >= 1 && RightValue >= 1)
   {
-    analogWrite(IN1_PIN, 0); //the speed value of motorA is val
-    analogWrite(IN2_PIN, 180);
-    analogWrite(IN3_PIN, 180);
-    analogWrite(IN4_PIN, 0); //the speed value of motorB is val
+    analogWrite(IN1_PIN, 180); //the speed value of motorA is val
+    analogWrite(IN2_PIN, LOW);
+    analogWrite(IN3_PIN, LOW);
+    analogWrite(IN4_PIN, 180); //the speed value of motorB is val
     Serial.print(LeftValue);
     Serial.print("   ");
     Serial.print(RightValue);
     Serial.print("   ");
     Serial.println("go");//********************************************//forward
     } else if (LeftValue >= 1 && RightValue < 1) {
-        analogWrite(IN1_PIN, 180);
-        analogWrite(IN2_PIN, 0); //the speed value of motorA is 180
-        analogWrite(IN3_PIN, 180);
-        analogWrite(IN4_PIN, 0); //the speed value of motorB is 180
+        analogWrite(IN1_PIN, 200);//the speed value of motorA is 200
+        analogWrite(IN2_PIN, 0); 
+        analogWrite(IN3_PIN, 200);//the speed value of motorB is 200
+        analogWrite(IN4_PIN, 0); 
         Serial.print(LeftValue);
         Serial.print("   ");
         Serial.print(RightValue);
@@ -61,10 +61,10 @@ void loop()
         analogWrite(IN4_PIN, 0);
         delay(1000); //********************************************//Turning around
     } if (LeftValue < 1 && RightValue >= 1) {
-        analogWrite(IN1_PIN, 0); //the speed value of motorA is val
-        analogWrite(IN2_PIN, 180);
-        analogWrite(IN3_PIN, 0); //the speed value of motorA is val
-        analogWrite(IN4_PIN, 180);
+        analogWrite(IN1_PIN, 0); 
+        analogWrite(IN2_PIN, 200);//the speed value of motorA is 200
+        analogWrite(IN3_PIN, 0); 
+        analogWrite(IN4_PIN, 200);//the speed value of motorB is 200
         Serial.print(LeftValue);
         Serial.print("   ");
         Serial.print(RightValue);

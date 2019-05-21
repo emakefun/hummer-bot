@@ -19,8 +19,9 @@ class InfraredAvoidance
     byte ItPins[2];
 
   public:
-    InfraredAvoidance(byte pin1, byte pin2);
-   void  PhotosensitivePin(byte pin1, byte pin2);
+    InfraredAvoidance(byte pin1, byte pin2, byte pin3, byte pin4);
+	InfraredAvoidance(byte pin1, byte pin2);
+	void  PhotosensitivePin(byte pin1, byte pin2);
     uint8_t GetInfraredAvoidanceValue(void);
     uint8_t GetLeftInfraredAvoidanceValue(void);
     uint8_t GetRightInfraredAvoidanceValue(void);
