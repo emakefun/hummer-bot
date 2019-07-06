@@ -1,0 +1,2 @@
+ArduinoIDE/arduino-1.8.9-windows.exe filter=lfs diff=lfs merge=lfs -text
+Scratch/MagicBlock_win_v2.1.exe filter=lfs diff=lfs merge=lfs -text
