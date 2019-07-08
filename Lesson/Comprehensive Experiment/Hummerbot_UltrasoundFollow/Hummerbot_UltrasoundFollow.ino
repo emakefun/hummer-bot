@@ -9,9 +9,14 @@
 #define IN3_PIN 5   // DIRA  ---  left
 #define IN4_PIN 9   // PWMA
 
+
 #define SERVO_PIN 13
 #define UL_SING_PIN 3
 #define UL_RGB_PIN 2
+#define PHOTOSENSITIVE_LEFT_PIN A3
+#define PHOTOSENSITIVE_RIGHT_PIN A4
+#define IR_AVOIDANCE_LEFT_PIN 12
+#define IR_AVOIDANCE_RIGHT_PIN A5
 
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
@@ -23,29 +28,79 @@ void setup()
   hbot.init();
   hbot.SetControlMode(E_ULTRASONIC_FOLLOW_MODE);
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
+  hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
   hbot.SetSpeed(0);
   hbot.mRgbUltrasonic->SetServoBaseDegree(90);
   hbot.mRgbUltrasonic->SetServoDegree(90);
 
 }
-
-void UltrasonicFollow()
+void UltrasonicFollow(void)
 {
-  hbot.SetSpeed(40);
-  uint16_t UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
+  hbot.SetSpeed(50);
+  uint16_t RightValue, LeftValue,UlFrontDistance;
+  LeftValue = hbot.GetInfraredAvoidanceValue(1);
+  RightValue = hbot.GetInfraredAvoidanceValue(2);
+  UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   delay(10);
-  if (UlFrontDistance < 13) {
+ if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+    hbot.SetSpeed(60);
     hbot.GoBack();
-  } else if (UlFrontDistance > 16) {
-    hbot.GoForward();
-  } else if (13 <= UlFrontDistance <=16) {
-    hbot.KeepStop();
+  } 
+   else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+  {
+     hbot.SetSpeed(80);
+     hbot.Drive(5);
+  } 
+  else if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
+  {
+     hbot.SetSpeed(80);
+     hbot.Drive(175);
+      
+  } 
+   else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
+  {
+      hbot.SetSpeed(60);
+      hbot.GoBack();
+    
+  } 
+  else if ((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+  {
+      hbot.SetSpeed(50);
+     hbot.GoForward();
+ 
+  } 
+  else if((UlFrontDistance > 8)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+     hbot.SetSpeed(80);
+      hbot.TurnRight();
+    }
+    else if((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
+  {
+     hbot.SetSpeed(60);
+      hbot.TurnLeft();
+     
+    }
+     else if ((5 <= UlFrontDistance <=8)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+  {
+    hbot.SetSpeed(80);
+     hbot.Drive(5);
+     
+    }
+     else if ((5 <= UlFrontDistance <=8)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
+  {
+    hbot.SetSpeed(80);
+     hbot.Drive(175);
+    
+    }
+  else if ((5 <= UlFrontDistance <=8)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+  {
+    hbot.KeepStop();     
     }
 }
 
 void loop()
 {
- 
   switch (hbot.GetControlMode()) {
     case E_ULTRASONIC_FOLLOW_MODE:
       UltrasonicFollow();
@@ -62,7 +117,6 @@ void loop()
       break;
     case E_RIGHT:
       hbot.SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
-      //   Mirage.Sing(S_OhOoh);
       break;
     case E_BACK:
       hbot.SetRgbColor(E_RGB_ALL, RGB_RED);

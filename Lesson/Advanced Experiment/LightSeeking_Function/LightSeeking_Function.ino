@@ -2,12 +2,11 @@
 #define IN2_PIN 10  // DIRB  ---  right
 #define IN4_PIN 9   // PWMA
 #define IN3_PIN 5   // DIRA  ---  left
-const int leftPin = A2;
+const int leftPin = A3;
 const int rightPin = A4;
 float LeftValue,RightValue;
 int Angle;
 float f;
-//使用此程序时请把红外寻迹模块的连接线给拔了，只需要拔连接扩展板的一头就行了
 void setup()
 {
   Serial.begin(9600);

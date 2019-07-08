@@ -10,7 +10,7 @@
 #include "ProtocolParser.h"
 #include "RgbUltrasonic.h"
 
-#define EM_IR_PIN 12
+#define EM_IR_PIN 11
 #define EM_IN1_PIN 6
 #define EM_IN2_PIN 10
 #define EM_IN4_PIN 9
@@ -20,14 +20,14 @@
 #define EM_RGB_PIN 2
 #define EM_SERVO_PIN 13
 
-#define EM_IR_AVOIDANCE_LEFT_PIN A3
+#define EM_IR_AVOIDANCE_LEFT_PIN 12
 #define EM_IR_AVOIDANCE_RIGHT_PIN A5
-#define EM_PHOTO_LEFT_PIN A2
+#define EM_PHOTO_LEFT_PIN A3
 #define EM_PHOTO_RIGHT_PIN A4
 
-#define EM_INFRARED_TRACING_PIN1 A0
+#define EM_INFRARED_TRACING_PIN1 A2
 #define EM_INFRARED_TRACING_PIN2 A1
-#define EM_INFRARED_TRACING_PIN3 A2
+#define EM_INFRARED_TRACING_PIN3 A0
 
 #define EM_PS2X_CLK 11
 #define EM_PS2X_CMD 7

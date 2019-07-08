@@ -9,7 +9,7 @@
 #define IN3_PIN 5   // DIRA  ---  left
 #define IN4_PIN 9   // PWMA
 
-#define IR_PIN 12
+#define IR_PIN 11
 #define SERVO_PIN 13
 #define UL_SING_PIN 3
 #define UL_RGB_PIN 2
@@ -21,9 +21,9 @@
 #define IR_TRACING_PIN2 A1
 #define IR_TRACING_PIN3 A2
 
-#define PHOTOSENSITIVE_LEFT_PIN A2
+#define PHOTOSENSITIVE_LEFT_PIN A3
 #define PHOTOSENSITIVE_RIGHT_PIN A4
-#define IR_AVOIDANCE_LEFT_PIN A3
+#define IR_AVOIDANCE_LEFT_PIN 12
 #define IR_AVOIDANCE_RIGHT_PIN A5
 
 ProtocolParser *mProtocol = new ProtocolParser();
@@ -40,32 +40,39 @@ void setup()
   hbot.SetSpeed(0);
   hbot.mRgbUltrasonic->SetServoBaseDegree(90);
   hbot.mRgbUltrasonic->SetServoDegree(90);
-
 }
+
 void HandleUltrasonicInfraredAvoidance(void)
 {
   uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(0);
-  RightValue = hbot.GetInfraredAvoidanceValue(1);
+  LeftValue = hbot.GetInfraredAvoidanceValue(1);
+  RightValue = hbot.GetInfraredAvoidanceValue(2);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   Serial.println(UlFrontDistance);
   delay(20);
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
-  if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) {
+  if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
+  {
     hbot.SetSpeed(70);
     hbot.Drive(20);
-  } else if ((RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) {
+  }
+  else if ((RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
     hbot.SetSpeed(70);
     hbot.Drive(160);
-  } else {
+  }
+  else
+  {
     hbot.SetSpeed(45);
     hbot.GoForward();
   }
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance = %d \n\r", UlFrontDistance);
-  if (UlFrontDistance < UL_LIMIT_MID) {
+  if (UlFrontDistance < UL_LIMIT_MID)
+  {
     hbot.KeepStop();
-    if (UlFrontDistance <= UL_LIMIT_MIN || (RightValue == IA_THRESHOLD && LeftValue == IA_THRESHOLD)) {
+    if (UlFrontDistance <= UL_LIMIT_MIN || (RightValue == IA_THRESHOLD && LeftValue == IA_THRESHOLD))
+    {
       hbot.SetSpeed(60);
       hbot.GoBack();
       delay(300);
@@ -73,17 +80,38 @@ void HandleUltrasonicInfraredAvoidance(void)
     }
     UlLeftDistance = hbot.GetUltrasonicValue(LEFT);
     UlRightDistance = hbot.GetUltrasonicValue(RIGHT);
-    if (UlRightDistance >= UlLeftDistance) {
-      hbot.SetSpeed(100);
-      hbot.TurnRight();
-      delay(400);
+    if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX) && (UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
+    {
+      if (UlRightDistance >= UlLeftDistance)
+      {
+        hbot.SetSpeed(100);
+        hbot.TurnRight();
+        delay(400);
+      }
+      if (UlLeftDistance > UlRightDistance)
+      {
+        hbot.SetSpeed(100);
+        hbot.TurnLeft();
+        delay(400);
+      }
     }
-    if (UlLeftDistance > UlRightDistance) {
-      hbot.SetSpeed(100);
-      hbot.TurnLeft();
-      delay(400);
+    else if (((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX)) || ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX)))
+    {
+      if ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnLeft();
+        delay(310);
+      }
+      else if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnRight();
+        delay(310);
+      }
     }
-    if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN ) {
+   else if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN )
+    {
       hbot.SetSpeed(100);
       hbot.Drive(0);
       delay(800);

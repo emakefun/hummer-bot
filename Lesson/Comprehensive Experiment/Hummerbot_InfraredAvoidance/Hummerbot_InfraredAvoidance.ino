@@ -9,14 +9,14 @@
 #define IN3_PIN 5   // DIRA  ---  left
 #define IN4_PIN 9   // PWMA
 
-#define IR_PIN 12
+#define IR_PIN 11
 #define SERVO_PIN 13
 #define UL_SING_PIN 3
 #define UL_RGB_PIN 2
 
-#define PHOTOSENSITIVE_LEFT_PIN A2
+#define PHOTOSENSITIVE_LEFT_PIN A3
 #define PHOTOSENSITIVE_RIGHT_PIN A4
-#define IR_AVOIDANCE_LEFT_PIN A3
+#define IR_AVOIDANCE_LEFT_PIN 12
 #define IR_AVOIDANCE_RIGHT_PIN A5
 
 ProtocolParser *mProtocol = new ProtocolParser();

@@ -29,7 +29,11 @@ void setup()
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
   hbot.SetSpeed(0);
 }
-//=============================Infrared tracking
+//**********************************************************************************************
+//Name : HandleInfraredTracing
+//Function : Infrared Tracing
+//Parameter:null
+//**********************************************************************************************
 void HandleInfraredTracing(void)
 {
   static byte old;

@@ -9,7 +9,7 @@
 #define IN3_PIN 5   // DIRA  ---  left
 #define IN4_PIN 9   // PWMA
 
-#define IR_PIN 12
+#define IR_PIN 11
 #define SERVO_PIN 13
 #define UL_SING_PIN 3
 #define UL_RGB_PIN 2
@@ -25,11 +25,14 @@ void setup()
   hbot.IrInit();
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
   hbot.SetSpeed(0);
+  hbot.mRgbUltrasonic->SetServoBaseDegree(90);
+  hbot.mRgbUltrasonic->SetServoDegree(90);
 }
 
 void HandleInfaredRemote(byte irKeyCode)
 {
-  switch ((E_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode)) {
+  switch ((E_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode)) 
+  {
     case IR_KEYCODE_PLUS:
       hbot.SpeedUp(10);
       DEBUG_LOG(DEBUG_LEVEL_INFO, "hbot.Speed = %d \n", hbot.Speed);
@@ -65,7 +68,9 @@ void loop()
     
     case E_INFRARED_REMOTE_CONTROL:
       byte irKeyCode;
-      if (irKeyCode = hbot.mIrRecv->getCode()) {
+      if (irKeyCode = hbot.mIrRecv->getCode()) 
+      {
+        Serial.println(irKeyCode);
         DEBUG_LOG(DEBUG_LEVEL_INFO, "irKeyCode = %lx \n", irKeyCode);
         HandleInfaredRemote(irKeyCode);
         delay(110);

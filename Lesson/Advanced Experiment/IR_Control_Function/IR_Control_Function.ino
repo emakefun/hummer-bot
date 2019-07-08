@@ -5,7 +5,7 @@
 #define IN4_PIN 9   // PWMA
 #define IN3_PIN 5   // DIRA  ---  left
 
-int RECV_PIN = 12;//Define the infrared receiver pin to 12
+int RECV_PIN = 11;//Define the infrared receiver pin to 12
 
 long expedite1 = 0x43;
 long expedite2 = 0x0d;

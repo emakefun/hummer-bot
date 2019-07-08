@@ -33,29 +33,48 @@ void HandleUltrasonicAvoidance(void)
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
-  if ((UlFrontDistance < UL_LIMIT_MIN))
+   Serial.println(UlFrontDistance);
+   if ((UlFrontDistance < UL_LIMIT_MIN))
   {
     hbot.SetSpeed(100);
     hbot.GoBack();
     delay(250);
   }
-  if (UlFrontDistance < UL_LIMIT_MID)
+ else if (UlFrontDistance < UL_LIMIT_MID)
   {
     hbot.KeepStop();
     delay(100);
     UlLeftDistance = hbot.GetUltrasonicValue(LEFT);
     UlRightDistance = hbot.GetUltrasonicValue(RIGHT);
-    if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
+    if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX) && (UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
     {
-      hbot.SetSpeed(80);
-      hbot.TurnRight();
-      delay(310);
+      if (UlRightDistance > UlLeftDistance)
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnRight();
+        delay(310);
+      }
+      else
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnLeft();
+        delay(310);
+      }
     }
-    else if ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
+    else if (((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX)) || ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX)))
     {
-      hbot.SetSpeed(80);
-      hbot.TurnLeft();
-      delay(310);
+      if ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnLeft();
+        delay(310);
+      }
+      else if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
+      {
+        hbot.SetSpeed(80);
+        hbot.TurnRight();
+        delay(310);
+      }
     }
     else if ((UlRightDistance < UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MIN) )
     {
@@ -63,7 +82,9 @@ void HandleUltrasonicAvoidance(void)
       hbot.Drive(0);
       delay(510);
     }
-  } else {
+  }
+  else 
+  {
     hbot.SetSpeed(80);
     hbot.GoForward();
   }

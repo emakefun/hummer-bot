@@ -2,7 +2,7 @@
 #define IN2_PIN 10  // DIRB  ---  right
 #define IN4_PIN 9   // PWMA
 #define IN3_PIN 5   // DIRA  ---  left
-const int leftPin = A3;
+const int leftPin = 12;
 const int rightPin = A5;
 byte LeftValue,RightValue;
 void setup()

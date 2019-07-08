@@ -34,7 +34,7 @@ uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 
 uint16_t RgbUltrasonic::GetUltrasonicLeftDistance()
 {
-    SetServoDegree(180);
+    SetServoDegree(170);
     LeftDistance = GetUltrasonicFrontDistance();
     SetServoDegree(90);
     return LeftDistance;
@@ -42,7 +42,7 @@ uint16_t RgbUltrasonic::GetUltrasonicLeftDistance()
 
 uint16_t RgbUltrasonic::GetUltrasonicRightDistance()
 {
-    SetServoDegree(20);
+    SetServoDegree(0);
     RightDistance = GetUltrasonicFrontDistance();
     SetServoDegree(90);
     return RightDistance;

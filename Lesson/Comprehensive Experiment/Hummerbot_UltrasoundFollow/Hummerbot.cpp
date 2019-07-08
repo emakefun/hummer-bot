@@ -139,16 +139,16 @@ void Hummerbot::Drive(int degree)
   } else if (degree > 180 && degree <= 270) {
     f = (float)(degree - 180) / 90;
     analogWrite(In1Pin, LOW);
-    analogWrite(In2Pin, value);
-    analogWrite(In3Pin, (float)(value * f));
+    analogWrite(In2Pin, (float)(value * f));
+    analogWrite(In3Pin,value );
     analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft\n");
     SetStatus(E_LEFT);
   } else if (degree >= 270 && degree <= 360) {
     f = (float)(360 - degree) / 90;
     analogWrite(In1Pin, LOW);
-    analogWrite(In2Pin, (float)(value * f));
-    analogWrite(In3Pin, value);
+    analogWrite(In2Pin, value);
+    analogWrite(In3Pin, (float)(value * f));
     analogWrite(In4Pin, LOW);
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
     SetStatus(E_RIGHT);
@@ -403,7 +403,7 @@ void Hummerbot::SetPhotosensitivePin(uint8_t L_Photo_Pin, uint8_t R_Photo_Pin)
   }
 }
 
-//left 0 right 1
+//left 1 right 2
 #if ARDUINO > 10609
 uint8_t Hummerbot::GetInfraredAvoidanceValue(byte direction = 0)
 #else
