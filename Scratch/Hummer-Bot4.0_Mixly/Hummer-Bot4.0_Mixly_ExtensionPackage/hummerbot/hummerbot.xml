@@ -1,0 +1,203 @@
+<!-- type="company" block="block/hummerbot.js" generator="generator/hummerbot.js"  lib="hummerbot" media="media/hummerbot" language="language/hummerbot"-->
+<script type="text/javascript" src="../../blocks/company/hummerbot.js"></script>
+<script type="text/javascript" src="../../generators/arduino/company/hummerbot.js"></script>
+<category id="catMakeBlock" name="hummerbot" colour="120">
+
+<!--第0个图形块：Hummerbot初始化-->
+		 <block type="hb_setup"></block>	
+<!--第一个图形块：小车行驶方向下拉（下拉没有value），速度（输入,有value）-->
+	    <block type="hb_move">
+			<value name="Speed">
+				<shadow type="math_number">
+					<field name="NUM">0</field>
+				</shadow>
+			</value>
+	    </block>
+<!--第二个图形块：小车操控模式下拉（下拉没有value）-->
+		<block type="hb_mode"></block>
+<!--第三个图形块：舵机引脚（输入，有value），舵机校正角度（输入，有value）-->
+		<block type="hb_servo">
+			<value name="ServoPin">
+				<shadow type="math_number">
+					<field name="NUM">13</field>
+				</shadow>
+			</value>
+			<value name="ServoDegree">
+				<shadow type="math_number">
+					<field name="NUM">90</field>
+				</shadow>
+			</value>
+		</block>
+		<!--第三个图形块：舵机角度（输入，有value）-->
+		<block type="hb_servoangle">			
+			<value name="ServoAngle">
+				<shadow type="math_number">
+					<field name="NUM">90</field>
+				</shadow>
+			</value>
+		</block>
+<!--第四个图形块：四个电机引脚（输入，有value）-->
+		<block type="hb_motor">
+			<value name="LeftNegativeValue">
+				<shadow type="math_number">
+					<field name="NUM">6</field>
+				</shadow>
+			</value>
+			<value name="LeftPositiveValue">
+				<shadow type="math_number">
+					<field name="NUM">10</field>
+				</shadow>
+			</value>
+			<value name="RightNegativeValue">
+				<shadow type="math_number">
+					<field name="NUM">5</field>
+				</shadow>
+			</value>
+			<value name="RightPositiveValue">
+				<shadow type="math_number">
+					<field name="NUM">9</field>
+				</shadow>
+			</value>
+		</block>
+<!--第五个图形块：转弯角度（输入，有value），速度（输入，有value）-->
+		<block type="hb_turn">
+			<value name="TurnAngle">
+				<shadow type="math_number">
+					<field name="NUM">0</field>
+				</shadow>
+			</value>
+			<value name="Speed">
+				<shadow type="math_number">
+					<field name="NUM">0</field>
+				</shadow>
+			</value>
+		</block>
+<!--第六个图形块：加速-->
+		<block type= "hb_speedup"></block>
+<!--第七个图形块：减速-->
+		<block type= "hb_speeddown"></block>
+<!--获取当前速度-->
+		<block type= "hb_getcurrentspeed"></block>		
+<!--第八个图形块：红外接收初始化-->
+		<block type= "hb_irReceive">		
+		</block>
+<!--红外遥控按键被按下（下拉，返回boolean）-->
+		<block type="hb_irKeyPressed"></block>		
+<!--第九个图形块：红外遥控按键（下拉，返回boolean）-->
+		<block type="hb_irKeyPress"></block>
+<!--第十个图形块：超声波模块一个引脚，RGB灯一个引脚（输入 有value）-->
+		<block type="hb_ultrasonicpin">
+			<value name="SingPin">
+				<shadow type="math_number">
+					<field name="NUM">3</field>
+				</shadow>
+			</value>	
+			<value name="RGBPin">
+				<shadow type="math_number">
+					<field name="NUM">2</field>
+				</shadow>
+			</value>
+		</block>	
+<!--第十一个图形块：超声波测距（下拉，前，左，右）-->
+		<block type="hb_readUltrasonicDistance"></block>
+<!--第十一个图形块：设置RGB灯颜色（下拉，红，绿，蓝，黄，紫，白，黑）-->
+		<block type="hb_RGB"></block>
+<!--第十二个图形块：红外避障模块两个引脚，追光模块两个引脚(输入，有value)    field的name不确定使NUM待检测    -->
+		<block type="hb_irAvoidance">
+			<value name="LeftPin">
+				<shadow type="math_number">
+					<field name="NUM">12</field>
+				</shadow>
+			</value>
+			<value name="RightPin">
+				<shadow type="math_number">
+					<field name="NUM">A5</field>
+				</shadow>
+			</value>
+		</block>
+		
+		<block type="hb_photosensitivePin">
+			<value name="LeftPin">
+				<shadow type="math_number">
+					<field name="NUM">A3</field>
+				</shadow>
+			</value>
+			<value name="RightPin">
+				<shadow type="math_number">
+					<field name="NUM">A4</field>
+				</shadow>
+			</value>
+		</block>
+<!--左右光弱度值（下拉）-->	
+		<block type="hb_getPhotosensitive"></block>
+<!--第十三个图形块：红外避障测距（下拉，左，右）-->
+		<block type="hb_readIrAvoidanceDistance"></block>
+<!--第十四个图形块：PS2模块四个引脚(输入，有value)-->
+		<block type="hb_PS2Pin">
+			<value name="CLKPin">
+				<shadow type="math_number">
+					<field name="NUM">11</field>
+				</shadow>
+			</value>
+			<value name="CMDPin">
+				<shadow type="math_number">
+					<field name="NUM">7</field>
+				</shadow>
+			</value>
+			<value name="ATTPin">
+				<shadow type="math_number">
+					<field name="NUM">8</field>
+				</shadow>
+			</value>
+			<value name="DATPin">
+				<shadow type="math_number">
+					<field name="NUM">4</field>
+				</shadow>
+			</value>
+		</block>
+<!--第十五个图形块：定义PS2摇杆震动值-->
+		<block type="hb_varPS2vibrate"></block>	
+<!--第十六个图形块：设置PS2摇杆震动值-->
+		<block type="hb_setPS2vibrate"></block>	
+<!--第十七个图形块：PS2键被按下（返回boolean）-->
+		<block type="hb_PS2KeyPressed"></block>		
+<!--第十八个图形块：PS2键被按下（下拉）-->
+		<block type="hb_WhichPS2KeyPressed"></block>
+<!--第十九个图形块：红外循迹模块三个引脚(输入，有value)-->
+		<block type="hb_IrTrackingPin">
+			<value name="IrTrackingLeftPin">
+				<shadow type="math_number">
+					<field name="NUM">A2</field>
+				</shadow>
+			</value>
+			<value name="IrTrackingMidPin">
+				<shadow type="math_number">
+					<field name="NUM">A1</field>
+				</shadow>
+			</value>
+			<value name="IrTrackingRightPin">
+				<shadow type="math_number">
+					<field name="NUM">A0</field>
+				</shadow>
+			</value>
+		</block>
+<!--第二十个图形块：读取循迹状态（下拉）-->
+		<block type="hb_readTrackingValue"></block>
+		<block type="hb_readTrackingValues"></block>
+<!--第二十一个图形块：定义一个保存上一次循迹状态的变量-->
+		<block type="hb_setByteOld"></block>
+<!--第二十二个图形块：当前循迹状态（下拉）-->
+		<block type="hb_recentTrackingValue"></block>
+<!--第二十三个图形块：清除上一次循迹状态-->
+		<block type="hb_cleanLastTrackingValue"></block>
+<!--第二十四个图形块：当前循迹状态不是全白-->
+		<block type="hb_recentTrackingValueIsNotWhite"></block>
+<!--第二十五个图形块：重置上一次循迹状态（下拉）-->
+		<block type="hb_resetLastTrackingValue"></block>
+<!--第二十六个图形块：接收蓝牙数据-->
+		<block type="hb_receiveBluetoothData"></block>
+<!--第二十七个图形块：接收到了蓝牙数据-->
+		<block type="hb_receivedBluetoothData"></block>
+<!--第二十八个图形块：蓝牙操控键按下（下拉）-->
+		<block type="hb_bluetoothKeyPressed"></block>
+</category>
