@@ -23,6 +23,25 @@ Hummerbot::~Hummerbot()
 }
 
 #if ARDUINO > 10609
+void Hummerbot::Move(int deriction = 1)
+#else
+void Hummerbot::Move(int deriction)
+#endif
+{
+	if(deriction == 1){
+		GoForward();
+	}else if(deriction == 2){
+		GoBack();
+	}else if(deriction == 3){
+		TurnLeft();
+	}else if(deriction == 4){
+		TurnRight();
+	}else{
+		KeepStop();
+	}
+}
+
+#if ARDUINO > 10609
 void Hummerbot::SetMotorPin(uint8_t in1 = EM_IN1_PIN, uint8_t in2 = EM_IN2_PIN, uint8_t in3 = EM_IN3_PIN, uint8_t in4 = EM_IN4_PIN)
 #else
 void Hummerbot::SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4)
@@ -298,11 +317,8 @@ int Hummerbot::ResetPs2xPin(void)
   }
   return error;
 }
-#if ARDUINO > 10609
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN)
-#else
+
 void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t Sevo_Pin)
-#endif
 {
   static bool UltrasonicInit = false;
   if (!UltrasonicInit) {
@@ -313,11 +329,8 @@ void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t 
     UltrasonicInit = true;
   }
 }
-#if ARDUINO > 10609
-void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN)
-#else
+
 void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin)
-#endif
 {
   static bool UltrasonicInit = false;
   if (!UltrasonicInit) {
@@ -341,17 +354,6 @@ void Hummerbot::SetServoPin(uint8_t Sevo_Pin)
     ServoInit = true;
   }
 }
-
-#if ARDUINO > 10609
-void Hummerbot::SetFanPin(uint8_t Fan_Pin = EM_FAN_PIN,uint8_t State=LOW)
-#else
-void Hummerbot::SetFanPin(uint8_t Fan_Pin,uint8_t State)
-#endif
-{
-  pinMode(Fan_Pin,OUTPUT);
-  analogWrite(Fan_Pin,State);
-}
-
 //front 0 left 1 right 2
 #if ARDUINO > 10609
 uint16_t Hummerbot::GetUltrasonicValue(byte direction = 0)
@@ -415,19 +417,15 @@ void Hummerbot::SetPhotosensitivePin(uint8_t L_Photo_Pin, uint8_t R_Photo_Pin)
 }
 
 //left 0 right 1
-#if ARDUINO > 10609
-uint8_t Hummerbot::GetInfraredAvoidanceValue(byte direction = 0)
-#else
 uint8_t Hummerbot::GetInfraredAvoidanceValue(byte direction)
-#endif
 {
-  if (direction == 0 ) {
-    return mPhotoIrAvoidance->GetInfraredAvoidanceValue();
-  } else if (direction == 1 ) {
-    return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
-  } else if (direction == 2 ) {
-    return mPhotoIrAvoidance->GetRightInfraredAvoidanceValue();
-  } 
+    if (direction == 0) {
+        return mPhotoIrAvoidance->GetLeftInfraredAvoidanceValue();
+    } else if (direction == 1) {
+        return mPhotoIrAvoidance->GetRightInfraredAvoidanceValue();
+    } else  if (direction == 2) {
+        return mPhotoIrAvoidance->GetInfraredAvoidanceValue();
+    }
 }
 
 //left 0 right 1

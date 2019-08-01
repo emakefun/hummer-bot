@@ -21,6 +21,7 @@ void setup() {
   mRgb.show();
 }
 void loop() {
+  pinMode(SingPin, OUTPUT);
   digitalWrite(SingPin, LOW);
   delayMicroseconds(2);
   digitalWrite(SingPin, HIGH);

@@ -46,8 +46,8 @@ void HandleUltrasonicInfraredAvoidance(void)
 {
   uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(1);
-  RightValue = hbot.GetInfraredAvoidanceValue(2);
+  LeftValue = hbot.GetInfraredAvoidanceValue(0);
+  RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   Serial.println(UlFrontDistance);
   delay(20);

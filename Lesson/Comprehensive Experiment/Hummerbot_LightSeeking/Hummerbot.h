@@ -10,7 +10,7 @@
 #include "ProtocolParser.h"
 #include "RgbUltrasonic.h"
 
-#define EM_IR_PIN 12
+#define EM_IR_PIN 11
 #define EM_IN1_PIN 6
 #define EM_IN2_PIN 10
 #define EM_IN4_PIN 9
@@ -20,9 +20,9 @@
 #define EM_RGB_PIN 2
 #define EM_SERVO_PIN 13
 
-#define EM_IR_AVOIDANCE_LEFT_PIN A3
+#define EM_IR_AVOIDANCE_LEFT_PIN 12
 #define EM_IR_AVOIDANCE_RIGHT_PIN A5
-#define EM_PHOTO_LEFT_PIN A2
+#define EM_PHOTO_LEFT_PIN A3
 #define EM_PHOTO_RIGHT_PIN A4
 
 #define EM_INFRARED_TRACING_PIN1 A2
@@ -79,11 +79,12 @@ public :
     void TurnRight(void);
     void KeepStop(void);
     void Drive(void);
+	void Move(int direction);
     void Drive(int degree);
     void IrInit(void);
     void SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE);
     void SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect);
-	void SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN);
+	void SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin);
     void SetServoPin(uint8_t Sevo_Pin = EM_SERVO_PIN);
 	void SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN);
     void SetPhotosensitivePin(uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN);
@@ -104,13 +105,9 @@ public :
     void SendVersionPackage(void);
     void init(void);
 	
-	
-	
 	void SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4);
-    void SetRgbUltrasonicPin(uint8_t Sing_Pin = EM_SING_PIN, uint8_t Rgb_Pin = EM_RGB_PIN, uint8_t Sevo_Pin = EM_SERVO_PIN);
+    void SetRgbUltrasonicPin(uint8_t Sing_Pin , uint8_t Rgb_Pin, uint8_t Sevo_Pin);
     void SetPhotoInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN,uint8_t L_Photo_Pin = EM_PHOTO_LEFT_PIN, uint8_t R_Photo_Pin = EM_PHOTO_RIGHT_PIN);
-   
-    
 };
 
 #endif  /* _HUMMERBOT_H_ */

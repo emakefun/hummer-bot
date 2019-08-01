@@ -39,7 +39,7 @@ void setup()
 //====================================InfraredAvoidance
 void HandleInfraredAvoidance()
 {
-  switch (hbot.GetInfraredAvoidanceValue(0)) {
+  switch (hbot.GetInfraredAvoidanceValue(2)) {
     case IOA_ALL_NO:
       hbot.SetSpeed(70);
       hbot.GoForward();

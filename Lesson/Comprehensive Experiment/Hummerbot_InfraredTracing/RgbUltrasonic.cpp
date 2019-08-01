@@ -22,6 +22,7 @@ void RgbUltrasonic::ServoPIN(byte servo_pin)
 }
 uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 {
+    pinMode(SingPin, OUTPUT);
     digitalWrite(SingPin, LOW);
     delayMicroseconds(2);
     digitalWrite(SingPin, HIGH);

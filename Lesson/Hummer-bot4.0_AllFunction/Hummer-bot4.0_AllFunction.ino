@@ -56,8 +56,8 @@ void HandleUltrasonicInfraredAvoidance(void)
   
  uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(1);
-  RightValue = hbot.GetInfraredAvoidanceValue(2);
+  LeftValue = hbot.GetInfraredAvoidanceValue(0);
+  RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   delay(20);
   hbot.SendInfraredAvoidanceData();
@@ -360,6 +360,12 @@ void HandleBluetoothRemote(bool recv_flag)
             break;
           case BT_PAD_RIGHT:
             hbot.TurnRight();
+            break;
+          case BT_L3:
+            hbot.SpeedUp(10);
+            break;
+          case BT_R3:
+            hbot.SpeedDown(10);
             break;
         }
         break;

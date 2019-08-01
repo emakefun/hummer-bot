@@ -363,6 +363,12 @@ void HandleBluetoothRemote(bool recv_flag)
           case BT_PAD_RIGHT:
             hbot.TurnRight();
             break;
+          case BT_L3:
+            hbot.SpeedUp(10);
+            break;
+          case BT_R3:
+            hbot.SpeedDown(10);
+            break;
             case BT_START:
           static boolean FanFlag = false;
           FanFlag = !FanFlag;
