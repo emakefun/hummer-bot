@@ -1,0 +1,3 @@
+以下两款可在IOS APPstore中找到，其中也有很多其它的BLE APP，或者利用TI提供的源码包自己编写BLE APP。
+LightBlue
+Smart_Nudge
