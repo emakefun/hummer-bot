@@ -1,5 +1,4 @@
-byte comdata;
-
+byte read_dat;
 void setup()
  {
      Serial.begin(9600);
@@ -10,8 +9,8 @@ void loop()
  {
      while (Serial.available() > 0)  
      {
-         comdata = Serial.read();
+         read_dat = Serial.read();
          delay(2);
-         Serial.write(comdata);
+         Serial.write(read_dat);
      }
  }
