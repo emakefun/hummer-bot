@@ -8,6 +8,7 @@
 #include "InfraredAvoidance.h"
 #include "InfraredTracing.h"
 #include "ProtocolParser.h"
+#include "nRF24L01.h"
 #include "RgbUltrasonic.h"
 
 #define EM_IR_PIN 11
@@ -34,6 +35,11 @@
 #define EM_PS2X_ATT 8
 #define EM_PS2X_DAT 4
 
+#define HB_NRF24L01_CE 4
+#define HB_NRF24L01_CSN 7
+#define HB_NRF24L01_MOSI 11
+#define HB_NRF24L01_MISO 12
+#define HB_NRF24L01_SCK 13
 #define FRONT 0
 #define LEFT 1
 #define RIGHT 2
@@ -59,9 +65,10 @@ private :
     uint8_t IrPin;      // Infrared remoter pin
     uint8_t InfraredTracingPin1, InfraredTracingPin2, InfraredTracingPin3, InfraredTracingPin4, InfraredTracingPin5;    // for Infrared tracing pin
     uint8_t Ps2xClkPin, Ps2xCmdPin, Ps2xAttPin, Ps2xDatPin;    // for Ps2 remoter
-    uint8_t LeftIrAvoidance,RightIrAvoidance;     //For infrared obstacle avoidance
-    uint8_t LeftPhotosensitive,RightPhotosensitive;    
-    uint8_t SingPin,RgbPin,ServoPin;
+    uint8_t LeftIrAvoidance, RightIrAvoidance;     //For infrared obstacle avoidance
+    uint8_t LeftPhotosensitive, RightPhotosensitive;    
+    uint8_t SingPin,RgbPin, ServoPin;
+    uint8_t Nrf24L01CePin, Nrf24L01CsnPin;    // for nRF24L01 control
     ST_PROTOCOL SendData;
     ProtocolParser *mProtocolPackage;
 
@@ -70,6 +77,7 @@ public :
     ~Hummerbot();
     IRremote  *mIrRecv;
     PS2X *mPs2x;
+    Nrf24l *mNrf24L01;
     InfraredTracing *mInfraredTracing;
     InfraredAvoidance *mPhotoIrAvoidance;
     RgbUltrasonic *mRgbUltrasonic;
@@ -91,7 +99,7 @@ public :
 	void SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3);
 	int SetPs2xPin(uint8_t clk = EM_PS2X_CLK, uint8_t cmd = EM_PS2X_CMD, uint8_t att = EM_PS2X_ATT, uint8_t dat = EM_PS2X_DAT);
 	int ResetPs2xPin(void);
-	
+    void SetNrf24L01Pin(uint8_t ce = HB_NRF24L01_CE, uint8_t csn = HB_NRF24L01_CSN);	
 	uint16_t GetUltrasonicValue(byte);//front 0 left 1 right 2
     uint8_t GetInfraredAvoidanceValue(byte); //left 0 right 1
     int GetPhotosensitive(byte); //left 0 right 1
