@@ -22,15 +22,20 @@ void RgbUltrasonic::ServoPIN(byte servo_pin)
 }
 uint16_t RgbUltrasonic::GetUltrasonicFrontDistance()
 {
+    unsigned long Time_Echo_us = 0;
     pinMode(SingPin, OUTPUT);
     digitalWrite(SingPin, LOW);
     delayMicroseconds(2);
     digitalWrite(SingPin, HIGH);
-    delayMicroseconds(10);
+    delayMicroseconds(20);
     digitalWrite(SingPin, LOW);
     pinMode(SingPin, INPUT);
-    FrontDistance = pulseIn(SingPin, HIGH) / 58.00;
-    return FrontDistance;
+    Time_Echo_us = pulseIn(SingPin, HIGH);
+    if ((Time_Echo_us < 60000) && (Time_Echo_us > 1)) {
+      FrontDistance = Time_Echo_us / 58.00;
+      return FrontDistance;
+    }
+    return 0;
 }
 
 uint16_t RgbUltrasonic::GetUltrasonicLeftDistance()

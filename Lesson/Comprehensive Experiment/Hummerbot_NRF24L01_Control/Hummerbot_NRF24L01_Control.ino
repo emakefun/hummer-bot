@@ -35,7 +35,7 @@ void HandleNrf24L01Remote()
   }
   if (mProtocol->ParserPackage())
   {
-    Serial.println("test");
+    Serial.println("got rf package");
     switch (mProtocol->GetRobotControlFun()) {
       case E_ROBOT_CONTROL_DIRECTION:
         DEBUG_LOG(DEBUG_LEVEL_INFO, "E_ROBOT_CONTROL_DIRECTION \n");

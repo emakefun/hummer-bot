@@ -318,6 +318,20 @@ int Hummerbot::ResetPs2xPin(void)
   return error;
 }
 
+void Hummerbot::SetNrf24L01Pin(uint8_t ce = HB_NRF24L01_CE, uint8_t csn = HB_NRF24L01_CSN)
+{
+  DEBUG_LOG(DEBUG_LEVEL_INFO, "SetNrf24L01Pin please connect 10uf Capacitance between VCC and GND\n");
+  Nrf24L01CePin = ce;
+  Nrf24L01CsnPin = csn;
+  mNrf24L01 = new Nrf24l(4, 7);
+  mNrf24L01->spi = &MirfHardwareSpi;
+  mNrf24L01->init();
+  mNrf24L01->setRADDR((uint8_t *)"hummer-bot"); //Set your own address (receiver address) using 5 characters
+  mNrf24L01->payload = 12;
+  mNrf24L01->channel = 90;             //Set the used channel
+  mNrf24L01->config();
+  delay(100);
+}
 void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t Sevo_Pin)
 {
   static bool UltrasonicInit = false;
