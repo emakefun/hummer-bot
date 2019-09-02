@@ -9,7 +9,7 @@
 #define  IOA_ALL_NO        0b11 
 #define  IOA_LEFT          0b01 
 #define  IOA_RIGHT         0b10 
-#define  IA_THRESHOLD      0
+#define IA_THRESHOLD 0
 class InfraredAvoidance
 {
   private:

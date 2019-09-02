@@ -19,6 +19,7 @@
 
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
+static byte count = 0;
 
 void setup()
 {
@@ -42,6 +43,7 @@ void HandleInfraredTracing(void)
       hbot.KeepStop();
       break;
     case IT_ALL_WHITE:
+      hbot.SendInfraredTracking();
       if (old == IT_RIGHT1) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
           hbot.SetSpeed(80);
@@ -103,9 +105,14 @@ void HandleInfraredTracing(void)
 void loop()
 {
   switch (hbot.GetControlMode()) {
-    case E_INFRARED_TRACKING_MODE:  
+    case E_INFRARED_TRACKING_MODE:
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_TRACKING \n");
       HandleInfraredTracing();
+      if (count++ > 250)
+      {
+        hbot.SendInfraredTracking();
+        count = 0;
+      }
       break;
     default:
       break;

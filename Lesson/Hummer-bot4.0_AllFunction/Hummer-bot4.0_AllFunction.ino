@@ -30,13 +30,14 @@
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
 byte Ps2xStatus, Ps2xType;
+static byte count = 0;
 
 void setup()
 {
   Serial.begin(9600);
   hbot.init();
-  hbot.SetControlMode(E_BLUETOOTH_CONTROL);
-  hbot.SetSpeed(0); 
+  hbot.SetControlMode(E_BLUETOOTH_CONTROL); 
+  hbot.SetSpeed(0);
   hbot.SetInfraredTracingPin(IR_TRACING_PIN1, IR_TRACING_PIN2, IR_TRACING_PIN3);
   hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
@@ -52,17 +53,20 @@ void setup()
 //Parameter:null
 //**********************************************************************************************
 void HandleUltrasonicInfraredAvoidance(void)
-{ 
-  
- uint16_t RightValue, LeftValue;
+{
+
+  uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
   LeftValue = hbot.GetInfraredAvoidanceValue(0);
   RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
-  delay(20);
-  hbot.SendInfraredAvoidanceData();
-  hbot.SendUltrasonicData();
-  DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
+  if (count++ > 50) {
+    hbot.SendInfraredAvoidanceData();
+    delay(10);
+    hbot.SendUltrasonicData();
+    count = 0;
+  }
+//  DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
     hbot.SetSpeed(70);
@@ -121,7 +125,7 @@ void HandleUltrasonicInfraredAvoidance(void)
         delay(310);
       }
     }
-   else if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN )
+    else if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN )
     {
       hbot.SetSpeed(100);
       hbot.Drive(0);
@@ -148,7 +152,7 @@ void HandleUltrasonicAvoidance(void)
     hbot.GoBack();
     delay(250);
   }
- else if (UlFrontDistance < UL_LIMIT_MID)
+  else if (UlFrontDistance < UL_LIMIT_MID)
   {
     hbot.KeepStop();
     delay(100);
@@ -191,7 +195,7 @@ void HandleUltrasonicAvoidance(void)
       delay(510);
     }
   }
-  else 
+  else
   {
     hbot.SetSpeed(80);
     hbot.GoForward();
@@ -204,67 +208,67 @@ void HandleUltrasonicAvoidance(void)
 //**********************************************************************************************
 void UltrasonicFollow()
 {
- uint16_t  LeftValue ,RightValue,UlFrontDistance;
+  uint16_t  LeftValue , RightValue, UlFrontDistance;
   LeftValue = hbot.GetInfraredAvoidanceValue(1);
   RightValue = hbot.GetInfraredAvoidanceValue(2);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   delay(10);
-   if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  if ((UlFrontDistance < 5) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
     hbot.SetSpeed(60);
     hbot.GoBack();
-  } 
-   else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
-  {
-     hbot.SetSpeed(80);
-     hbot.Drive(5);
-  } 
-  else if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
-  {
-     hbot.SetSpeed(80);
-     hbot.Drive(175);
-      
-  } 
-   else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
-  {
-      hbot.SetSpeed(60);
-      hbot.GoBack();
-    
-  } 
-  else if ((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
-  {
-      hbot.SetSpeed(50);
-     hbot.GoForward();
- 
-  } 
-  else if((UlFrontDistance > 8)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
-  {
-     hbot.SetSpeed(80);
-      hbot.TurnRight();
-    }
-    else if((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
-  {
-     hbot.SetSpeed(60);
-      hbot.TurnLeft();
-     
-    }
-     else if ((5 <= UlFrontDistance <=8)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+  }
+  else if ((UlFrontDistance < 5) && (RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
     hbot.SetSpeed(80);
-     hbot.Drive(5);
-     
-    }
-     else if ((5 <= UlFrontDistance <=8)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
+    hbot.Drive(5);
+  }
+  else if ((UlFrontDistance < 5) && (RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
     hbot.SetSpeed(80);
-     hbot.Drive(175);
-    
-    }
-  else if ((5 <= UlFrontDistance <=8)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
+    hbot.Drive(175);
+
+  }
+  else if ((UlFrontDistance < 5) && (RightValue == IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-    hbot.KeepStop();     
-    }
-  
+    hbot.SetSpeed(60);
+    hbot.GoBack();
+
+  }
+  else if ((UlFrontDistance > 8) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+    hbot.SetSpeed(50);
+    hbot.GoForward();
+
+  }
+  else if ((UlFrontDistance > 8) && (RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+    hbot.SetSpeed(80);
+    hbot.TurnRight();
+  }
+  else if ((UlFrontDistance > 8) && (RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
+  {
+    hbot.SetSpeed(60);
+    hbot.TurnLeft();
+
+  }
+  else if ((5 <= UlFrontDistance <= 8) && (RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+    hbot.SetSpeed(80);
+    hbot.Drive(5);
+
+  }
+  else if ((5 <= UlFrontDistance <= 8) && (RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
+  {
+    hbot.SetSpeed(80);
+    hbot.Drive(175);
+
+  }
+  else if ((5 <= UlFrontDistance <= 8) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
+  {
+    hbot.KeepStop();
+  }
+
 }
 
 //**********************************************************************************************
@@ -280,6 +284,7 @@ void HandleInfraredTracing(void)
       hbot.KeepStop();
       break;
     case IT_ALL_WHITE:
+      hbot.SendInfraredTracking();
       if (old == IT_RIGHT1) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
           hbot.SetSpeed(80);
@@ -470,14 +475,14 @@ void HandleLightSeeking()
   if ((LeftValue > 30) && (RightValue > 30))
   {
     hbot.KeepStop();
-  } 
-  else 
+  }
+  else
   {
-    if (LeftValue >= RightValue) 
+    if (LeftValue >= RightValue)
     {
       Angle = ((float)(RightValue / LeftValue) * 90);
-    } 
-    else if (LeftValue < RightValue) 
+    }
+    else if (LeftValue < RightValue)
     {
       Angle = (180 - ((float)(LeftValue / RightValue)) * 90);
     }
@@ -560,10 +565,10 @@ void loop()
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_BLUETOOTH_CONTROL \n");
       break;
     case E_INFRARED_REMOTE_CONTROL:
-     if (mode != E_INFRARED_REMOTE_CONTROL) 
+      if (mode != E_INFRARED_REMOTE_CONTROL)
       {
         hbot.IrInit();
-        mode= E_INFRARED_REMOTE_CONTROL;
+        mode = E_INFRARED_REMOTE_CONTROL;
       }
       byte irKeyCode;
       if (irKeyCode = hbot.mIrRecv->getCode()) {
@@ -578,38 +583,33 @@ void loop()
       }
       break;
     case E_INFRARED_TRACKING_MODE:
-      static byte count1 = 0;
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_TRACKING \n");
       HandleInfraredTracing();
-      if (count1++ > 100) 
+      if (count++ > 250)
       {
-         hbot.SendInfraredTracking();
+        hbot.SendInfraredTracking();
+        count = 0;
       }
       break;
     case E_INFRARED_AVOIDANCE_MODE:
-      static byte count2 = 0;
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_AVOIDANCE \n");
       HandleInfraredAvoidance();
-      if (count2++ > 100) 
-      {          
-         hbot.SendInfraredAvoidanceData();
-      }
       break;
     case E_LIGHT_SEEKING_MODE:
-      static byte count3 = 0;
       HandleLightSeeking();
-      if (count3++ > 100) 
+      if (count++ > 50)
       {
-          hbot.SendPhotoresistorData();
+        hbot.SendPhotoresistorData();
+        count = 0;
       }
       break;
     case E_ULTRASONIC_AVOIDANCE:
       DEBUG_LOG(DEBUG_LEVEL_INFO, "E_ULTRASONIC_AVOIDANCE \n");
-      hbot.SendUltrasonicData();
       HandleUltrasonicAvoidance();
+
       break;
     case E_ULTRASONIC_FOLLOW_MODE:
-      if (mode != E_ULTRASONIC_FOLLOW_MODE) 
+      if (mode != E_ULTRASONIC_FOLLOW_MODE)
       {
         hbot.mRgbUltrasonic->SetServoBaseDegree(90);
       }
@@ -620,19 +620,19 @@ void loop()
       HandleUltrasonicInfraredAvoidance();
       break;
     case E_PS2_REMOTE_CONTROL:
-     if (mode != E_PS2_REMOTE_CONTROL)
-    {
-       hbot.SetPs2xPin(PS2X_CLK, PS2X_CMD, PS2X_CS, PS2X_DAT);
+      if (mode != E_PS2_REMOTE_CONTROL)
+      {
+        hbot.SetPs2xPin(PS2X_CLK, PS2X_CMD, PS2X_CS, PS2X_DAT);
         mode = E_PS2_REMOTE_CONTROL;
-      }   
-      while (Ps2xStatus != 0) 
+      }
+      while (Ps2xStatus != 0)
       { //skip loop if no controller found
         delay(500);
         Ps2xStatus = hbot.ResetPs2xPin();
         Ps2xType = hbot.mPs2x->readType();
         DEBUG_LOG(DEBUG_LEVEL_INFO, "E_PS2_REMOTE_CONTROL \n");
       }
-      if (Ps2xType != 2) 
+      if (Ps2xType != 2)
       {
         HandlePS2();
       }
@@ -641,9 +641,9 @@ void loop()
       if (recv_flag) {
         if (mProtocol->GetRobotControlFun() == E_LED) {
           if (mProtocol->GetRgbMode() == 1) {
-              hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
+            hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
           } else {
-              hbot.SetRgbEffect(E_RGB_ALL, mProtocol->GetRgbValue(), mProtocol->GetRgbEffect());
+            hbot.SetRgbEffect(E_RGB_ALL, mProtocol->GetRgbValue(), mProtocol->GetRgbEffect());
           }
         }
       }

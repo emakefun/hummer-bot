@@ -13,6 +13,7 @@
 #define  IT_RIGHT1         0b011
 #define  IT_RIGHT2         0b001
 #define  IT_CENTER        0b101
+#define  IT_CENTER1        0b010
 #define  IT_LEFT1        0b110
 #define  IT_LEFT2        0b100
 

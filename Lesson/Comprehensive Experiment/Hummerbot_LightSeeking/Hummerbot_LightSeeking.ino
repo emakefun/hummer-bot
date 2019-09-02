@@ -20,6 +20,7 @@
 
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
+static byte count = 0;
 
 void setup()
 {
@@ -57,7 +58,11 @@ void loop()
   switch (hbot.GetControlMode()) {
     case E_LIGHT_SEEKING_MODE:
       HandleLightSeeking();
-      hbot.SendPhotoresistorData();
+      if (count++ > 50)
+      {
+        hbot.SendPhotoresistorData();
+        count = 0;
+      }
       break;
     default:
       break;

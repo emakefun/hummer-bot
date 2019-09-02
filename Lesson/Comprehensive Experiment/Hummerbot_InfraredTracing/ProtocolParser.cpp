@@ -323,6 +323,6 @@ bool ProtocolParser::SendPackage(ST_PROTOCOL *send_dat,int len)
 
     Serial.write(buffer,len+8);
     Serial.flush();
-    delay(100);
+//    delay(100);
     return true;
 }

@@ -29,6 +29,7 @@
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, IN1_PIN, IN2_PIN, IN3_PIN, IN4_PIN);
 byte Ps2xStatus, Ps2xType;
+static byte count = 0;
 
 void setup()
 {
@@ -49,9 +50,12 @@ void HandleUltrasonicInfraredAvoidance(void)
   LeftValue = hbot.GetInfraredAvoidanceValue(0);
   RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
-  Serial.println(UlFrontDistance);
-  delay(20);
-  DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
+ if (count++ > 50) {
+    hbot.SendInfraredAvoidanceData();
+    delay(10);
+    hbot.SendUltrasonicData();
+    count = 0;
+  }
   if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
     hbot.SetSpeed(70);

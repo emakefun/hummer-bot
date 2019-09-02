@@ -458,13 +458,14 @@ uint8_t Hummerbot::GetInfraredTracingValue(byte direction)
 
 void Hummerbot::SendInfraredTracking(void)
 {
+  
   byte InfraredTracking_value = mInfraredTracing->GetValue();
   SendData.start_code = PROTOCOL_START_CODE;
   SendData.type = E_HUMMER_BOT;
   SendData.addr = 0x01;
   SendData.function = E_INFRARED_TRACKING;
   SendData.data = &InfraredTracking_value;
-  SendData.len = 8;
+  SendData.len = 7;
   SendData.end_code = PROTOCOL_END_CODE;
   mProtocolPackage->SendPackage(&SendData, 1);
 }
@@ -477,7 +478,7 @@ void Hummerbot::SendInfraredAvoidanceData(void)
   SendData.addr = 0x01;
   SendData.function = E_INFRARED_AVOIDANCE;
   SendData.data = &InfraredAvoidance_value;
-  SendData.len = 8;
+  SendData.len = 7;
   SendData.end_code = PROTOCOL_END_CODE;
   mProtocolPackage->SendPackage(&SendData, 1);
 }
