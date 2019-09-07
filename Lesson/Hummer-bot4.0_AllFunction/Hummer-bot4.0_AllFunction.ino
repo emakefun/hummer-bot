@@ -209,8 +209,8 @@ void HandleUltrasonicAvoidance(void)
 void UltrasonicFollow()
 {
   uint16_t  LeftValue , RightValue, UlFrontDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(1);
-  RightValue = hbot.GetInfraredAvoidanceValue(2);
+  LeftValue = hbot.GetInfraredAvoidanceValue(0);
+  RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   delay(10);
   if ((UlFrontDistance < 5) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
@@ -360,16 +360,16 @@ void HandleBluetoothRemote(bool recv_flag)
           case BT_PAD_DOWN:
             hbot.GoBack();
             break;
-          case BT_PAD_LEFT:
+          case BT_PINK:
             hbot.TurnLeft();
             break;
-          case BT_PAD_RIGHT:
+          case BT_RED:
             hbot.TurnRight();
             break;
-          case BT_L3:
+          case BT_GREEN:
             hbot.SpeedUp(10);
             break;
-          case BT_R3:
+          case BT_BLUE:
             hbot.SpeedDown(10);
             break;
         }
@@ -439,7 +439,7 @@ void HandleInfaredRemote(byte irKeyCode)
 //**********************************************************************************************
 void HandleInfraredAvoidance()
 {
-  switch (hbot.GetInfraredAvoidanceValue(0)) {
+  switch (hbot.GetInfraredAvoidanceValue(2)) {
     case IOA_ALL_NO:
       hbot.SetSpeed(70);
       hbot.GoForward();

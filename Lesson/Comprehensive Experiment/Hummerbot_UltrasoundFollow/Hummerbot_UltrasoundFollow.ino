@@ -38,8 +38,8 @@ void UltrasonicFollow(void)
 {
   hbot.SetSpeed(50);
   uint16_t RightValue, LeftValue,UlFrontDistance;
-  LeftValue = hbot.GetInfraredAvoidanceValue(1);
-  RightValue = hbot.GetInfraredAvoidanceValue(2);
+  LeftValue = hbot.GetInfraredAvoidanceValue(0);
+  RightValue = hbot.GetInfraredAvoidanceValue(1);
   UlFrontDistance =  hbot.GetUltrasonicValue(FRONT);
   delay(10);
  if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
