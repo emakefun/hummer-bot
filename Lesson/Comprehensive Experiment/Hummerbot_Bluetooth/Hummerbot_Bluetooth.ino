@@ -41,15 +41,21 @@ void HandleBluetoothRemote(bool recv_flag)
             hbot.GoBack();
             break;
           case BT_PAD_LEFT:
-            hbot.TurnLeft();
+            hbot.Drive(160);
             break;
           case BT_PAD_RIGHT:
+            hbot.Drive(20);
+            break;
+          case BT_PINK:
+            hbot.TurnLeft();
+            break;
+          case BT_RED:
             hbot.TurnRight();
             break;
-          case BT_L3:
+          case BT_GREEN:
             hbot.SpeedUp(10);
             break;
-          case BT_R3:
+          case BT_BLUE:
             hbot.SpeedDown(10);
             break;
         }
@@ -61,11 +67,10 @@ void HandleBluetoothRemote(bool recv_flag)
         hbot.SetSpeed(mProtocol->GetRobotSpeed());
         break ;
       case E_CONTROL_MODE:
-        //Serial.println(mProtocol->GetControlMode());
         hbot.SetControlMode(mProtocol->GetControlMode());
         break;
       case E_LED:
-        hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
+        hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
         break;
       case E_VERSION:
         hbot.SendVersionPackage();
@@ -99,26 +104,25 @@ void loop()
   }
   switch (hbot.GetStatus()) {
     case E_FORWARD:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_WHITE);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_WHITE);
       break;
     case E_LEFT:
-      hbot.SetRgbColor(E_RGB_LEFT, RGB_WHITE);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_LEFT, RGB_WHITE);
       break;
     case E_RIGHT:
-      hbot.SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
-      //   Mirage.Sing(S_OhOoh);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
       break;
     case E_BACK:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_RED);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_RED);
       break;
     case E_STOP:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_OFF);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_BLACK);
       break;
     case E_SPEED_UP:
-      hbot.SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
       break;
     case E_SPEED_DOWN:
-      hbot.SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
       break;
     default:
       break;

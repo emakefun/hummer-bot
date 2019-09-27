@@ -40,9 +40,9 @@ void loop()
   }
   if ((right == 0) && (mid == 0) && (left == 0)) //*******停止*******//
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 0);
-    analogWrite(IN3_PIN, 0);
-    analogWrite(IN4_PIN, 0);
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, HIGH);
   }
 }

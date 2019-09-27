@@ -36,7 +36,7 @@ void setup()
 {
   Serial.begin(9600);
   hbot.init();
-  hbot.SetControlMode(E_BLUETOOTH_CONTROL); 
+  hbot.SetControlMode(E_BLUETOOTH_CONTROL);
   hbot.SetSpeed(0);
   hbot.SetInfraredTracingPin(IR_TRACING_PIN1, IR_TRACING_PIN2, IR_TRACING_PIN3);
   hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
@@ -54,7 +54,6 @@ void setup()
 //**********************************************************************************************
 void HandleUltrasonicInfraredAvoidance(void)
 {
-
   uint16_t RightValue, LeftValue;
   uint16_t UlFrontDistance, UlLeftDistance, UlRightDistance;
   LeftValue = hbot.GetInfraredAvoidanceValue(0);
@@ -66,7 +65,7 @@ void HandleUltrasonicInfraredAvoidance(void)
     hbot.SendUltrasonicData();
     count = 0;
   }
-//  DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
+  // DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
     hbot.SetSpeed(70);
@@ -360,6 +359,12 @@ void HandleBluetoothRemote(bool recv_flag)
           case BT_PAD_DOWN:
             hbot.GoBack();
             break;
+          case BT_PAD_LEFT:
+            hbot.Drive(160);
+            break;
+          case BT_PAD_RIGHT:
+            hbot.Drive(20);
+            break;
           case BT_PINK:
             hbot.TurnLeft();
             break;
@@ -385,7 +390,7 @@ void HandleBluetoothRemote(bool recv_flag)
         hbot.SetControlMode(mProtocol->GetControlMode());
         break;
       case E_LED:
-        hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
+        hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
         break;
       case E_VERSION:
         hbot.SendVersionPackage();
@@ -641,9 +646,9 @@ void loop()
       if (recv_flag) {
         if (mProtocol->GetRobotControlFun() == E_LED) {
           if (mProtocol->GetRgbMode() == 1) {
-            hbot.SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
+            hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, mProtocol->GetRgbValue());
           } else {
-            hbot.SetRgbEffect(E_RGB_ALL, mProtocol->GetRgbValue(), mProtocol->GetRgbEffect());
+            hbot.mRgbUltrasonic->SetRgbEffect(E_RGB_ALL, mProtocol->GetRgbValue(), mProtocol->GetRgbEffect());
           }
         }
       }
@@ -653,26 +658,26 @@ void loop()
   }
   switch (hbot.GetStatus()) {
     case E_FORWARD:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_WHITE);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_WHITE);
       break;
     case E_LEFT:
-      hbot.SetRgbColor(E_RGB_LEFT, RGB_WHITE);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_LEFT, RGB_WHITE);
       break;
     case E_RIGHT:
-      hbot.SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
       // Mirage.Sing(S_OhOoh);
       break;
     case E_BACK:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_RED);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_RED);
       break;
     case E_STOP:
-      hbot.SetRgbColor(E_RGB_ALL, RGB_OFF);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_BLACK);
       break;
     case E_SPEED_UP:
-      hbot.SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
       break;
     case E_SPEED_DOWN:
-      hbot.SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
+      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
       break;
     default:
       break;

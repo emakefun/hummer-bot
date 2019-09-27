@@ -12,6 +12,10 @@ void setup()
   Serial.begin(9600);
   pinMode(leftPin, INPUT);
   pinMode(rightPin, INPUT);
+  pinMode(IN1_PIN, OUTPUT);
+  pinMode(IN2_PIN, OUTPUT);
+  pinMode(IN3_PIN, OUTPUT);
+  pinMode(IN4_PIN, OUTPUT);
   delay(1000);
 }
 
@@ -20,10 +24,10 @@ void loop()
   LeftValue = analogRead(leftPin) / 10;
   RightValue = analogRead(rightPin) / 10;
   if ( (LeftValue > 50) && (RightValue > 50)) {
-    analogWrite(IN1_PIN, LOW); //the speed value of motorA is val
-    analogWrite(IN2_PIN, LOW);
-    analogWrite(IN3_PIN, LOW);
-    analogWrite(IN4_PIN, LOW); //the speed value of motorB is val
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, HIGH);
   } else {
     if (LeftValue > RightValue) {
       Angle = ((float)(RightValue/LeftValue)) * 90;

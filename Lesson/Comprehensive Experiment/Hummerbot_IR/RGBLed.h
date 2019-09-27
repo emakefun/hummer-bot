@@ -10,8 +10,11 @@
 #define RGB_BLUE    0x0000FF
 #define RGB_YELLOW  0xFFFF00
 #define RGB_PURPLE  0xFF00FF
+#define RGB_ORANGE  0xFFA500
+#define RGB_INDIGO  0x4b0082
+#define RGB_VIOLET  0x8a2be2
 #define RGB_WHITE   0xFFFFFF
-#define RGB_OFF     0
+#define RGB_BLACK   0
 
 /// @brief Class for RGB Led Module
 struct cRGB
@@ -236,11 +239,12 @@ bool setColorAt(uint8_t index, uint8_t red, uint8_t green, uint8_t blue);
  *   None
  */
   void show(void);
-
+  void setBrightness(uint8_t b);
 private:
   uint16_t count_led;
   uint8_t *pixels;
   uint8_t *pixels_bak;
+  uint8_t brightness;
 
 /**
  * \par Function
@@ -264,7 +268,6 @@ private:
  *   None
  */
   void rgbled_sendarray_mask(uint8_t *array, uint16_t length, uint8_t pinmask, uint8_t *port);
-
   const volatile uint8_t *ws2812_port;
   volatile uint8_t *ws2812_port_reg;
   uint8_t pinMask;

@@ -30,6 +30,7 @@ RGBLed::RGBLed(uint8_t port, uint8_t led_num)
 {
   pinMask       = digitalPinToBitMask(port);
   ws2812_port   = portOutputRegister(digitalPinToPort(port) );
+  brightness = 255;
   // set pinMode OUTPUT */
   pinMode(port, OUTPUT);
   setNumber(led_num);
@@ -52,7 +53,7 @@ RGBLed::RGBLed(uint8_t port, uint8_t led_num)
 void RGBLed::setpin(uint8_t port)
 {
   setColor(0,0,0,0);
-  fillPixelsBak(0,2,1);
+  fillPixelsBak(0, 0, 0);
   pinMask   = digitalPinToBitMask(port);
   ws2812_port = portOutputRegister(digitalPinToPort(port) );
   pinMode(port, OUTPUT);
@@ -200,6 +201,11 @@ bool RGBLed::setColorAt(uint8_t index, uint8_t red, uint8_t green, uint8_t blue)
   if(index < count_led)
   {
     uint8_t tmp = index * 3;
+    if(brightness) { // See notes in setBrightness()
+      red = (red * brightness) >> 8;
+      green = (green * brightness) >> 8;
+      blue = (blue * brightness) >> 8;
+    }
     pixels[tmp] = green;
     pixels[tmp + 1] = red;
     pixels[tmp + 2] = blue;
@@ -461,6 +467,27 @@ void RGBLed::rgbled_sendarray_mask(uint8_t *data, uint16_t datlen, uint8_t maskh
   }
 
   SREG = oldSREG;
+}
+
+void RGBLed::setBrightness(uint8_t b) {
+  static uint8_t oldBrightness = 0;
+  uint8_t newBrightness = b + 1;
+  uint16_t scale = 0;
+  if(newBrightness != brightness) { // Compare against prior value
+    // Brightness has changed -- re-scale existing data in RAM
+    uint8_t  c,
+            *ptr           = pixels,
+             oldBrightness = brightness - 1; // De-wrap old brightness value
+    uint16_t scale;
+    if(oldBrightness == 0) scale = 0; // Avoid /0
+    else if(b == 255) scale = 65535 / oldBrightness;
+    else scale = (((uint16_t)newBrightness << 8) - 1) / oldBrightness;
+    for(uint16_t i=0; i < (3 * count_led); i++) {
+      c      = *ptr;
+      *ptr++ = (c * scale) >> 8;
+    }
+    brightness = newBrightness;
+  }
 }
 
 /**

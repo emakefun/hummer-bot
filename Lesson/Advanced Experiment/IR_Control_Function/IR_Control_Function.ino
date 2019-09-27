@@ -20,6 +20,10 @@ IRremote irrecv(RECV_PIN);
 
 void setup() {
   Serial.begin(9600);
+  pinMode(IN1_PIN, OUTPUT);
+  pinMode(IN2_PIN, OUTPUT);
+  pinMode(IN3_PIN, OUTPUT);
+  pinMode(IN4_PIN, OUTPUT);
   irrecv.begin();
 }
 
@@ -48,10 +52,10 @@ void loop() {
       }
     }
     else if (irKeyCode == stop) {
-      analogWrite(IN1_PIN, LOW);
-      analogWrite(IN2_PIN, LOW);
-      analogWrite(IN3_PIN, LOW);
-      analogWrite(IN4_PIN, LOW);
+      digitalWrite(IN1_PIN, HIGH);
+      digitalWrite(IN2_PIN, HIGH);
+      digitalWrite(IN3_PIN, HIGH);
+      digitalWrite(IN4_PIN, HIGH);
     }
     else if (irKeyCode == left) {
       analogWrite(IN1_PIN, val);
@@ -72,9 +76,9 @@ void loop() {
       analogWrite(IN4_PIN, LOW);
     }
   } else {
-    analogWrite(IN1_PIN, LOW);
-    analogWrite(IN2_PIN, LOW); //the speed value of motorA is 0
-    analogWrite(IN3_PIN, LOW);
-    analogWrite(IN4_PIN, LOW); //the speed value of motorB is 0
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, HIGH);
   }
 }

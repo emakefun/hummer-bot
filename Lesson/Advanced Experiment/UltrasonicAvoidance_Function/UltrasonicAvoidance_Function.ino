@@ -40,10 +40,10 @@ void loop()
    * the infrared obstacle avoidance module determines that there is no obstacle in front, and the ultrasonic module determines that the right obstacle is an obstacle, 
    * first stops the car, and uses the ultrasonic module to perform left and right.*/
   {
-    analogWrite(IN1_PIN, 0);
-    analogWrite(IN2_PIN, 0);
-    analogWrite(IN3_PIN, 0);
-    analogWrite(IN4_PIN, 0);
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, HIGH);
     RightDistance = mRgbUltrasonic.GetUltrasonicRightDistance();/*The ultrasonic module collects the right side*/
     LeftDistance = mRgbUltrasonic.GetUltrasonicLeftDistance();/*The ultrasonic module collects the left side*/
     

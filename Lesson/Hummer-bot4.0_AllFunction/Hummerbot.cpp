@@ -52,13 +52,13 @@ void Hummerbot::SetMotorPin(uint8_t in1, uint8_t in2, uint8_t in3, uint8_t in4)
   this->In3Pin = in3;
   this->In4Pin = in4;
   pinMode(In1Pin, OUTPUT);
-  digitalWrite(In1Pin, LOW);
+  digitalWrite(In1Pin, HIGH);
   pinMode(In2Pin, OUTPUT);
-  digitalWrite(In2Pin, LOW);
+  digitalWrite(In2Pin, HIGH);
   pinMode(In3Pin, OUTPUT);
-  digitalWrite(In3Pin, LOW);
+  digitalWrite(In3Pin, HIGH);
   pinMode(In4Pin, OUTPUT);
-  digitalWrite(In4Pin, LOW);
+  digitalWrite(In4Pin, HIGH);
 }
 
 void Hummerbot::init(void)
@@ -99,10 +99,10 @@ void Hummerbot::KeepStop(void)
 {
   DEBUG_LOG(DEBUG_LEVEL_INFO, "KeepStop\n");
   SetStatus(E_STOP);
-  analogWrite(In1Pin, LOW);
-  analogWrite(In2Pin, LOW);
-  analogWrite(In3Pin, LOW);
-  analogWrite(In4Pin, LOW);
+  digitalWrite(In1Pin, HIGH);
+  digitalWrite(In2Pin, HIGH);
+  digitalWrite(In3Pin, HIGH);
+  digitalWrite(In4Pin, HIGH);
 }
 
 void Hummerbot::TurnLeft(void)
@@ -186,76 +186,6 @@ void Hummerbot::IrInit(void )
 }
 
 #if ARDUINO > 10609
-void Hummerbot::SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE)
-#else
-void Hummerbot::SetRgbColor(E_RGB_INDEX index, long Color)
-#endif
-{
-  if (mRgbUltrasonic != NULL) {
-    if (index == E_RGB_ALL) {
-      mRgbUltrasonic->mRgb->setColor(0, Color);
-    } else if (index == E_RGB_RIGHT) {
-      mRgbUltrasonic->mRgb->setColor(1, Color);
-      mRgbUltrasonic->mRgb->setColor(2, Color);
-      mRgbUltrasonic->mRgb->setColor(3, Color);
-    } else if (index == E_RGB_LEFT) {
-      mRgbUltrasonic->mRgb->setColor(4, Color);
-      mRgbUltrasonic->mRgb->setColor(5, Color);
-      mRgbUltrasonic->mRgb->setColor(6, Color);
-    }
-    mRgbUltrasonic->mRgb->show();
-  }
-}
-
-void Hummerbot::SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect)
-{
-    if (mRgbUltrasonic != NULL) {
-        switch((E_RGB_EFFECT)effect) {
-            case E_EFFECT_BREATHING:
-                for (long i = 0; i < 256; i++) {
-                    SetRgbColor(index, (i<<16)|(i<<8)|i);
-                    delay((i < 18) ? 18: (256/i));
-                }
-                for (long i = 255; i >= 0; i--) {
-                    SetRgbColor(index, (i<<16)|(i<<8)|i);
-                    delay((i < 18) ? 18: (256/i));
-                }
-                break;
-            case E_EFFECT_ROTATE:
-                SetRgbColor(E_RGB_ALL, 0);
-                mRgbUltrasonic->mRgb->setColor(1, Color);
-                mRgbUltrasonic->mRgb->setColor(4, Color);
-                mRgbUltrasonic->mRgb->show();
-                delay(200);
-                mRgbUltrasonic->mRgb->setColor(1, 0);
-                mRgbUltrasonic->mRgb->setColor(4, 0);
-                mRgbUltrasonic->mRgb->setColor(2, Color);
-                mRgbUltrasonic->mRgb->setColor(5, Color);
-                mRgbUltrasonic->mRgb->show();
-                delay(200);
-                mRgbUltrasonic->mRgb->setColor(2, 0);
-                mRgbUltrasonic->mRgb->setColor(5, 0);
-                mRgbUltrasonic->mRgb->setColor(3, Color);
-                mRgbUltrasonic->mRgb->setColor(6, Color);
-                mRgbUltrasonic->mRgb->show();
-                delay(200);
-                mRgbUltrasonic->mRgb->setColor(3, 0);
-                mRgbUltrasonic->mRgb->setColor(6, 0);
-                mRgbUltrasonic->mRgb->show();
-                break;
-            case E_EFFECT_FLASH:
-                for (byte i = 0; i < 6; i++) {
-                   SetRgbColor(E_RGB_ALL, Color);
-                   delay(100);
-                   SetRgbColor(E_RGB_ALL, 0);
-                   delay(100);
-                }
-                break;
-        }
-    }
-}
-
-#if ARDUINO > 10609
 void Hummerbot::SetInfraredTracingPin(uint8_t Pin1 = EM_INFRARED_TRACING_PIN1, uint8_t Pin2 = EM_INFRARED_TRACING_PIN2, uint8_t Pin3 = EM_INFRARED_TRACING_PIN3)
 #else
 void Hummerbot::SetInfraredTracingPin(uint8_t Pin1, uint8_t Pin2, uint8_t Pin3)
@@ -316,6 +246,21 @@ int Hummerbot::ResetPs2xPin(void)
     DEBUG_LOG(DEBUG_LEVEL_INFO, "Found Controller, configured successful\n");
   }
   return error;
+}
+
+void Hummerbot::SetNrf24L01Pin(uint8_t ce = HB_NRF24L01_CE, uint8_t csn = HB_NRF24L01_CSN)
+{
+  DEBUG_LOG(DEBUG_LEVEL_INFO, "SetNrf24L01Pin please connect 10uf Capacitance between VCC and GND\n");
+  Nrf24L01CePin = ce;
+  Nrf24L01CsnPin = csn;
+  mNrf24L01 = new Nrf24l(4, 7);
+  mNrf24L01->spi = &MirfHardwareSpi;
+  mNrf24L01->init();
+  mNrf24L01->setRADDR((uint8_t *)"hummer-bot"); //Set your own address (receiver address) using 5 characters
+  mNrf24L01->payload = 12;
+  mNrf24L01->channel = 90;             //Set the used channel
+  mNrf24L01->config();
+  delay(100);
 }
 
 void Hummerbot::SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin , uint8_t Sevo_Pin)

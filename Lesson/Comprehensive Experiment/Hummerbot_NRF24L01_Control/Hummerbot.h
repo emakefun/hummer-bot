@@ -45,20 +45,6 @@
 #define RIGHT 2
 #define MIDDLE 3
 
-typedef enum
-{
-    E_RGB_ALL = 0,
-    E_RGB_RIGHT = 1,
-    E_RGB_LEFT = 2
-} E_RGB_INDEX;
-
-typedef enum
-{
-    E_EFFECT_BREATHING = 0,
-    E_EFFECT_ROTATE = 1,
-    E_EFFECT_FLASH = 2
-} E_RGB_EFFECT;
-
 class Hummerbot : public SmartCar {
 private :
     uint8_t In1Pin, In2Pin, PwmaPin, In3Pin, In4Pin;
@@ -90,8 +76,6 @@ public :
 	void Move(int direction);
     void Drive(int degree);
     void IrInit(void);
-    void SetRgbColor(E_RGB_INDEX index = E_RGB_ALL, long Color = RGB_WHITE);
-    void SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect);
 	void SetRgbUltrasonicPin(uint8_t Sing_Pin, uint8_t Rgb_Pin);
     void SetServoPin(uint8_t Sevo_Pin = EM_SERVO_PIN);
 	void SetInfraredAvoidancePin(uint8_t L_Avoidance_Pin = EM_IR_AVOIDANCE_LEFT_PIN, uint8_t R_Avoidance_Pin = EM_IR_AVOIDANCE_RIGHT_PIN);
