@@ -1,6 +1,26 @@
 #include "Keymap.h"
 
-ST_KEY_MAP irkeymap[KEY_MAX] = {
+ST_KEY_MAP normal_ir_keymap[18] = {
+    {"1", 0x45},
+    {"2", 0x46},
+    {"3", 0x47},
+    {"4", 0x44},
+    {"5", 0x40},
+    {"6", 0x43},
+    {"7", 0x07},
+    {"8", 0x15},
+    {"9", 0x09},
+    {"0", 0x19},
+    {"*", 0x16},
+    {"#", 0x0D},
+    {"up", 0x18},
+    {"down", 0x52},
+    {"ok", 0x1C},
+    {"left", 0x08},
+    {"right", 0x5A}
+};
+
+ST_KEY_MAP em_ir_keymap[21] = {
     {"A", 0x45},
     {"B", 0x46},
     {"C", 0x47},
@@ -23,3 +43,4 @@ ST_KEY_MAP irkeymap[KEY_MAX] = {
     {"8", 0x52},
     {"9", 0x4A}
 };
+

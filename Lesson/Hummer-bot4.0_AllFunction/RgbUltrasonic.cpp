@@ -15,6 +15,12 @@ RgbUltrasonic::RgbUltrasonic(byte sing_pin, byte rgb_pin)
     mRgb = new RGBLed(RgbPin,6);
 }
 
+RgbUltrasonic::RgbUltrasonic(byte servo_pin)
+{
+    ServoPin = servo_pin;
+    pinMode(ServoPin,OUTPUT);
+}
+
 void RgbUltrasonic::ServoPIN(byte servo_pin)
 {
     ServoPin = servo_pin;
@@ -183,4 +189,3 @@ void RgbUltrasonic::SetRgbEffect(E_RGB_INDEX index, long Color, uint8_t effect =
           break;
       }
 }
-

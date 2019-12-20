@@ -18,6 +18,8 @@
 #define PS2X_CS  8
 #define PS2X_DAT 4
 
+#define FAN_PIN  3
+
 #define IR_TRACING_PIN1 A2
 #define IR_TRACING_PIN2 A1
 #define IR_TRACING_PIN3 A0
@@ -41,7 +43,7 @@ void setup()
   hbot.SetInfraredTracingPin(IR_TRACING_PIN1, IR_TRACING_PIN2, IR_TRACING_PIN3);
   hbot.SetPhotoInfraredAvoidancePin(IR_AVOIDANCE_LEFT_PIN, IR_AVOIDANCE_RIGHT_PIN, PHOTOSENSITIVE_LEFT_PIN, PHOTOSENSITIVE_RIGHT_PIN);
   hbot.SetRgbUltrasonicPin(UL_SING_PIN, UL_RGB_PIN, SERVO_PIN);
-  hbot.mRgbUltrasonic->ServoPIN(SERVO_PIN);
+  //hbot.mRgbUltrasonic->ServoPIN(SERVO_PIN);
   Ps2xType = hbot.mPs2x->readType();
   hbot.mRgbUltrasonic->SetServoBaseDegree(90);
   hbot.mRgbUltrasonic->SetServoDegree(90);
@@ -377,6 +379,18 @@ void HandleBluetoothRemote(bool recv_flag)
           case BT_BLUE:
             hbot.SpeedDown(10);
             break;
+          case BT_START:
+            static boolean FanFlag = false;
+            FanFlag = !FanFlag;
+            if (FanFlag)
+            {
+              hbot.SetFanPin(FAN_PIN, 150);
+            }
+            else
+            {
+              hbot.SetFanPin(FAN_PIN, 0);
+            }
+            break;
         }
         break;
       case E_ROBOT_CONTROL_DIRECTION:
@@ -408,29 +422,32 @@ void HandleBluetoothRemote(bool recv_flag)
 //**********************************************************************************************
 void HandleInfaredRemote(byte irKeyCode)
 {
-  switch ((E_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode)) {
-    case IR_KEYCODE_PLUS:
+  switch ((E_EM_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode, IR_TYPE_EM)) {
+    case EM_IR_KEYCODE_PLUS:
       hbot.SpeedUp(10);
       DEBUG_LOG(DEBUG_LEVEL_INFO, "hbot.Speed = %d \n", hbot.Speed);
       break;
-    case IR_KEYCODE_REDUCE:
+    case EM_IR_KEYCODE_REDUCE:
       DEBUG_LOG(DEBUG_LEVEL_INFO, " start Degree = %d \n", hbot.Degree);
       hbot.SpeedDown(10);
       break;
-    case IR_KEYCODE_UP:
+    case EM_IR_KEYCODE_UP:
       hbot.GoForward();
       break;
-    case IR_KEYCODE_DOWN:
+    case EM_IR_KEYCODE_DOWN:
       hbot.GoBack();
       break;
-    case IR_KEYCODE_OK:
+    case EM_IR_KEYCODE_OK:
       hbot.KeepStop();
       break;
-    case IR_KEYCODE_LEFT:
+    case EM_IR_KEYCODE_LEFT:
       hbot.TurnLeft();
       break;
-    case IR_KEYCODE_RIGHT:
+    case EM_IR_KEYCODE_RIGHT:
       hbot.TurnRight();
+      break;
+    case EM_IR_KEYCODE_1:
+      Serial.println(EM_IR_KEYCODE_DOWN);
       break;
     default:
       break;

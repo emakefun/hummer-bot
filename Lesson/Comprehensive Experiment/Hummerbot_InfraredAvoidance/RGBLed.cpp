@@ -512,6 +512,17 @@ void RGBLed::show(void)
   }
 }
 
+void RGBLed::SetRgbColor(E_RGB_INDEX index , long Color)
+{
+  if (index == E_RGB_ALL) {
+    setColor(0, Color);
+  } else {
+    setColor(index, Color);
+  }
+  show();
+}
+
+
 /**
  * Destructor which can call your own function, it will release the LED buffer
  */

@@ -16,6 +16,21 @@
 #define RGB_WHITE   0xFFFFFF
 #define RGB_BLACK   0
 
+typedef enum
+{
+    E_RGB_ALL = 0,
+    E_RGB_RIGHT = 1,
+    E_RGB_LEFT = 2
+} E_RGB_INDEX;
+
+typedef enum
+{
+    E_EFFECT_BREATHING = 0,
+    E_EFFECT_ROTATE = 1,
+    E_EFFECT_FLASH = 2,
+    E_EFFECT_NONE = 3,
+} E_RGB_EFFECT;
+
 /// @brief Class for RGB Led Module
 struct cRGB
 {
@@ -239,7 +254,9 @@ bool setColorAt(uint8_t index, uint8_t red, uint8_t green, uint8_t blue);
  *   None
  */
   void show(void);
-  void setBrightness(uint8_t b);
+ void setBrightness(uint8_t b);
+  void SetRgbColor(E_RGB_INDEX index, long Color);
+
 private:
   uint16_t count_led;
   uint8_t *pixels;
@@ -268,6 +285,7 @@ private:
  *   None
  */
   void rgbled_sendarray_mask(uint8_t *array, uint16_t length, uint8_t pinmask, uint8_t *port);
+
   const volatile uint8_t *ws2812_port;
   volatile uint8_t *ws2812_port_reg;
   uint8_t pinMask;

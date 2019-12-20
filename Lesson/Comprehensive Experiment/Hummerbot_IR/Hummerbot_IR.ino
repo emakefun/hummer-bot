@@ -31,29 +31,29 @@ void setup()
 
 void HandleInfaredRemote(byte irKeyCode)
 {
-  switch ((E_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode)) 
+  switch ((E_EM_IR_KEYCODE)hbot.mIrRecv->getIrKey(irKeyCode,IR_TYPE_EM)) 
   {
-    case IR_KEYCODE_PLUS:
+    case EM_IR_KEYCODE_PLUS:
       hbot.SpeedUp(10);
       DEBUG_LOG(DEBUG_LEVEL_INFO, "hbot.Speed = %d \n", hbot.Speed);
       break;
-    case IR_KEYCODE_REDUCE:
+    case EM_IR_KEYCODE_REDUCE:
       DEBUG_LOG(DEBUG_LEVEL_INFO, " start Degree = %d \n", hbot.Degree);
       hbot.SpeedDown(10);
       break;
-    case IR_KEYCODE_UP:
+    case EM_IR_KEYCODE_UP:
       hbot.GoForward();
       break;
-    case IR_KEYCODE_DOWN:
+    case EM_IR_KEYCODE_DOWN:
       hbot.GoBack();
       break;
-    case IR_KEYCODE_OK:
+    case EM_IR_KEYCODE_OK:
       hbot.KeepStop();
       break;
-    case IR_KEYCODE_LEFT:
+    case EM_IR_KEYCODE_LEFT:
       hbot.TurnLeft();
       break;
-    case IR_KEYCODE_RIGHT:
+    case EM_IR_KEYCODE_RIGHT:
       hbot.TurnRight();
       break;
     default:

@@ -1,4 +1,3 @@
-
 #include "IRremote.h"
 #include "Keymap.h"
 // Provides ISR
@@ -62,7 +61,7 @@ ISR(TIMER_INTR_NAME)
           // Don't reset timer; keep counting space width
           irparams.rcvstate = STATE_STOP;
           irparams.lastTime = millis();
-        }
+        } 
       }
       break;
     case STATE_STOP: // waiting, measuring gap
@@ -73,7 +72,7 @@ ISR(TIMER_INTR_NAME)
         irparams.rcvstate = STATE_IDLE;
       }
       else if (irdata == MARK)
-      {
+      { 
         // reset gap timer
         irparams.timer = 0;
       }
@@ -93,7 +92,7 @@ IRremote::IRremote(int pin)
   pinMode(pin,INPUT);
   irparams.recvpin = pin;
   // attachInterrupt(INT0, irISR, CHANGE);
-
+  
   irDelayTime = 0;
   irIndex = 0;
   irRead = 0;
@@ -211,7 +210,7 @@ ErrorStatus IRremote::decodeNEC()
   uint32_t data = 0;
   int offset = 0; // Skip first space
   // Initial mark
-  if (!MATCH(rawbuf[offset], NEC_HDR_MARK/50))
+  if (!MATCH(rawbuf[offset], NEC_HDR_MARK/50)) 
   {
     return ERROR;
   }
@@ -219,8 +218,8 @@ ErrorStatus IRremote::decodeNEC()
   // Check for repeat
   if (rawlen == 3 &&
     MATCH(rawbuf[offset], NEC_RPT_SPACE/50) &&
-    MATCH(rawbuf[offset+1], NEC_BIT_MARK/50))
-    {
+    MATCH(rawbuf[offset+1], NEC_BIT_MARK/50)) 
+  {  
      rawbuf[offset] = 0;
      rawbuf[offset+1] = 0;
      repeta_time++;
@@ -233,12 +232,12 @@ ErrorStatus IRremote::decodeNEC()
         return SUCCESS;
    //  }
   }
-  if (rawlen < (2 * NEC_BITS + 3))
+  if (rawlen < (2 * NEC_BITS + 3)) 
   {
     return ERROR;
   }
-  // Initial space
-  if (!MATCH(rawbuf[offset], NEC_HDR_SPACE/50))
+  // Initial space  
+  if (!MATCH(rawbuf[offset], NEC_HDR_SPACE/50)) 
   {
     return ERROR;
   }
@@ -246,7 +245,7 @@ ErrorStatus IRremote::decodeNEC()
   offset++;
   for (int i = 0; i < NEC_BITS; i++)
   {
-    if (!MATCH(rawbuf[offset], NEC_BIT_MARK/50))
+    if (!MATCH(rawbuf[offset], NEC_BIT_MARK/50)) 
     {
       return ERROR;
     }
@@ -256,13 +255,13 @@ ErrorStatus IRremote::decodeNEC()
     {
       //data = (data << 1) | 1;
       data = (data >> 1) | 0x80000000;
-    }
+    } 
     else if (MATCH(rawbuf[offset], NEC_ZERO_SPACE/50))
     {
       //data <<= 1;
       data >>= 1;
-    }
-    else
+    } 
+    else 
     {
       return ERROR;
     }
@@ -406,7 +405,7 @@ void IRremote::sendRaw(unsigned int buf[], int len, uint8_t hz)
     if (i & 1)
     {
       space(buf[i]);
-    }
+    } 
     else
     {
       mark(buf[i]);
@@ -441,7 +440,7 @@ String IRremote::getString()
     }
     else
     {
-      irBuffer += irRead;
+      irBuffer += irRead; 
       irIndex++;
     }
     irDelayTime = millis();
@@ -490,24 +489,28 @@ unsigned char IRremote::getCode()
   loop();
   return irRead;
 }
-String IRremote::getKeyMap(byte keycode )
+String IRremote::getKeyMap(byte keycode, byte ir_type)
 {
    byte i;
+   ST_KEY_MAP *irkeymap = normal_ir_keymap;
+   if (ir_type == IR_TYPE_EM) irkeymap = em_ir_keymap;
    for (i = 0; i < KEY_MAX; i++) {
         if (irkeymap[i].keycode == keycode)
-         return irkeymap[i].keyname;
-    }
-    return "";
+        return irkeymap[i].keyname;
+   }
+   return "";
 }
 
-byte IRremote::getIrKey(byte keycode)
+byte IRremote::getIrKey(byte keycode, byte ir_type)
 {
-   byte i;
-   for (i = 0; i < KEY_MAX; i++) {
+    byte i;
+    ST_KEY_MAP *irkeymap = normal_ir_keymap;
+    if (ir_type == IR_TYPE_EM) irkeymap = em_ir_keymap;
+    for (i = 0; i < KEY_MAX; i++) {
         if (irkeymap[i].keycode == keycode)
-         return i;
+        return i;
     }
-    return 0xFF;
+   return 0xFF;
 }
 /**
  * \par Function
@@ -580,18 +583,18 @@ void IRremote::sendString(float v)
  */
 void IRremote::sendNEC(unsigned long data, int nbits)
 {
-
+  
   enableIROut(38);
   mark(NEC_HDR_MARK);
   space(NEC_HDR_SPACE);
   for (int i = 0; i < nbits; i++)
   {
-    if (data & 1)
+    if (data & 1) 
     {
       mark(NEC_BIT_MARK);
       space(NEC_ONE_SPACE);
-    }
-    else
+    } 
+    else 
     {
       mark(NEC_BIT_MARK);
       space(NEC_ZERO_SPACE);
@@ -629,7 +632,7 @@ void IRremote::loop()
     }
     else
     {
-      irBuffer += irRead;
+      irBuffer += irRead; 
       irIndex++;
       if(irIndex > 64)
       {
@@ -642,9 +645,9 @@ void IRremote::loop()
   else
   {
     if(irRead > 0)
-    {
+    { 
      // Serial.println(millis() - irDelayTime);
-      if(millis() - irDelayTime > 120)
+      if(millis() - irDelayTime > 0)
       {
         irPressed = false;
         irRead = 0;
@@ -671,6 +674,7 @@ void IRremote::loop()
  */
 boolean IRremote::keyPressed(unsigned char r)
 {
+  
   irIndex = 0;
   loop();
   return irRead == r;

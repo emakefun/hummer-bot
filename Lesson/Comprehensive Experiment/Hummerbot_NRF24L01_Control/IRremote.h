@@ -72,28 +72,28 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 #define TIMER_DISABLE_INTR   (TIMSK2 = 0)
 #define TIMER_INTR_NAME      TIMER2_COMPA_vect
 #define TIMER_CONFIG_KHZ(val) ({ \
-  const uint8_t pwmval = F_CPU / 2000 / (val); \
-  TCCR2A = _BV(WGM20); \
-  TCCR2B = _BV(WGM22) | _BV(CS20); \
-  OCR2A = pwmval; \
-  OCR2B = pwmval / 3; \
-})
+    const uint8_t pwmval = F_CPU / 2000 / (val); \
+    TCCR2A = _BV(WGM20); \
+    TCCR2B = _BV(WGM22) | _BV(CS20); \
+    OCR2A = pwmval; \
+    OCR2B = pwmval / 3; \
+  })
 
 #define TIMER_COUNT_TOP      (SYSCLOCK * USECPERTICK / 1000000)
 #if (TIMER_COUNT_TOP < 256)
 #define TIMER_CONFIG_NORMAL() ({ \
-  TCCR2A = _BV(WGM21); \
-  TCCR2B = _BV(CS20); \
-  OCR2A = TIMER_COUNT_TOP; \
-  TCNT2 = 0; \
-})
+    TCCR2A = _BV(WGM21); \
+    TCCR2B = _BV(CS20); \
+    OCR2A = TIMER_COUNT_TOP; \
+    TCNT2 = 0; \
+  })
 #else
 #define TIMER_CONFIG_NORMAL() ({ \
-  TCCR2A = _BV(WGM21); \
-  TCCR2B = _BV(CS21); \
-  OCR2A = TIMER_COUNT_TOP / 8; \
-  TCNT2 = 0; \
-})
+    TCCR2A = _BV(WGM21); \
+    TCCR2B = _BV(CS21); \
+    OCR2A = TIMER_COUNT_TOP / 8; \
+    TCNT2 = 0; \
+  })
 #endif
 
 // information for the interrupt handler
@@ -101,50 +101,51 @@ typedef struct {
   uint8_t recvpin;           // pin for IR data from detector
   volatile uint8_t rcvstate;          // state machine
   volatile uint32_t lastTime;
-  unsigned int timer;
+  unsigned int timer;     //
   volatile uint8_t rawbuf[RAWBUF]; // raw data
   volatile uint8_t rawlen;         // counter of entries in rawbuf
 } irparams_t;
 
+
 class IRremote
 {
-public:
+  public:
 
-  IRremote(int pin);
-  ErrorStatus decode();
-  void begin();
-  void end();
-  void loop();
-  boolean keyPressed(unsigned char r);
-  // void resume();
+    IRremote(int pin);
+    ErrorStatus decode();
+    void begin();
+    void end();
+    void loop();
+    boolean keyPressed(unsigned char r);
+    // void resume();
 
-  int8_t decode_type; // NEC, SONY, RC5, UNKNOWN
-  unsigned long value; // Decoded value
-  uint8_t bits; // Number of bits in decoded value
-  volatile uint8_t *rawbuf; // Raw intervals in .5 us ticks
-  int rawlen; // Number of records in rawbuf.
-  String getString();
-  unsigned char getCode();
-  String getKeyMap( byte keycode);
-  byte getIrKey(byte keycode);
-  void sendString(String s);
-  void sendString(float v);
-  void sendNEC(unsigned long data, int nbits);
-  void sendRaw(unsigned int buf[], int len, uint8_t hz);
-  void enableIROut(uint8_t khz);
-  void enableIRIn();
-  void mark(uint16_t us);
-  void space(uint16_t us);
-private:
-  ErrorStatus decodeNEC();
-  int16_t irIndex;
-  char irRead;
-  char floatString[5];
-  boolean irReady;
-  boolean irPressed;
-  String irBuffer;
-  String Pre_Str;
-  double irDelayTime;
+    int8_t decode_type; // NEC, SONY, RC5, UNKNOWN
+    unsigned long value; // Decoded value
+    uint8_t bits; // Number of bits in decoded value
+    volatile uint8_t *rawbuf; // Raw intervals in .5 us ticks
+    int rawlen; // Number of records in rawbuf.
+    String getString();
+    unsigned char getCode();
+    String getKeyMap(byte keycode, byte ir_type = 2);
+    byte getIrKey(byte keycode,    byte ir_type = 2);
+    void sendString(String s);
+    void sendString(float v);
+    void sendNEC(unsigned long data, int nbits);
+    void sendRaw(unsigned int buf[], int len, uint8_t hz);
+    void enableIROut(uint8_t khz);
+    void enableIRIn();
+    void mark(uint16_t us);
+    void space(uint16_t us);
+  private:
+    ErrorStatus decodeNEC();
+    int16_t irIndex;
+    char irRead;
+    char floatString[5];
+    boolean irReady;
+    boolean irPressed;
+    String irBuffer;
+    String Pre_Str;
+    double irDelayTime;
 };
 #endif // !__AVR_ATmega32U4__
 #endif
