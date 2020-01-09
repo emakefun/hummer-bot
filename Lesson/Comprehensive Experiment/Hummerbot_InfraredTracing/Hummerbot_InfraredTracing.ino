@@ -60,14 +60,14 @@ void HandleInfraredTracing(void)
         break;
       }  if (old == IT_RIGHT2) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
-          hbot.SetSpeed(60);
+          hbot.SetSpeed(50);
           hbot.Drive(160);
         }
         old = 0;
         break;
       } if (old == IT_LEFT2) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
-          hbot.SetSpeed(60);
+          hbot.SetSpeed(50);
           hbot.Drive(20);
         }
         old = 0;
@@ -85,7 +85,7 @@ void HandleInfraredTracing(void)
       old = IT_RIGHT1;
       break;
     case IT_RIGHT2:
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(50);
       hbot.Drive(160);
       old = IT_RIGHT2;
       break;
@@ -95,7 +95,7 @@ void HandleInfraredTracing(void)
       old = IT_LEFT1;
       break;
     case IT_LEFT2:
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(50);
       hbot.Drive(20);
       old = IT_LEFT2;
       break;
@@ -106,7 +106,7 @@ void loop()
 {
   switch (hbot.GetControlMode()) {
     case E_INFRARED_TRACKING_MODE:
-      DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_TRACKING \n");
+    //  DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_TRACKING \n");
       HandleInfraredTracing();
       if (count++ > 250)
       {

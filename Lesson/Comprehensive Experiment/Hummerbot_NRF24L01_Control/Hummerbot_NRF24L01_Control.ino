@@ -68,24 +68,17 @@ void loop()
     case E_FORWARD:
       hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_WHITE);
       break;
-    case E_LEFT:
-      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_LEFT, RGB_WHITE);
-      break;
-    case E_RIGHT:
-      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
-      // Mirage.Sing(S_OhOoh);
-      break;
+//    case E_LEFT:
+//      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_LEFT, RGB_WHITE);
+//      break;
+//    case E_RIGHT:
+//      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_RIGHT, RGB_WHITE);
+//      break;
     case E_BACK:
       hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_RED);
       break;
     case E_STOP:
       hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, RGB_BLACK);
-      break;
-    case E_SPEED_UP:
-      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
-      break;
-    case E_SPEED_DOWN:
-      hbot.mRgbUltrasonic->SetRgbColor(E_RGB_ALL, hbot.GetSpeed() * 2.5);
       break;
     default:
       break;

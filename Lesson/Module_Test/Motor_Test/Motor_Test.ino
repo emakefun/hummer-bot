@@ -16,10 +16,10 @@ void setup() {
 }
 
 void loop() {
-  analogWrite(IN1_PIN, 200);
+  analogWrite(IN1_PIN, 100);
   analogWrite(IN2_PIN, LOW);
   analogWrite(IN3_PIN, LOW);
-  analogWrite(IN4_PIN, 200);
+  analogWrite(IN4_PIN, 100);
   delay(5000);
   //******** ******************************//forward
   analogWrite(IN1_PIN, HIGH);
@@ -28,8 +28,8 @@ void loop() {
   analogWrite(IN4_PIN, HIGH);
   delay(1000);//********************************************//stop
   analogWrite(IN1_PIN, LOW);
-  analogWrite(IN2_PIN, 200);
-  analogWrite(IN3_PIN, 200);
+  analogWrite(IN2_PIN, 100);
+  analogWrite(IN3_PIN, 100);
   analogWrite(IN4_PIN, LOW);
   delay(5000);//*********************************************//back
   analogWrite(IN1_PIN, HIGH);

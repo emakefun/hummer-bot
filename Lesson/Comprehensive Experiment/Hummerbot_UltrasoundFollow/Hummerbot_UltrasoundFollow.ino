@@ -44,7 +44,7 @@ void UltrasonicFollow(void)
   delay(10);
  if ((UlFrontDistance <5)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
-    hbot.SetSpeed(60);
+    hbot.SetSpeed(45);
     hbot.GoBack();
   } 
    else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
@@ -60,13 +60,13 @@ void UltrasonicFollow(void)
   } 
    else if ((UlFrontDistance <5)&&(RightValue == IA_THRESHOLD) && (LeftValue == IA_THRESHOLD)) 
   {
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(40);
       hbot.GoBack();
     
   } 
   else if ((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD)) 
   {
-      hbot.SetSpeed(50);
+      hbot.SetSpeed(40);
      hbot.GoForward();
  
   } 
@@ -77,7 +77,7 @@ void UltrasonicFollow(void)
     }
     else if((UlFrontDistance > 8)&&(RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-     hbot.SetSpeed(60);
+     hbot.SetSpeed(80);
       hbot.TurnLeft();
      
     }

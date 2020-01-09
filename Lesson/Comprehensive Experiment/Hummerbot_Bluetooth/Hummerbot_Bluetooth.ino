@@ -57,7 +57,7 @@ void HandleBluetoothRemote(bool recv_flag)
             break;
           case BT_BLUE:
             hbot.SpeedDown(10);
-            break;
+            break;           
         }
         break;
       case E_ROBOT_CONTROL_DIRECTION:

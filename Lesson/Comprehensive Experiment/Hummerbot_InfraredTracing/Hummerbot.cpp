@@ -77,11 +77,12 @@ void Hummerbot::GoForward(void)
 {
   int value = (Speed / 10) * 25;
   DEBUG_LOG(DEBUG_LEVEL_INFO, "GoForward\n");
-  SetStatus(E_FORWARD);
+  SetStatus(E_FORWARD);  
   analogWrite(In1Pin, value);
   analogWrite(In2Pin, LOW);
   analogWrite(In3Pin, LOW);
   analogWrite(In4Pin, value);
+  
 }
 
 void Hummerbot::GoBack(void)

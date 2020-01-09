@@ -24,12 +24,31 @@
     $Id$
 */
 
+//#include "MirfSpiDriver.h"
+
+#ifndef __MIRF_HARDWARE_SPI_DRIVER
+#define __MIRF_HARDWARE_SPI_DRIVER
+
+#include <SPI.h>
+
+class MirfHardwareSpiDriver  {
+
+  public:
+    virtual uint8_t transfer(uint8_t data);
+    virtual void begin();
+    virtual void end();
+};
+
+//extern MirfHardwareSpiDriver MirfHardwareSpi;
+
+#endif
+
 #ifndef _NRF24L01_H_
 #define _NRF24L01_H_
 
 #include <Arduino.h>
 
-#include "MirfHardwareSpiDriver.h"
+//#include "MirfHardwareSpiDriver.h"
 
 // Nrf24l settings
 /* Memory Map */
@@ -114,7 +133,7 @@
 
 class Nrf24l {
   public:
-    Nrf24l(uint8_t cs_pin, uint8_t csn_pin);
+     Nrf24l(uint8_t cs_pin, uint8_t csn_pin);
     ~Nrf24l() {
 
     }

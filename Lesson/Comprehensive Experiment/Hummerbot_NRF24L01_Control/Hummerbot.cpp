@@ -254,7 +254,6 @@ void Hummerbot::SetNrf24L01Pin(uint8_t ce = HB_NRF24L01_CE, uint8_t csn = HB_NRF
   Nrf24L01CePin = ce;
   Nrf24L01CsnPin = csn;
   mNrf24L01 = new Nrf24l(4, 7);
-  mNrf24L01->spi = &MirfHardwareSpi;
   mNrf24L01->init();
   mNrf24L01->setRADDR((uint8_t *)"hummer-bot"); //Set your own address (receiver address) using 5 characters
   mNrf24L01->payload = 12;

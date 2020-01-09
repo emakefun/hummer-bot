@@ -30,10 +30,10 @@ void loop()
   /*According to the data collected by the ultrasonic module and the infrared obstacle avoidance module,
     it is judged whether there is an obstacle in front, and if there is no obstacle, go straight.*/
   {
-    analogWrite(IN1_PIN, 200);
+    analogWrite(IN1_PIN, 100);
     analogWrite(IN2_PIN, LOW);
     analogWrite(IN3_PIN, LOW);
-    analogWrite(IN4_PIN, 200);
+    analogWrite(IN4_PIN, 100);
   } 
   else if ((FrontDistance < UL_LIMIT_MID) || (FrontDistance > UL_LIMIT_MAX))
   /*According to the data collected by the ultrasonic module and the infrared obstacle avoidance module, it is determined whether there is an obstacle in front. For example, 
@@ -45,9 +45,7 @@ void loop()
     digitalWrite(IN3_PIN, HIGH);
     digitalWrite(IN4_PIN, HIGH);
     RightDistance = mRgbUltrasonic.GetUltrasonicRightDistance();/*The ultrasonic module collects the right side*/
-    LeftDistance = mRgbUltrasonic.GetUltrasonicLeftDistance();/*The ultrasonic module collects the left side*/
-    
-    
+    LeftDistance = mRgbUltrasonic.GetUltrasonicLeftDistance();/*The ultrasonic module collects the left side*/    
     delay(10);
     if ((RightDistance > UL_LIMIT_MID) && (RightDistance < UL_LIMIT_MAX) && (RightDistance > LeftDistance))
     /*According to the ultrasonic module to collect the data on the left and right sides to determine whether there is an obstacle on the right side.*/
@@ -72,9 +70,9 @@ void loop()
     else if ((RightDistance < UL_LIMIT_MID) && (LeftDistance < UL_LIMIT_MID) )
     /*According to the ultrasonic module to collect the data on the left and right sides to determine whether there are obstacles on the left and right sides*/
     {
-      analogWrite(IN1_PIN, 200);
+      analogWrite(IN1_PIN, 220);
       analogWrite(IN2_PIN, 0);
-      analogWrite(IN3_PIN, 200);
+      analogWrite(IN3_PIN, 220);
       analogWrite(IN4_PIN, 0);
       delay(760);
     }

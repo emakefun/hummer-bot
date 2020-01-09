@@ -38,7 +38,7 @@ void HandleInfaredRemote(byte irKeyCode)
       DEBUG_LOG(DEBUG_LEVEL_INFO, "hbot.Speed = %d \n", hbot.Speed);
       break;
     case EM_IR_KEYCODE_REDUCE:
-      DEBUG_LOG(DEBUG_LEVEL_INFO, " start Degree = %d \n", hbot.Degree);
+     DEBUG_LOG(DEBUG_LEVEL_INFO, " start Degree = %d \n", hbot.Degree);
       hbot.SpeedDown(10);
       break;
     case EM_IR_KEYCODE_UP:
@@ -70,8 +70,8 @@ void loop()
       byte irKeyCode;
       if (irKeyCode = hbot.mIrRecv->getCode()) 
       {
-        Serial.println(irKeyCode);
-        DEBUG_LOG(DEBUG_LEVEL_INFO, "irKeyCode = %lx \n", irKeyCode);
+      //  Serial.println(irKeyCode);
+      //  DEBUG_LOG(DEBUG_LEVEL_INFO, "irKeyCode = %lx \n", irKeyCode);
         HandleInfaredRemote(irKeyCode);
         delay(110);
       }

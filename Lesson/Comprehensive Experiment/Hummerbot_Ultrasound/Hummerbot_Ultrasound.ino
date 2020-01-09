@@ -36,7 +36,7 @@ void HandleUltrasonicAvoidance(void)
    Serial.println(UlFrontDistance);
    if ((UlFrontDistance < UL_LIMIT_MIN))
   {
-    hbot.SetSpeed(100);
+    hbot.SetSpeed(45);
     hbot.GoBack();
     delay(250);
   }
@@ -85,7 +85,7 @@ void HandleUltrasonicAvoidance(void)
   }
   else 
   {
-    hbot.SetSpeed(80);
+    hbot.SetSpeed(45);
     hbot.GoForward();
   }
 }

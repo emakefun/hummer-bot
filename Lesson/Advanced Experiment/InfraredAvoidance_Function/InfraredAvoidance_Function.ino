@@ -23,10 +23,10 @@ void loop()
   RightValue = digitalRead(rightPin);
   if (LeftValue >= 1 && RightValue >= 1)
   {
-    analogWrite(IN1_PIN, 180); //the speed value of motorA is val
+    analogWrite(IN1_PIN, 100); //the speed value of motorA is val
     analogWrite(IN2_PIN, LOW);
     analogWrite(IN3_PIN, LOW);
-    analogWrite(IN4_PIN, 180); //the speed value of motorB is val
+    analogWrite(IN4_PIN, 100); //the speed value of motorB is val
     Serial.print(LeftValue);
     Serial.print("   ");
     Serial.print(RightValue);

@@ -37,17 +37,17 @@ void loop()
     Serial.println(Angle);
     if (Angle <= 90) {
       f = (float)(Angle) / 90;
-      analogWrite(IN1_PIN, (float)(200 * f)); //the speed value of motorA is val
+      analogWrite(IN1_PIN, (float)(120 * f)); //the speed value of motorA is val
       analogWrite(IN2_PIN, LOW);
       analogWrite(IN3_PIN, LOW);
-      analogWrite(IN4_PIN, 200); //the speed value of motorB is val
+      analogWrite(IN4_PIN, 120); //the speed value of motorB is val
     }
     if (Angle > 90) {
       f = (float)(180 - Angle) / 90;
-      analogWrite(IN1_PIN, 200); //the speed value of motorA is val
+      analogWrite(IN1_PIN, 120); //the speed value of motorA is val
       analogWrite(IN2_PIN, LOW);
       analogWrite(IN3_PIN, LOW );
-      analogWrite(IN4_PIN, (float)(200 * f)); //the speed value of motorB is val
+      analogWrite(IN4_PIN, (float)(120 * f)); //the speed value of motorB is val
     }
   }
 }

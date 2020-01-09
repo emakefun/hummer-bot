@@ -54,13 +54,28 @@
 // Defines for setting the MiRF registers for transmitting or receiving mode
 
 
+uint8_t MirfHardwareSpiDriver::transfer(uint8_t data) {
+  return SPI.transfer(data);
+}
+
+void MirfHardwareSpiDriver::begin() {
+  SPI.begin();
+  SPI.setDataMode(SPI_MODE0);
+  SPI.setClockDivider(SPI_2XCLOCK_MASK);
+}
+
+void MirfHardwareSpiDriver::end() {
+}
+
+//MirfHardwareSpiDriver MirfHardwareSpi;
+
 Nrf24l::Nrf24l(uint8_t cs_pin, uint8_t csn_pin)
 {
   cePin = cs_pin;
   csnPin = csn_pin;
   channel = 1;
   payload = 16;
-  spi = NULL;
+  spi = new MirfHardwareSpiDriver();
 }
 
 void Nrf24l::transferSync(uint8_t *dataout, uint8_t *datain, uint8_t len) {

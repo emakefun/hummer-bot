@@ -58,17 +58,17 @@ void HandleUltrasonicInfraredAvoidance(void)
   }
   if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-    hbot.SetSpeed(70);
-    hbot.Drive(20);
+    hbot.SetSpeed(100);
+    hbot.Drive(5);
   }
   else if ((RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
-    hbot.SetSpeed(70);
-    hbot.Drive(160);
+    hbot.SetSpeed(100);
+    hbot.Drive(175);
   }
   else
   {
-    hbot.SetSpeed(45);
+    hbot.SetSpeed(40);
     hbot.GoForward();
   }
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance = %d \n\r", UlFrontDistance);
@@ -77,7 +77,7 @@ void HandleUltrasonicInfraredAvoidance(void)
     hbot.KeepStop();
     if (UlFrontDistance <= UL_LIMIT_MIN || (RightValue == IA_THRESHOLD && LeftValue == IA_THRESHOLD))
     {
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(45);
       hbot.GoBack();
       delay(300);
       hbot.KeepStop();
@@ -88,37 +88,37 @@ void HandleUltrasonicInfraredAvoidance(void)
     {
       if (UlRightDistance >= UlLeftDistance)
       {
-        hbot.SetSpeed(100);
+        hbot.SetSpeed(90);
         hbot.TurnRight();
-        delay(400);
+        delay(300);
       }
       if (UlLeftDistance > UlRightDistance)
       {
-        hbot.SetSpeed(100);
+        hbot.SetSpeed(90);
         hbot.TurnLeft();
-        delay(400);
+        delay(300);
       }
     }
     else if (((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX)) || ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX)))
     {
       if ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
       {
-        hbot.SetSpeed(80);
+        hbot.SetSpeed(70);
         hbot.TurnLeft();
         delay(310);
       }
       else if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
       {
-        hbot.SetSpeed(80);
+        hbot.SetSpeed(70);
         hbot.TurnRight();
         delay(310);
       }
     }
    else if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN )
     {
-      hbot.SetSpeed(100);
+      hbot.SetSpeed(90);
       hbot.Drive(0);
-      delay(800);
+      delay(700);
       hbot.KeepStop();
     }
     hbot.KeepStop();

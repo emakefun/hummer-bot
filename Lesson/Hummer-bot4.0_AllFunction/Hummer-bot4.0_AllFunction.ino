@@ -70,17 +70,17 @@ void HandleUltrasonicInfraredAvoidance(void)
   // DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-    hbot.SetSpeed(70);
-    hbot.Drive(20);
+    hbot.SetSpeed(100);
+    hbot.Drive(5);
   }
   else if ((RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
-    hbot.SetSpeed(70);
-    hbot.Drive(160);
+    hbot.SetSpeed(100);
+    hbot.Drive(175);
   }
   else
   {
-    hbot.SetSpeed(45);
+    hbot.SetSpeed(40);
     hbot.GoForward();
   }
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance = %d \n\r", UlFrontDistance);
@@ -89,7 +89,7 @@ void HandleUltrasonicInfraredAvoidance(void)
     hbot.KeepStop();
     if (UlFrontDistance <= UL_LIMIT_MIN || (RightValue == IA_THRESHOLD && LeftValue == IA_THRESHOLD))
     {
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(45);
       hbot.GoBack();
       delay(300);
       hbot.KeepStop();
@@ -100,37 +100,37 @@ void HandleUltrasonicInfraredAvoidance(void)
     {
       if (UlRightDistance >= UlLeftDistance)
       {
-        hbot.SetSpeed(100);
+        hbot.SetSpeed(90);
         hbot.TurnRight();
-        delay(400);
+        delay(300);
       }
       if (UlLeftDistance > UlRightDistance)
       {
-        hbot.SetSpeed(100);
+        hbot.SetSpeed(90);
         hbot.TurnLeft();
-        delay(400);
+        delay(300);
       }
     }
     else if (((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX)) || ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX)))
     {
       if ((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
       {
-        hbot.SetSpeed(80);
+        hbot.SetSpeed(70);
         hbot.TurnLeft();
         delay(310);
       }
       else if ((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
       {
-        hbot.SetSpeed(80);
+        hbot.SetSpeed(70);
         hbot.TurnRight();
         delay(310);
       }
     }
     else if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN )
     {
-      hbot.SetSpeed(100);
+      hbot.SetSpeed(90);
       hbot.Drive(0);
-      delay(800);
+      delay(700);
       hbot.KeepStop();
     }
     hbot.KeepStop();
@@ -149,7 +149,7 @@ void HandleUltrasonicAvoidance(void)
   DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n", UlFrontDistance);
   if ((UlFrontDistance < UL_LIMIT_MIN))
   {
-    hbot.SetSpeed(100);
+    hbot.SetSpeed(45);
     hbot.GoBack();
     delay(250);
   }
@@ -198,7 +198,7 @@ void HandleUltrasonicAvoidance(void)
   }
   else
   {
-    hbot.SetSpeed(80);
+    hbot.SetSpeed(45);
     hbot.GoForward();
   }
 }
@@ -216,7 +216,7 @@ void UltrasonicFollow()
   delay(10);
   if ((UlFrontDistance < 5) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
-    hbot.SetSpeed(60);
+    hbot.SetSpeed(45);
     hbot.GoBack();
   }
   else if ((UlFrontDistance < 5) && (RightValue == IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
@@ -232,13 +232,13 @@ void UltrasonicFollow()
   }
   else if ((UlFrontDistance < 5) && (RightValue == IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-    hbot.SetSpeed(60);
+    hbot.SetSpeed(40);
     hbot.GoBack();
 
   }
   else if ((UlFrontDistance > 8) && (RightValue != IA_THRESHOLD) && (LeftValue != IA_THRESHOLD))
   {
-    hbot.SetSpeed(50);
+    hbot.SetSpeed(40);
     hbot.GoForward();
 
   }
@@ -249,7 +249,7 @@ void UltrasonicFollow()
   }
   else if ((UlFrontDistance > 8) && (RightValue != IA_THRESHOLD) && (LeftValue == IA_THRESHOLD))
   {
-    hbot.SetSpeed(60);
+    hbot.SetSpeed(80);
     hbot.TurnLeft();
 
   }
@@ -302,14 +302,14 @@ void HandleInfraredTracing(void)
         break;
       }  if (old == IT_RIGHT2) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
-          hbot.SetSpeed(60);
+          hbot.SetSpeed(50);
           hbot.Drive(160);
         }
         old = 0;
         break;
       } if (old == IT_LEFT2) {
         while (hbot.mInfraredTracing->GetValue() == IT_ALL_WHITE) {
-          hbot.SetSpeed(60);
+          hbot.SetSpeed(50);
           hbot.Drive(20);
         }
         old = 0;
@@ -327,7 +327,7 @@ void HandleInfraredTracing(void)
       old = IT_RIGHT1;
       break;
     case IT_RIGHT2:
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(50);
       hbot.Drive(160);
       old = IT_RIGHT2;
       break;
@@ -337,7 +337,7 @@ void HandleInfraredTracing(void)
       old = IT_LEFT1;
       break;
     case IT_LEFT2:
-      hbot.SetSpeed(60);
+      hbot.SetSpeed(50);
       hbot.Drive(20);
       old = IT_LEFT2;
       break;
@@ -463,11 +463,11 @@ void HandleInfraredAvoidance()
 {
   switch (hbot.GetInfraredAvoidanceValue(2)) {
     case IOA_ALL_NO:
-      hbot.SetSpeed(70);
+      hbot.SetSpeed(40);
       hbot.GoForward();
       break;
     case IOA_ALL_YES:
-      hbot.SetSpeed(70);
+      hbot.SetSpeed(40);
       hbot.GoBack();
       break;
     case IOA_LEFT:
