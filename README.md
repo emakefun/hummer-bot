@@ -3,7 +3,6 @@ Technical support email: support@emakefun.com</br>
 Sales email: ken@makefun.com</br>
 The latest information download address:https://github.com/emakefun/hummer-bot/edit/Hummer-bot4.0/README.md   </br>
 
-The latest information download address: https://github.com/emakefun/hummer-bot
 ![](https://github.com/emakefun/hummer-bot)
 # Hummer-bot 
 ![](https://github.com/emakefun/hummer-bot/blob/Hummer-bot4.0/Hummer-bot4.0.png)
